@@ -68,13 +68,24 @@ document.getElementById("create").onclick = async () => {
     );
 
     const order = await orderRes.json();
-    document.getElementById("log").textContent =
-      "Заказ создан:\n" + JSON.stringify(order, null, 2);
+const orderId = order[0].id;
 
-  } catch (e) {
-    document.getElementById("log").textContent = "Ошибка: " + e;
+// читаем заказ
+const statusRes = await fetch(
+  `${SUPABASE_URL}/rest/v1/orders?id=eq.${orderId}`,
+  {
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization": `Bearer ${SUPABASE_KEY}`
+    }
   }
-};
+);
+
+const statusData = await statusRes.json();
+
+document.getElementById("log").textContent =
+  "Статус заказа: " + statusData[0].status;
+
 </script>
 
 </body>
