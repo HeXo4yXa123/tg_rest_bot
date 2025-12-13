@@ -2,91 +2,92 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Mini App MVP – Живой интерфейс</title>
+<title>Mini App MVP</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-/* Основной фон и шрифты */
-body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #0f0f0f; color: #eee; }
-h2 { color: #00ff88; margin-bottom: 20px; text-shadow: 0 0 5px #00ff88; }
-
-/* Кнопка выбора роли */
-#roleBtn {
-  background: linear-gradient(135deg, #00ff88, #00cc88);
-  color: #000;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 20px;
-  border-radius: 20px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,255,136,0.4);
-  transition: all 0.2s ease;
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin:0;
+  padding:20px;
+  background:#0f0f0f;
+  color:#eee;
 }
-#roleBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,255,136,0.5); }
+h2 { color:#00ff88; margin-bottom:20px; }
+#roleBtn {
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:#00ff88;
+  color:#000;
+  border:none;
+  border-radius:16px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-weight:bold;
+}
 #roleMenu {
   display:none;
   position:absolute;
-  background:#1a1a1a;
+  top:60px;
+  right:20px;
+  background:#222;
+  border-radius:12px;
   padding:10px;
-  border-radius:16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
 #roleMenu button {
+  display:block;
   width:100%;
   margin-bottom:5px;
-  padding: 10px;
-  border-radius: 12px;
+  padding:8px;
   border:none;
+  border-radius:10px;
+  background:#111;
+  color:#00ff88;
   font-weight:bold;
-  background: #222;
-  color: #00ff88;
-  cursor: pointer;
-  transition: all 0.2s;
+  cursor:pointer;
 }
-#roleMenu button:hover { background: #00ff88; color:#000; transform: translateX(4px); }
+#roleMenu button:hover { background:#00ff88; color:#000; }
 
-/* Общие кнопки действий */
-button.client { background: linear-gradient(135deg,#00ff88,#00cc88); color:#000; box-shadow: 0 4px 8px rgba(0,255,136,0.4);}
-button.manager { background: linear-gradient(135deg,#ffcc00,#ffaa00); color:#000; box-shadow: 0 4px 8px rgba(255,204,0,0.4);}
-button.courier { background: linear-gradient(135deg,#00ccff,#0099ff); color:#000; box-shadow: 0 4px 8px rgba(0,204,255,0.4);}
-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(255,255,255,0.3); }
+button.client, button.manager, button.courier {
+  border:none;
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  margin:4px;
+}
+button.client { background:#00ff88; color:#000; }
+button.manager { background:#ffcc00; color:#000; }
+button.courier { background:#00ccff; color:#000; }
 
-/* Карточки заказов */
 .orderCard {
-  background: linear-gradient(135deg,#111,#1a1a1a);
-  padding: 15px;
-  border-radius: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 12px rgba(0,255,136,0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  background:#1a1a1a;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
 }
-.orderCard:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,255,136,0.5); }
-
-/* Лог действий */
 #log {
-  background: #222;
-  padding: 12px;
-  margin-top: 20px;
-  border-radius: 16px;
-  white-space: pre-wrap;
-  box-shadow: 0 4px 8px rgba(0,255,136,0.2);
+  background:#222;
+  padding:12px;
+  border-radius:12px;
+  margin-top:20px;
+  white-space:pre-wrap;
 }
-
-/* Интерфейс блока */
-#iface-container { display:flex; flex-direction:column; gap:12px; }
-
+.selectStatus {
+  margin-left:10px;
+  padding:5px;
+  border-radius:8px;
+  background:#111;
+  color:#00ff88;
+  border:none;
+}
 </style>
 </head>
 <body>
 
 <h2>Mini App: клиент-менеджер-курьер</h2>
 
-<!-- Кнопка с человечком -->
-<button id="roleBtn">👤 Выбрать роль</button>
-
-<!-- Меню выбора роли -->
+<button id="roleBtn">👤 Роль</button>
 <div id="roleMenu">
   <button data-role="client">Я клиент</button>
   <button data-role="manager">Я менеджер</button>
@@ -110,19 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const log = document.getElementById("log");
 
   let currentRole = "client";
+  let clientCart = [];
 
-  // Показ / скрытие меню выбора роли
-  roleBtn.onclick = (e) => {
-    roleMenu.style.display = roleMenu.style.display === "block" ? "none" : "block";
-    roleMenu.style.top = e.target.offsetTop + e.target.offsetHeight + "px";
-    roleMenu.style.left = e.target.offsetLeft + "px";
-  };
+  roleBtn.onclick = () => { roleMenu.style.display = roleMenu.style.display === "block" ? "none" : "block"; };
 
-  // Выбор роли
   roleMenu.querySelectorAll("button").forEach(btn => {
     btn.onclick = () => {
       currentRole = btn.dataset.role;
       roleMenu.style.display = "none";
+      clientCart = [];
       log.textContent = `Вы выбрали роль: ${currentRole}`;
       renderInterface();
     };
@@ -138,106 +135,120 @@ document.addEventListener("DOMContentLoaded", () => {
   async function renderInterface() {
     iface.innerHTML = "";
 
-    if (currentRole === "client") {
-      const btn = document.createElement("button");
-      btn.textContent = "Сделать заказ";
-      btn.className = "client";
-      btn.onclick = async () => {
-        try {
-          const telegramId = tg.initDataUnsafe.user.id;
-          const userRes = await fetch(`${SUPABASE_URL}/rest/v1/users?telegram_id=eq.${telegramId}`, {
-            headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-          });
-          const users = await userRes.json();
-          if (!users.length) { log.textContent = "Пользователь не найден"; return; }
-          const user = users[0];
+    if(currentRole==="client") {
+      const menu = ["Бургер классический", "Бургер сырный", "Бургер двойной"];
+      menu.forEach(item=>{
+        const btn = document.createElement("button");
+        btn.textContent = `Добавить в корзину: ${item}`;
+        btn.className="client";
+        btn.onclick = ()=> {
+          clientCart.push(item);
+          log.textContent = "Корзина: " + clientCart.join(", ");
+        };
+        iface.appendChild(btn);
+      });
 
-          const orderRes = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-            method: "POST",
-            headers: { 
-              apikey: SUPABASE_KEY,
-              Authorization: `Bearer ${SUPABASE_KEY}`,
-              "Content-Type": "application/json",
-              Prefer: "return=representation"
-            },
-            body: JSON.stringify({ user_id: user.id, branch_id: user.branch_id, status:"new", total_price:500 })
-          });
-          const order = await orderRes.json();
-          log.textContent = `Клиент создал заказ: ${order[0].id}`;
-        } catch(e) { log.textContent = "Ошибка: " + e; }
-      };
-      iface.appendChild(btn);
-
-    } else if (currentRole === "manager") {
-      try {
-        const orders = await fetchOrders();
-        if (!orders.length) { iface.textContent = "Нет заказов"; return; }
-
-        orders.forEach(order => {
-          const div = document.createElement("div");
-          div.className = "orderCard";
-          div.textContent = `Заказ ${order.id} | Статус: ${order.status}`;
-
-          const statuses = ["new", "accepted", "cooking", "ready", "delivering"];
-          statuses.forEach(s => {
-            const btnStatus = document.createElement("button");
-            btnStatus.textContent = s;
-            btnStatus.className = "manager";
-            btnStatus.onclick = async () => {
-              await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`, {
-                method: "PATCH",
-                headers:{apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json"},
-                body: JSON.stringify({status:s})
-              });
-              log.textContent = `Менеджер изменил заказ ${order.id} на статус ${s}`;
-              renderInterface();
-            };
-            div.appendChild(btnStatus);
-          });
-
-          const btnCourier = document.createElement("button");
-          btnCourier.textContent = "Передать курьеру";
-          btnCourier.className = "manager";
-          btnCourier.onclick = async () => {
-            await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`, {
-              method: "PATCH",
-              headers:{apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json"},
-              body: JSON.stringify({status:"accepted"})
+      if(clientCart.length>0){
+        const orderBtn = document.createElement("button");
+        orderBtn.textContent="Сделать заказ";
+        orderBtn.className="client";
+        orderBtn.onclick=async ()=>{
+          try{
+            const telegramId = tg.initDataUnsafe.user.id;
+            const userRes = await fetch(`${SUPABASE_URL}/rest/v1/users?telegram_id=eq.${telegramId}`,{
+              headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
             });
-            log.textContent = `Менеджер передал заказ ${order.id} курьеру`;
+            const users = await userRes.json();
+            if(!users.length){ log.textContent="Пользователь не найден"; return; }
+            const user = users[0];
+            const orderRes = await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
+              method:"POST",
+              headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json", Prefer:"return=representation"},
+              body: JSON.stringify({user_id:user.id,branch_id:user.branch_id,status:"new",total_price:500,items:clientCart})
+            });
+            const order = await orderRes.json();
+            log.textContent=`Клиент создал заказ ${order[0].id}: ${clientCart.join(", ")}`;
+            clientCart=[];
             renderInterface();
-          };
-          div.appendChild(btnCourier);
+          }catch(e){ log.textContent="Ошибка: "+e; }
+        };
+        iface.appendChild(orderBtn);
+      }
+    }
 
-          iface.appendChild(div);
+    else if(currentRole==="manager"){
+      const orders = await fetchOrders();
+      if(!orders.length){ iface.textContent="Нет заказов"; return; }
+
+      orders.forEach(order=>{
+        const div = document.createElement("div");
+        div.className="orderCard";
+        div.innerHTML=`<b>Заказ ${order.id}</b> | Статус: ${order.status}`;
+        // выпадающее меню статусов
+        const select = document.createElement("select");
+        select.className="selectStatus";
+        ["new","accepted","cooking","ready","delivering","delivered"].forEach(s=>{
+          const opt = document.createElement("option");
+          opt.value=s; opt.text=s;
+          if(s===order.status) opt.selected=true;
+          select.appendChild(opt);
         });
-      } catch(e){ log.textContent = "Ошибка: " + e; }
+        select.onchange=async ()=>{
+          await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`,{
+            method:"PATCH",
+            headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},
+            body:JSON.stringify({status:select.value})
+          });
+          log.textContent=`Менеджер изменил заказ ${order.id} на статус ${select.value}`;
+          renderInterface();
+        };
+        div.appendChild(select);
 
-    } else if (currentRole === "courier") {
-      try {
-        const orders = await fetchOrders("status=eq.accepted");
-        if (!orders.length) { iface.textContent = "Нет заказов для доставки"; return; }
+        const btnCourier = document.createElement("button");
+        btnCourier.textContent="Передать курьеру";
+        btnCourier.className="manager";
+        btnCourier.onclick=async ()=>{
+          await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`,{
+            method:"PATCH",
+            headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},
+            body:JSON.stringify({status:"accepted"})
+          });
+          log.textContent=`Менеджер передал заказ ${order.id} курьеру`;
+          renderInterface();
+        };
+        div.appendChild(btnCourier);
+        iface.appendChild(div);
+      });
+    }
 
-        orders.forEach(order => {
-          const div = document.createElement("div");
-          div.className = "orderCard";
-          div.textContent = `Заказ ${order.id} | Статус: ${order.status}`;
-          const btnPick = document.createElement("button");
-          btnPick.textContent = "Взять и доставить";
-          btnPick.className = "courier";
-          btnPick.onclick = async () => {
-            await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`, {
+    else if(currentRole==="courier"){
+      const orders = await fetchOrders("status=eq.accepted");
+      if(!orders.length){ iface.textContent="Нет заказов для доставки"; return; }
+
+      orders.forEach(order=>{
+        const div=document.createElement("div");
+        div.className="orderCard";
+        div.innerHTML=`<b>Заказ ${order.id}</b> | Статус: ${order.status}<br>Менеджер передал заказ`;
+
+        const btnAccept=document.createElement("button");
+        btnAccept.className="courier";
+        btnAccept.textContent="Принять заказ";
+        btnAccept.onclick=()=>{
+          btnAccept.textContent="Сдать заказ";
+          log.textContent=`Курьер принял заказ ${order.id}`;
+          btnAccept.onclick=async ()=>{
+            await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`,{
               method:"PATCH",
-              headers:{apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json"},
-              body: JSON.stringify({status:"delivered"})
+              headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},
+              body:JSON.stringify({status:"delivered"})
             });
-            log.textContent = `Курьер доставил заказ ${order.id}`;
+            log.textContent=`Курьер сдал заказ ${order.id}`;
             renderInterface();
           };
-          div.appendChild(btnPick);
-          iface.appendChild(div);
-        });
-      } catch(e){ log.textContent = "Ошибка: " + e; }
+        };
+        div.appendChild(btnAccept);
+        iface.appendChild(div);
+      });
     }
   }
 
