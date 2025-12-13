@@ -1,42 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<title>Mini App MVP</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-body { font-family: sans-serif; padding: 20px; background: #111; color: #eee; }
-h2 { color: #00ff88; }
-button { padding: 10px 20px; margin: 5px; border: none; border-radius: 8px; cursor: pointer; }
-.client { background: #00ff88; color: #000; }
-.manager { background: #ffcc00; color: #000; }
-.courier { background: #00ccff; color: #000; }
-#log { background: #222; padding: 10px; margin-top: 10px; border-radius: 8px; white-space: pre-wrap; }
-</style>
-</head>
-<body>
-
-<h2>Mini App MVP: клиент-менеджер-курьер</h2>
-
-<div>
-<label>Выбрать роль: </label>
-<select id="roleSelect">
-  <option value="client">Клиент</option>
-  <option value="manager">Менеджер</option>
-  <option value="courier">Курьер</option>
-</select>
-</div>
-
-<div id="interface" style="margin-top:20px;"></div>
-
-<div id="log"></div>
+<!-- ... остальной код выше без изменений ... -->
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const tg = window.Telegram.WebApp;
   tg.ready();
 
-  // Настройки Supabase
   const SUPABASE_URL = "https://urpxgkdzvzvxvykhusxo.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
 
@@ -45,11 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const log = document.getElementById("log");
 
   let currentRole = roleSelect.value;
-
-  roleSelect.onchange = () => {
-    currentRole = roleSelect.value;
-    renderInterface();
-  };
+  roleSelect.onchange = () => { currentRole = roleSelect.value; renderInterface(); };
 
   async function fetchOrders(filter="") {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/orders?${filter}&order=created_at.asc`, {
@@ -67,16 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = "client";
       btn.onclick = async () => {
         const telegramId = tg.initDataUnsafe.user.id;
-
-        // Получаем пользователя
         const userRes = await fetch(`${SUPABASE_URL}/rest/v1/users?telegram_id=eq.${telegramId}`, {
           headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
         });
         const users = await userRes.json();
         if (!users.length) { log.textContent = "Пользователь не найден"; return; }
         const user = users[0];
-
-        // Создаём заказ
         const orderRes = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
           method: "POST",
           headers: { 
@@ -93,25 +53,32 @@ document.addEventListener("DOMContentLoaded", () => {
       iface.appendChild(btn);
 
     } else if (currentRole === "manager") {
-      const orders = await fetchOrders("status=eq.new");
-      if (!orders.length) { iface.textContent = "Нет новых заказов"; return; }
+      // Менеджер видит все заказы
+      const orders = await fetchOrders();
+      if (!orders.length) { iface.textContent = "Нет заказов"; return; }
+
       orders.forEach(order => {
         const div = document.createElement("div");
         div.style.marginBottom = "10px";
         div.textContent = `Заказ ${order.id} | Статус: ${order.status}`;
-        const btnAccept = document.createElement("button");
-        btnAccept.textContent = "Принять";
-        btnAccept.className = "manager";
-        btnAccept.onclick = async () => {
-          await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`, {
-            method:"PATCH",
-            headers:{apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json"},
-            body: JSON.stringify({status:"accepted"})
-          });
-          log.textContent = `Менеджер принял заказ ${order.id}`;
-          renderInterface();
-        };
-        div.appendChild(btnAccept);
+
+        const statuses = ["new", "accepted", "cooking", "ready", "delivering", "delivered"];
+        statuses.forEach(s => {
+          const btnStatus = document.createElement("button");
+          btnStatus.textContent = s;
+          btnStatus.className = "manager";
+          btnStatus.onclick = async () => {
+            await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`, {
+              method: "PATCH",
+              headers: { apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`, "Content-Type":"application/json"},
+              body: JSON.stringify({status:s})
+            });
+            log.textContent = `Менеджер изменил заказ ${order.id} на статус ${s}`;
+            renderInterface();
+          };
+          div.appendChild(btnStatus);
+        });
+
         iface.appendChild(div);
       });
 
@@ -143,6 +110,3 @@ document.addEventListener("DOMContentLoaded", () => {
   renderInterface();
 });
 </script>
-
-</body>
-</html>
