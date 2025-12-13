@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Restaurant Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<h2>🍔 Сделать заказ</h2>
+<button id="create">Создать заказ</button>
+
+<pre id="log"></pre>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+
+// 1. получаем telegram_id
+const telegramId = tg.initDataUnsafe?.user?.id;
+
+document.getElementById("log").textContent =
+  "telegram_id: " + telegramId;
+
+// 2. Supabase данные
+const SUPABASE_URL = "https://urpxgkdzvzvxvykhusxo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
+
+// 3. кнопка заказа
+document.getElementById("create").onclick = async () => {
+  try {
+    // --- ищем пользователя ---
+    const userRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/users?telegram_id=eq.${telegramId}`,
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    const users = await userRes.json();
+    if (!users.length) {
+      throw "Пользователь не найден";
+    }
+
+    const user = users[0];
+
+    // --- создаём заказ ---
+    const orderRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/orders`,
+      {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          branch_id: user.branch_id,
+          status: "new",
+          total_price: 500
+        })
+      }
+    );
+
+    const order = await orderRes.json();
+    document.getElementById("log").textContent =
+      "Заказ создан:\n" + JSON.stringify(order, null, 2);
+
+  } catch (e) {
+    document.getElementById("log").textContent = "Ошибка: " + e;
+  }
+};
+</script>
+
+</body>
+</html>
