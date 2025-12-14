@@ -26,21 +26,11 @@ body{
   color:var(--text);
 }
 
-/* ---------- COMMON ---------- */
-h1{
-  font-size:24px;
-  margin:12px 0 16px;
-}
-
-.card{
-  background:var(--card);
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:12px;
-}
-
-.muted{color:var(--muted)}
+/* COMMON */
+h1{font-size:24px;margin:12px 0 16px}
+.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px}
 .center{text-align:center}
+.muted{color:var(--muted)}
 
 button{
   width:100%;
@@ -52,10 +42,9 @@ button{
   font-weight:600;
 }
 
-/* ---------- EMPTY STATES ---------- */
+/* EMPTY */
 .empty-icon{
-  width:128px;
-  height:128px;
+  width:128px;height:128px;
   margin:32px auto 16px;
   border-radius:24px;
   background:#1E1E1B;
@@ -65,75 +54,31 @@ button{
   font-size:52px;
 }
 
-/* ---------- PROFILE ---------- */
-.profile-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.profile-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
+/* PROFILE */
+.profile-top{display:flex;justify-content:space-between;align-items:center}
+.profile-left{display:flex;gap:12px;align-items:center}
 .avatar{
-  width:48px;
-  height:48px;
-  border-radius:50%;
+  width:48px;height:48px;border-radius:50%;
   background:#C77DFF;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   font-weight:700;
 }
+.arrow{color:var(--accent);font-size:20px;cursor:pointer}
+.role-select{display:none;margin-top:12px}
+.role-select button{margin-top:8px}
 
-.arrow{
-  color:var(--accent);
-  font-size:20px;
-  cursor:pointer;
-}
-
-.role-select{
-  display:none;
-  margin-top:12px;
-}
-
-.role-select button{
-  margin-top:8px;
-}
-
-/* ---------- LIST ---------- */
-.list{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
+/* LIST */
+.list{list-style:none;padding:0;margin:0}
 .list li{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   padding:14px 0;
   border-bottom:1px solid var(--divider);
 }
-
 .list li:last-child{border-bottom:none}
 
-.list-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.icon{
-  width:20px;
-  height:20px;
-  stroke:var(--accent);
-}
-
-/* ---------- BOTTOM NAV ---------- */
+/* 🔽 BOTTOM NAV — FIXED */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -148,7 +93,7 @@ button{
 .nav-item{
   flex:1;
   text-align:center;
-  font-size:11px;
+  font-size:10px;
   color:var(--muted);
   padding-top:8px;
 }
@@ -161,6 +106,8 @@ button{
   display:block;
   margin:0 auto 4px;
   stroke:currentColor;
+  fill:none;
+  stroke-width:1.8;
 }
 </style>
 </head>
@@ -169,25 +116,52 @@ button{
 
 <div id="content"></div>
 
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <div class="nav-item active" data-tab="home">🏠<br>Главная</div>
-  <div class="nav-item" data-tab="fav">❤️<br>Избранное</div>
-  <div class="nav-item" data-tab="cart">🛒<br>Корзина</div>
-  <div class="nav-item" data-tab="profile">👤<br>Профиль</div>
+  <div class="nav-item active" data-tab="home">
+    <svg viewBox="0 0 24 24">
+      <path d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3z"/>
+    </svg>
+    Главная
+  </div>
+
+  <div class="nav-item" data-tab="fav">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10z"/>
+    </svg>
+    Избранное
+  </div>
+
+  <div class="nav-item" data-tab="cart">
+    <svg viewBox="0 0 24 24">
+      <path d="M6 6h15l-1.5 9h-12z"/>
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="18" cy="21" r="1"/>
+    </svg>
+    Корзина
+  </div>
+
+  <div class="nav-item" data-tab="profile">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="7" r="4"/>
+      <path d="M5 21v-2a7 7 0 0 1 14 0v2"/>
+    </svg>
+    Профиль
+  </div>
 </div>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.ready();
 
-const SUPABASE_URL = "https://urpxgkdzvzvxvykhusxo.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
+const SUPABASE_URL="https://urpxgkdzvzvxvykhusxo.supabase.co";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
 
-const content = document.getElementById("content");
-const nav = document.querySelectorAll(".nav-item");
+const content=document.getElementById("content");
+const nav=document.querySelectorAll(".nav-item");
 
-let role = localStorage.getItem("role") || "client";
-const user = tg.initDataUnsafe?.user;
+let role=localStorage.getItem("role")||"client";
+const user=tg.initDataUnsafe?.user;
 
 /* NAV */
 nav.forEach(i=>{
@@ -201,10 +175,7 @@ nav.forEach(i=>{
 /* RENDER */
 function render(tab){
   if(tab==="home"){
-    content.innerHTML=`
-      <h1>Главная</h1>
-      <div class="card center muted">Пока ничего нет</div>
-    `;
+    content.innerHTML=`<h1>Главная</h1><div class="card center muted">Пока ничего нет</div>`;
   }
 
   if(tab==="fav"){
@@ -214,8 +185,7 @@ function render(tab){
       <div class="center">
         <p>Здесь будут ваши любимые места</p>
         <button>Перейти к ресторанам</button>
-      </div>
-    `;
+      </div>`;
   }
 
   if(tab==="cart"){
@@ -223,10 +193,8 @@ function render(tab){
       <div class="empty-icon">🛍️</div>
       <div class="center">
         <h2>Корзина пуста</h2>
-        <p class="muted">Добавьте блюда из меню</p>
         <button onclick="createOrder()">Сделать заказ</button>
-      </div>
-    `;
+      </div>`;
   }
 
   if(tab==="profile"){
@@ -248,30 +216,14 @@ function render(tab){
           <button onclick="setRole('manager')">Менеджер</button>
           <button onclick="setRole('courier')">Курьер</button>
         </div>
-      </div>
-
-      <div class="card">
-        <ul class="list">
-          <li><span>Избранное</span><span class="arrow">›</span></li>
-          <li><span>Мои адреса</span><span class="arrow">›</span></li>
-          <li><span>История заказов</span><span class="arrow">›</span></li>
-          <li><span>Способы оплаты</span><span class="arrow">›</span></li>
-        </ul>
-      </div>
-
-      ${role==="manager" ? `<div id="orders"></div>` : ""}
-      ${role==="courier" ? `<div id="orders"></div>` : ""}
-    `;
-
-    if(role==="manager") loadManager();
-    if(role==="courier") loadCourier();
+      </div>`;
   }
 }
 
 /* ROLE */
 function toggleRole(){
   const r=document.getElementById("roles");
-  r.style.display = r.style.display==="block"?"none":"block";
+  r.style.display=r.style.display==="block"?"none":"block";
 }
 
 function setRole(r){
@@ -280,7 +232,7 @@ function setRole(r){
   render("profile");
 }
 
-/* CLIENT */
+/* ORDER */
 async function createOrder(){
   await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
     method:"POST",
@@ -289,65 +241,9 @@ async function createOrder(){
       Authorization:`Bearer ${SUPABASE_KEY}`,
       "Content-Type":"application/json"
     },
-    body:JSON.stringify({
-      telegram_id:user.id,
-      status:"new"
-    })
+    body:JSON.stringify({telegram_id:user.id,status:"new"})
   });
   alert("Заказ создан");
-}
-
-/* MANAGER */
-async function loadManager(){
-  const res=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
-    headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
-  });
-  const orders=await res.json();
-  document.getElementById("orders").innerHTML = orders.map(o=>`
-    <div class="card">
-      <b>Заказ ${o.id}</b>
-      <select onchange="updateStatus('${o.id}',this.value)">
-        <option>new</option>
-        <option>cooking</option>
-        <option>ready</option>
-        <option>courier</option>
-      </select>
-    </div>
-  `).join("");
-}
-
-async function updateStatus(id,status){
-  await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`,{
-    method:"PATCH",
-    headers:{
-      apikey:SUPABASE_KEY,
-      Authorization:`Bearer ${SUPABASE_KEY}`,
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({status})
-  });
-}
-
-/* COURIER */
-async function loadCourier(){
-  const res=await fetch(`${SUPABASE_URL}/rest/v1/orders?status=eq.courier`,{
-    headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
-  });
-  const orders=await res.json();
-  document.getElementById("orders").innerHTML = orders.map(o=>`
-    <div class="card">
-      Заказ ${o.id}
-      <button onclick="completeOrder('${o.id}')">Сдать заказ</button>
-    </div>
-  `).join("");
-}
-
-async function completeOrder(id){
-  await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`,{
-    method:"DELETE",
-    headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
-  });
-  loadCourier();
 }
 
 render("home");
