@@ -7,11 +7,11 @@
 
 <style>
 :root{
-  --bg-main:#0A0A09;
-  --bg-surface:#191917;
+  --bg:#0A0A09;
+  --card:#191917;
   --accent:#21EA7C;
   --text:#fff;
-  --muted:#7a7a7a;
+  --muted:#8a8a8a;
 }
 
 *{box-sizing:border-box}
@@ -20,27 +20,23 @@ body{
   margin:0;
   padding:16px;
   padding-bottom:110px;
-  background:var(--bg-main);
+  background:var(--bg);
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   color:var(--text);
 }
 
-/* TYPO */
-h1{
-  font-size:26px;
-  margin:8px 0 16px;
-}
-h2{margin:0;font-size:18px}
+h1{font-size:26px;margin:12px 0}
 
-/* CARD */
 .card{
-  background:var(--bg-surface);
+  background:var(--card);
   border-radius:18px;
   padding:16px;
   margin-bottom:12px;
 }
 
-/* BUTTON */
+.center{text-align:center}
+.muted{color:var(--muted)}
+
 button{
   width:100%;
   padding:14px;
@@ -51,30 +47,20 @@ button{
   color:#000;
 }
 
-/* EMPTY */
-.empty{
-  text-align:center;
-  margin-top:40px;
-}
-.empty-icon{
-  width:120px;
-  height:120px;
-  margin:0 auto 16px;
-  border-radius:28px;
-  background:#1f1f1c;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+button.secondary{
+  background:#2a2a2a;
+  color:#fff;
+  margin-top:8px;
 }
 
 /* PROFILE */
-.profile-head{
+.profile-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.profile-left{
+.profile-info{
   display:flex;
   gap:12px;
   align-items:center;
@@ -91,29 +77,43 @@ button{
   font-weight:700;
 }
 
-.arrow{color:var(--accent);font-size:20px}
-
-/* LIST */
-.list{
-  list-style:none;
-  padding:0;
-  margin:0;
+.role-select{
+  margin-top:12px;
+  display:none;
 }
+
+.list{list-style:none;padding:0;margin:0}
+
 .list li{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:14px 0;
   border-bottom:1px solid #2a2a2a;
 }
+
 .list li:last-child{border-bottom:none}
 
-.list-left{
+.item-left{
   display:flex;
   gap:10px;
   align-items:center;
 }
-.icon{color:var(--accent)}
+
+.arrow{color:var(--accent)}
+
+/* EMPTY */
+.empty-icon{
+  width:120px;
+  height:120px;
+  margin:32px auto 16px;
+  border-radius:24px;
+  background:#1f1f1c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+}
 
 /* BOTTOM NAV */
 .bottom-nav{
@@ -121,8 +121,8 @@ button{
   bottom:12px;
   left:12px;
   right:12px;
-  background:var(--bg-surface);
-  border-radius:26px;
+  background:var(--card);
+  border-radius:24px;
   padding:10px 6px;
   display:flex;
 }
@@ -133,6 +133,7 @@ button{
   font-size:11px;
   color:var(--muted);
 }
+
 .nav-item.active{color:var(--accent)}
 </style>
 </head>
@@ -141,15 +142,14 @@ button{
 
 <div id="content"></div>
 
-<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <div class="nav-item active" data-tab="home">Главная</div>
-  <div class="nav-item" data-tab="cart">Корзина</div>
-  <div class="nav-item" data-tab="profile">Профиль</div>
+  <div class="nav-item active" data-tab="home">🏠<br>Главная</div>
+  <div class="nav-item" data-tab="cart">🛒<br>Корзина</div>
+  <div class="nav-item" data-tab="profile">👤<br>Профиль</div>
 </div>
 
 <script>
-const tg=window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
 tg.ready();
 
 /* SUPABASE */
@@ -157,30 +157,29 @@ const SUPABASE_URL="https://urpxgkdzvzvxvykhusxo.supabase.co";
 const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
 
 /* STATE */
-let role=localStorage.getItem("role")||"client";
-let lang=localStorage.getItem("lang")||"ru";
-const user=tg.initDataUnsafe?.user;
-const content=document.getElementById("content");
+let role = localStorage.getItem("role") || "client";
+let lang = localStorage.getItem("lang") || "ru";
+const tgUser = tg.initDataUnsafe?.user;
+const content = document.getElementById("content");
 
 /* TEXT */
-const txt={
+const T = {
   ru:{
     home:"Главная",
-    cart:"Корзина пуста",
+    cartEmpty:"Корзина пуста",
     order:"Сделать заказ",
-    language:"Язык",
-    empty:"Пока ничего нет"
+    lang:"Язык",
+    restaurants:"Рестораны"
   },
   en:{
     home:"Home",
-    cart:"Cart is empty",
+    cartEmpty:"Cart is empty",
     order:"Make order",
-    language:"Language",
-    empty:"Nothing here yet"
+    lang:"Language",
+    restaurants:"Restaurants"
   }
 };
 
-/* RESTAURANTS */
 const restaurants=[
   "BBQ Garden",
   "Cafe LaiLa",
@@ -188,6 +187,24 @@ const restaurants=[
   "Дом Кудбари",
   "Sunset Restaurant"
 ];
+
+/* INIT USER */
+if(tgUser){
+  fetch(`${SUPABASE_URL}/rest/v1/users`,{
+    method:"POST",
+    headers:{
+      apikey:SUPABASE_KEY,
+      Authorization:`Bearer ${SUPABASE_KEY}`,
+      "Content-Type":"application/json",
+      Prefer:"resolution=ignore-duplicates"
+    },
+    body:JSON.stringify({
+      telegram_id:tgUser.id,
+      role,
+      language:lang
+    })
+  });
+}
 
 /* NAV */
 document.querySelectorAll(".nav-item").forEach(i=>{
@@ -198,93 +215,78 @@ document.querySelectorAll(".nav-item").forEach(i=>{
   };
 });
 
-/* USER INIT */
-if(user){
-  fetch(`${SUPABASE_URL}/rest/v1/users`,{
-    method:"POST",
-    headers:{
-      apikey:SUPABASE_KEY,
-      Authorization:`Bearer ${SUPABASE_KEY}`,
-      "Content-Type":"application/json",
-      Prefer:"resolution=ignore-duplicates"
-    },
-    body:JSON.stringify({
-      telegram_id:user.id,
-      role,
-      language:lang
-    })
-  });
-}
-
 /* RENDER */
 function render(tab){
   if(tab==="home"){
-    content.innerHTML=`<h1>${txt[lang].home}</h1>`+
+    content.innerHTML=`<h1>${T[lang].restaurants}</h1>`+
       restaurants.map(r=>`
         <div class="card">
-          <h2>${r}</h2>
-          <p class="muted">${txt[lang].empty}</p>
+          <b>${r}</b>
+          <p class="muted">Пока нет меню</p>
         </div>`).join("");
   }
 
   if(tab==="cart"){
     content.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon"></div>
-        <p>${txt[lang].cart}</p>
-        <button onclick="createOrder()">${txt[lang].order}</button>
+      <div class="empty-icon">🛍️</div>
+      <div class="center">
+        <h2>${T[lang].cartEmpty}</h2>
+        <button onclick="createOrder()">${T[lang].order}</button>
       </div>`;
   }
 
   if(tab==="profile"){
     content.innerHTML=`
       <div class="card">
-        <div class="profile-head">
-          <div class="profile-left">
-            <div class="avatar">${user?.first_name?.[0]||"U"}</div>
+        <div class="profile-header">
+          <div class="profile-info">
+            <div class="avatar">${tgUser?.first_name?.[0]||"U"}</div>
             <div>
-              <b>${user?.first_name||"User"}</b><br>
-              <span class="muted">ID ${user?.id||""}</span>
+              <b>${tgUser?.first_name||"User"}</b><br>
+              <span class="muted">ID ${tgUser?.id||""}</span>
             </div>
           </div>
-          <span class="arrow" onclick="toggleRole()">›</span>
+          <span onclick="toggleRole()">⬇️</span>
         </div>
-        <div id="roles" style="display:none;margin-top:12px">
-          <button onclick="setRole('client')">Client</button>
-          <button onclick="setRole('manager')">Manager</button>
-          <button onclick="setRole('courier')">Courier</button>
+
+        <div class="role-select" id="roles">
+          <button class="secondary" onclick="setRole('client')">Клиент</button>
+          <button class="secondary" onclick="setRole('manager')">Менеджер</button>
+          <button class="secondary" onclick="setRole('courier')">Курьер</button>
         </div>
       </div>
 
       <div class="card">
         <ul class="list">
           <li>
-            <div class="list-left"><span class="icon">🌐</span>${txt[lang].language}</div>
+            <div class="item-left">🌐 ${T[lang].lang}</div>
             <span class="arrow" onclick="toggleLang()">›</span>
           </li>
         </ul>
-      </div>`;
+      </div>
+    `;
   }
 }
 
 /* ACTIONS */
-function setRole(r){
-  role=r;
-  localStorage.setItem("role",r);
-  render("profile");
-}
-
 function toggleRole(){
   const r=document.getElementById("roles");
   r.style.display=r.style.display==="block"?"none":"block";
 }
 
+function setRole(r){
+  role=r;
+  localStorage.setItem("role",r);
+  alert("Роль: "+r);
+}
+
 function toggleLang(){
-  lang=lang==="ru"?"en":"ru";
+  lang = lang==="ru" ? "en" : "ru";
   localStorage.setItem("lang",lang);
   render("profile");
 }
 
+/* ORDER */
 async function createOrder(){
   await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
     method:"POST",
@@ -295,7 +297,7 @@ async function createOrder(){
     },
     body:JSON.stringify({
       status:"new",
-      telegram_id:user.id
+      telegram_id:tgUser.id
     })
   });
   alert("OK");
