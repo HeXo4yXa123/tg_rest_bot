@@ -6,126 +6,129 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-:root {
-  --bg-main: #0A0A09;
-  --bg-surface: #191917;
-  --accent: #21EA7C;
-  --text-main: #FFFFFF;
-  --text-muted: #777777;
+:root{
+  --bg-main:#0A0A09;
+  --bg-surface:#191917;
+  --accent:#21EA7C;
+  --text:#fff;
+  --muted:#777;
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  padding: 16px;
-  padding-bottom: 90px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-main);
-  color: var(--text-main);
-}
-
-/* HEADER */
-.header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
+body{
+  margin:0;
+  padding:16px;
+  padding-bottom:110px;
+  background:var(--bg-main);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--text);
 }
 
 /* CONTENT */
-#content {
-  min-height: 60vh;
-  animation: fadeIn 0.25s ease;
+#content{animation:fade .25s ease}
+
+.card{
+  background:var(--bg-surface);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:12px;
 }
 
-.fade-out {
-  opacity: 0;
-  transform: translateY(10px);
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  font-weight:600;
+  background:var(--accent);
+  color:#000;
+  cursor:pointer;
 }
 
-.card {
-  background: var(--bg-surface);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
+button.secondary{
+  background:#2a2a2a;
+  color:var(--text);
+  margin-top:8px;
 }
 
-button {
-  background: var(--accent);
-  color: #000;
-  border: none;
-  border-radius: 14px;
-  padding: 12px;
-  width: 100%;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
+/* BOTTOM MENU */
+.bottom-nav{
+  position:fixed;
+  bottom:12px;
+  left:12px;
+  right:12px;
+  background:var(--bg-surface);
+  border-radius:24px;
+  padding:10px 6px;
+  display:flex;
+  justify-content:space-around;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+  z-index:999;
 }
 
-button.secondary {
-  background: #2a2a2a;
-  color: var(--text-main);
-  margin-top: 8px;
+.nav-item{
+  flex:1;
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+  cursor:pointer;
 }
 
-/* BOTTOM NAV */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 72px;
-  background: var(--bg-surface);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid #222;
+.nav-item.active{color:var(--accent)}
+
+.nav-item svg{
+  width:22px;
+  height:22px;
+  display:block;
+  margin:0 auto 4px;
+  stroke:currentColor;
 }
 
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 11px;
-  color: var(--text-muted);
-  cursor: pointer;
-}
-
-.nav-item.active { color: var(--accent); }
-
-.nav-icon { font-size: 20px; }
-
-/* ANIMATIONS */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ANIM */
+@keyframes fade{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
 }
 </style>
 </head>
 
 <body>
 
-<div class="header"></div>
-
 <div id="content"></div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="nav-item active" data-tab="home">
-    <div class="nav-icon">🏠</div>
-    <span>Главная</span>
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+      <path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>
+    </svg>
+    Главная
   </div>
-  <div class="nav-item" data-tab="favorites">
-    <div class="nav-icon">⭐</div>
-    <span>Избранное</span>
+
+  <div class="nav-item" data-tab="orders">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+      <path d="M4 4h16v16H4z"/>
+      <path d="M8 8h8M8 12h8M8 16h8"/>
+    </svg>
+    Заказы
   </div>
+
   <div class="nav-item" data-tab="cart">
-    <div class="nav-icon">🛒</div>
-    <span>Корзина</span>
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+      <path d="M6 6h15l-1.5 9h-12z"/>
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="18" cy="21" r="1"/>
+    </svg>
+    Корзина
   </div>
+
   <div class="nav-item" data-tab="profile">
-    <div class="nav-icon">👤</div>
-    <span>Профиль</span>
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    Профиль
   </div>
 </div>
 
@@ -133,121 +136,138 @@ button.secondary {
 const tg = window.Telegram.WebApp;
 tg.ready();
 
-/* 🔧 SUPABASE */
+/* SUPABASE */
 const SUPABASE_URL = "https://urpxgkdzvzvxvykhusxo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
 
 /* STATE */
-let currentTab = "home";
-let currentRole = "client";
-
+let role = "client";
+let tab = "home";
 const content = document.getElementById("content");
 const navItems = document.querySelectorAll(".nav-item");
 
-/* NAVIGATION */
-navItems.forEach(item => {
-  item.onclick = () => {
-    navItems.forEach(i => i.classList.remove("active"));
-    item.classList.add("active");
-    switchTab(item.dataset.tab);
+/* NAV */
+navItems.forEach(i=>{
+  i.onclick=()=>{
+    navItems.forEach(n=>n.classList.remove("active"));
+    i.classList.add("active");
+    render(i.dataset.tab);
   };
 });
 
-function switchTab(tab) {
-  content.classList.add("fade-out");
-  setTimeout(() => {
-    renderTab(tab);
-    content.classList.remove("fade-out");
-  }, 150);
-}
-
-function renderTab(tab) {
-  currentTab = tab;
-
-  if (tab === "home") {
-    content.innerHTML = `
+/* RENDER */
+function render(t){
+  tab=t;
+  if(t==="home"){
+    content.innerHTML=`
       <div class="card">
         <h3>Главная</h3>
-        <p>Роль: <b>${currentRole}</b></p>
-      </div>
-    `;
+        <p>Текущая роль: <b>${role}</b></p>
+      </div>`;
   }
 
-  if (tab === "favorites") {
-    content.innerHTML = `
-      <div class="card">
-        <h3>Избранное</h3>
-        <p>Пока пусто</p>
-      </div>
-    `;
-  }
-
-  if (tab === "cart") {
-    content.innerHTML = `
+  if(t==="cart"){
+    content.innerHTML=`
       <div class="card">
         <h3>Корзина</h3>
         <button onclick="createOrder()">Сделать заказ</button>
-      </div>
-    `;
+      </div>`;
   }
 
-  if (tab === "profile") {
-    content.innerHTML = `
+  if(t==="orders"){
+    if(role==="client"){
+      content.innerHTML=`<div class="card">У клиента нет заказов</div>`;
+    }
+    if(role==="manager") loadManager();
+    if(role==="courier") loadCourier();
+  }
+
+  if(t==="profile"){
+    content.innerHTML=`
       <div class="card">
-        <h3>Профиль</h3>
-        <p>Выберите роль:</p>
-        <button class="secondary" onclick="setRole('client')">Я клиент</button>
-        <button class="secondary" onclick="setRole('manager')">Я менеджер</button>
-        <button class="secondary" onclick="setRole('courier')">Я курьер</button>
-      </div>
-    `;
+        <h3>Роль</h3>
+        <button class="secondary" onclick="setRole('client')">Клиент</button>
+        <button class="secondary" onclick="setRole('manager')">Менеджер</button>
+        <button class="secondary" onclick="setRole('courier')">Курьер</button>
+      </div>`;
   }
 }
 
 /* ROLE */
-function setRole(role) {
-  currentRole = role;
-  alert("Роль изменена на: " + role);
-  renderTab(currentTab);
+function setRole(r){role=r;render(tab)}
+
+/* CLIENT */
+async function createOrder(){
+  await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
+    method:"POST",
+    headers:{
+      apikey:SUPABASE_KEY,
+      Authorization:`Bearer ${SUPABASE_KEY}`,
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({status:"new",total_price:500})
+  });
+  alert("Заказ создан");
 }
 
-/* ORDER */
-async function createOrder() {
-  try {
-    const telegramId = tg.initDataUnsafe.user.id;
+/* MANAGER */
+async function loadManager(){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
+    headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+  });
+  const orders=await res.json();
+  content.innerHTML=orders.map(o=>`
+    <div class="card">
+      <p>Заказ ${o.id}</p>
+      <select onchange="updateStatus('${o.id}',this.value)">
+        <option>new</option>
+        <option>cooking</option>
+        <option>ready</option>
+      </select>
+      <button class="secondary" onclick="assignCourier('${o.id}')">Передать курьеру</button>
+    </div>`).join("");
+}
 
-    const userRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/users?telegram_id=eq.${telegramId}`,
-      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
-    );
-    const users = await userRes.json();
-    if (!users.length) return alert("Пользователь не найден");
+async function updateStatus(id,status){
+  await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`,{
+    method:"PATCH",
+    headers:{
+      apikey:SUPABASE_KEY,
+      Authorization:`Bearer ${SUPABASE_KEY}`,
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({status})
+  });
+}
 
-    const user = users[0];
+async function assignCourier(id){
+  await updateStatus(id,"courier");
+  loadManager();
+}
 
-    await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-      method: "POST",
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        user_id: user.id,
-        branch_id: user.branch_id,
-        status: "new",
-        total_price: 500
-      })
-    });
+/* COURIER */
+async function loadCourier(){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/orders?status=eq.courier`,{
+    headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+  });
+  const orders=await res.json();
+  content.innerHTML=orders.map(o=>`
+    <div class="card">
+      <p>Заказ ${o.id}</p>
+      <button onclick="completeOrder('${o.id}')">Сдать заказ</button>
+    </div>`).join("");
+}
 
-    alert("Заказ создан");
-  } catch (e) {
-    alert("Ошибка");
-  }
+async function completeOrder(id){
+  await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`,{
+    method:"DELETE",
+    headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+  });
+  loadCourier();
 }
 
 /* INIT */
-renderTab("home");
+render("home");
 </script>
 
 </body>
