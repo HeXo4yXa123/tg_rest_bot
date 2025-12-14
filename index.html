@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MestiGo</title>
 
-<!-- FONT -->
+<!-- Inter -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
+  --bg: #0E0F0F;
+  --card: #1A1B1B;
   --green: #21EA7C;
-  --bg: #0F0F0F;
-  --card: #1A1A1A;
+  --text: #FFFFFF;
   --muted: #8B8B8B;
-  --white: #FFFFFF;
+  --radius: 18px;
 }
 
 * {
@@ -24,55 +25,48 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   background: var(--bg);
-  color: var(--white);
+  color: var(--text);
 }
 
-/* APP */
 .app {
   max-width: 430px;
   margin: 0 auto;
-  min-height: 100vh;
-  padding-bottom: 80px;
+  padding-bottom: 88px;
 }
 
-/* SCREENS */
-.screen {
-  display: none;
-  animation: fade .25s ease;
-}
-
-.screen.active {
-  display: block;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* HEADER */
+/* ===== HEADER ===== */
 .header {
   padding: 16px;
-  font-size: 26px;
-  font-weight: 700;
 }
 
-/* SEARCH */
+.city {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.address {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ===== SEARCH ===== */
 .search {
   display: flex;
   gap: 10px;
   padding: 0 16px 16px;
 }
 
-.search input {
+.search-box {
   flex: 1;
-  background: #1E1E1E;
-  border: none;
+  background: #1C1D1D;
   border-radius: 14px;
   padding: 14px;
-  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
 }
 
 .search button {
@@ -83,12 +77,56 @@ body {
   font-weight: 600;
 }
 
-/* CARD */
+/* ===== BANNER ===== */
+.banner {
+  margin: 0 16px 20px;
+  background: linear-gradient(90deg, #1F7F40, #27A953);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-weight: 600;
+}
+
+/* ===== QUICK ACTIONS ===== */
+.quick {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 16px 20px;
+}
+
+.quick-item {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px 10px;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* ===== SECTION ===== */
+.section {
+  padding: 0 16px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section h2 {
+  font-size: 18px;
+}
+
+.section span {
+  color: var(--green);
+  font-size: 14px;
+}
+
+/* ===== CARD ===== */
 .card {
   background: var(--card);
-  border-radius: 18px;
+  border-radius: var(--radius);
   margin: 0 16px 16px;
   overflow: hidden;
+  animation: fade .25s ease;
 }
 
 .card img {
@@ -105,52 +143,37 @@ body {
 }
 
 .card-meta {
-  font-size: 13px;
   color: var(--green);
+  font-size: 13px;
   margin-top: 6px;
 }
 
-/* EMPTY */
-.empty {
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.empty p {
-  color: var(--muted);
-}
-
-/* BUTTON */
-.btn {
-  margin-top: 20px;
-  background: var(--green);
-  color: black;
-  padding: 14px 20px;
-  border-radius: 16px;
-  font-weight: 600;
-  display: inline-block;
-}
-
-/* TAB BAR */
+/* ===== TAB BAR ===== */
 .tabbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background: #141414;
+  padding: 10px 0 18px;
   display: flex;
   justify-content: space-around;
-  padding: 10px 0 18px;
 }
 
 .tab {
+  text-align: center;
   font-size: 12px;
   color: var(--muted);
-  text-align: center;
 }
 
 .tab.active {
   color: var(--green);
+}
+
+/* ===== ANIM ===== */
+@keyframes fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
 }
 </style>
 </head>
@@ -158,99 +181,69 @@ body {
 <body>
 <div class="app">
 
-<!-- HOME -->
-<div class="screen active" id="home">
-  <div class="header">Местия</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="city">г. Местия</div>
+  <div class="address">Укажите адрес доставки</div>
+</div>
 
-  <div class="search">
-    <input placeholder="Искать в mestigo">
-    <button>Найти</button>
+<!-- SEARCH -->
+<div class="search">
+  <div class="search-box">
+    🔍 Искать в mestigo
   </div>
+  <button>Найти</button>
+</div>
 
-  <div class="card" onclick="go('restaurants')">
-    <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe">
-    <div class="card-body">
-      <div class="card-title">Рестораны</div>
-      <div class="card-meta">25–30 мин</div>
-    </div>
+<!-- BANNER -->
+<div class="banner">
+  Скидка 15% на первый заказ<br>
+  от 50 GEL
+</div>
+
+<!-- QUICK -->
+<div class="quick">
+  <div class="quick-item">🍔<br>Рестораны</div>
+  <div class="quick-item">🛒<br>Магазины</div>
+  <div class="quick-item">🔥<br>Акции</div>
+</div>
+
+<!-- POPULAR -->
+<div class="section">
+  <h2>Популярные рестораны</h2>
+  <span>Все</span>
+</div>
+
+<div class="card">
+  <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe">
+  <div class="card-body">
+    <div class="card-title">SUNSET RESTAURANT</div>
+    <div class="card-meta">⭐ 4.7 · 25–30 мин</div>
   </div>
 </div>
 
-<!-- RESTAURANTS -->
-<div class="screen" id="restaurants">
-  <div class="header">Рестораны</div>
-
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1544025162-d76694265947">
-    <div class="card-body">
-      <div class="card-title">SUNSET RESTAURANT</div>
-      <div class="card-meta">⭐ 4.7 · 25–30 мин</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
-    <div class="card-body">
-      <div class="card-title">BBQ GARDEN</div>
-      <div class="card-meta">⭐ 4.5 · 25–30 мин</div>
-    </div>
-  </div>
-</div>
-
-<!-- FAVORITES -->
-<div class="screen" id="favorites">
-  <div class="header">Избранное</div>
-
-  <div class="empty">
-    <p>Нажимайте на сердечки,<br>чтобы сохранять любимые места</p>
-    <div class="btn" onclick="go('restaurants')">Перейти к ресторанам</div>
-  </div>
-</div>
-
-<!-- CART -->
-<div class="screen" id="cart">
-  <div class="header">Корзина</div>
-
-  <div class="empty">
-    <p>Похоже, тут ничего нет…</p>
-  </div>
-</div>
-
-<!-- PROFILE -->
-<div class="screen" id="profile">
-  <div class="header">Профиль</div>
-
-  <div class="card">
-    <div class="card-body">Избранное</div>
-  </div>
-  <div class="card">
-    <div class="card-body">История заказов</div>
-  </div>
-  <div class="card">
-    <div class="card-body">Поддержка</div>
+<div class="card">
+  <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
+  <div class="card-body">
+    <div class="card-title">BBQ GARDEN</div>
+    <div class="card-meta">⭐ 4.5 · 25–30 мин</div>
   </div>
 </div>
 
 </div>
 
-<!-- TAB BAR -->
+<!-- TABBAR -->
 <div class="tabbar">
-  <div class="tab active" onclick="tab('home')">Главная</div>
-  <div class="tab" onclick="tab('favorites')">Избранное</div>
-  <div class="tab" onclick="tab('cart')">Корзина</div>
-  <div class="tab" onclick="tab('profile')">Профиль</div>
+  <div class="tab active">Главная</div>
+  <div class="tab">Избранное</div>
+  <div class="tab">Корзина</div>
+  <div class="tab">Профиль</div>
 </div>
 
 <script>
-function go(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function tab(id) {
-  go(id);
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+if (window.Telegram?.WebApp) {
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
 }
 </script>
 
