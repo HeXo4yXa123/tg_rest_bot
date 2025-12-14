@@ -2,67 +2,208 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MestiGo Mini App</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
   --bg:#0b0d0c;
-  --panel:#121614;
-  --card:#161b18;
+  --card:#141816;
   --green:#21EA7C;
-  --green-dark:#1fbf65;
+  --green2:#1fbf65;
   --text:#ffffff;
   --muted:#9aa0a6;
   --line:rgba(255,255,255,.08);
+  --r16:16px;
+  --r20:20px;
+  --r24:24px;
 }
+
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI}
-body{background:var(--bg);color:var(--text)}
-#app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+}
+
+#app{
+  max-width:430px;
+  margin:0 auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
 /* HEADER */
-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
-header h1{font-size:22px;font-weight:600}
-.icon{background:none;border:none;color:var(--green);font-size:22px}
+header{
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-/* COMMON */
-main{flex:1;padding-bottom:90px}
-.screen{display:none;padding:16px}
+header h1{
+  font-size:24px;
+  font-weight:700;
+}
+
+.icon{
+  background:none;
+  border:none;
+  color:var(--green);
+  font-size:22px;
+}
+
+/* SCREENS */
+main{
+  flex:1;
+  padding:0 16px 90px;
+}
+
+.screen{display:none}
 .screen.active{display:block}
-.card{background:var(--card);border-radius:18px;padding:14px;margin-bottom:14px}
-.primary{width:100%;padding:18px;border-radius:18px;border:none;background:linear-gradient(180deg,var(--green),var(--green-dark));color:#000;font-weight:700;font-size:17px}
 
 /* SEARCH */
-.search-wrap{display:flex;gap:10px;margin-bottom:14px}
-.search{flex:1;padding:13px 14px;border-radius:16px;background:#111;border:1px solid var(--line);color:#fff}
-.search-btn{padding:0 18px;border-radius:16px;border:none;background:var(--green);color:#000;font-weight:600}
+.search{
+  width:100%;
+  padding:14px;
+  border-radius:var(--r20);
+  background:#111;
+  border:1px solid var(--line);
+  color:#fff;
+  margin-bottom:14px;
+}
 
 /* BANNER */
-.banner{border-radius:18px;padding:16px;background:linear-gradient(90deg,var(--green),var(--green-dark));color:#000;font-weight:700;margin-bottom:20px}
+.banner{
+  padding:16px;
+  border-radius:var(--r24);
+  background:linear-gradient(90deg,var(--green),var(--green2));
+  color:#000;
+  font-weight:700;
+  margin-bottom:20px;
+}
 
-/* CATEGORY ICON GRID */
-.icon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.icon-item{text-align:center;font-size:13px}
-.icon-circle{width:56px;height:56px;border-radius:18px;background:#1b211e;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:24px}
+/* CATEGORIES */
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+.cat{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+}
+.cat .ico{
+  width:54px;
+  height:54px;
+  border-radius:18px;
+  background:#1b211e;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin:0 auto 6px;
+}
 
-/* RESTAURANTS */
-.restaurant{background:var(--card);border-radius:22px;overflow:hidden;margin-bottom:16px;position:relative}
-.restaurant-img{height:160px;background:#222}
-.restaurant-info{padding:14px}
-.restaurant-info b{display:block;margin-bottom:4px}
-.restaurant-info span{color:var(--green);font-size:14px}
-.fav{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:#0b0d0c;border:none;color:var(--green);font-size:16px}
+/* CARD */
+.card{
+  background:var(--card);
+  border-radius:var(--r24);
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.card-img{
+  height:160px;
+  background:#222;
+}
+
+.card-body{
+  padding:14px;
+}
+
+.card-body b{
+  display:block;
+  margin-bottom:4px;
+}
+
+.card-body span{
+  color:var(--green);
+  font-size:14px;
+}
+
+/* EMPTY */
+.empty{
+  margin-top:80px;
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
 
 /* CART */
-.cart-item{display:flex;justify-content:space-between;align-items:center}
-.counter{display:flex;gap:10px;align-items:center}
-.counter button{width:28px;height:28px;border-radius:50%;border:none;background:#1c2220;color:#fff}
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  background:var(--card);
+  border-radius:var(--r20);
+  margin-bottom:12px;
+}
+
+.counter{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.counter button{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:none;
+  background:#1c2220;
+  color:#fff;
+}
+
+/* BUTTON */
+.primary{
+  width:100%;
+  padding:18px;
+  border-radius:var(--r20);
+  border:none;
+  background:linear-gradient(180deg,var(--green),var(--green2));
+  color:#000;
+  font-weight:700;
+  font-size:16px;
+}
 
 /* TABBAR */
-.tabbar{position:fixed;bottom:0;left:0;right:0;background:#0e110f;display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid var(--line)}
-.tabbar button{background:none;border:none;color:var(--muted);font-size:22px}
-.tabbar button.active{color:var(--green)}
+.tabbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#0e110f;
+  display:flex;
+  justify-content:space-around;
+  padding:12px 0;
+  border-top:1px solid var(--line);
+}
+
+.tabbar button{
+  background:none;
+  border:none;
+  color:var(--muted);
+  font-size:22px;
+}
+
+.tabbar button.active{
+  color:var(--green);
+}
 </style>
 </head>
 
@@ -70,82 +211,69 @@ main{flex:1;padding-bottom:90px}
 <div id="app">
 
 <header>
-  <button class="icon" onclick="back()">←</button>
+  <button class="icon">←</button>
   <h1 id="title">Главная</h1>
-  <button class="icon">⤴</button>
+  <button class="icon">☰</button>
 </header>
 
 <main>
 
 <!-- HOME -->
 <section class="screen active" id="home">
-  <div class="search-wrap">
-    <input class="search" placeholder="Искать в mestigo">
-    <button class="search-btn">Найти</button>
+  <input class="search" placeholder="Искать в mestigo">
+  <div class="banner">СКИДКА 15% НА ПЕРВЫЙ ЗАКАЗ</div>
+
+  <div class="categories">
+    <div class="cat"><div class="ico">🍔</div>Фастфуд</div>
+    <div class="cat"><div class="ico">🍲</div>Местная</div>
+    <div class="cat"><div class="ico">🥟</div>Грузинская</div>
+    <div class="cat"><div class="ico">🍝</div>Европа</div>
   </div>
 
-  <div class="banner">СКИДКА 15% НА ПЕРВЫЙ ЗАКАЗ ОТ 50 ₾</div>
-
-  <div class="icon-grid">
-    <div class="icon-item"><div class="icon-circle">🍔</div>Фастфуд</div>
-    <div class="icon-item"><div class="icon-circle">🍲</div>Местная</div>
-    <div class="icon-item"><div class="icon-circle">🥟</div>Грузинская</div>
-    <div class="icon-item"><div class="icon-circle">🍝</div>Европа</div>
-  </div>
-
-  <div class="restaurant" onclick="go('restaurant')">
-    <div class="restaurant-img"></div>
-    <button class="fav">♥</button>
-    <div class="restaurant-info">
+  <div class="card" onclick="go('restaurants')">
+    <div class="card-img"></div>
+    <div class="card-body">
       <b>SUNSET RESTAURANT</b>
       <span>25–30 мин · ★4.7</span>
     </div>
   </div>
 </section>
 
-<!-- RESTAURANT -->
-<section class="screen" id="restaurant">
-  <div class="restaurant-img" style="height:180px;border-radius:22px"></div>
-  <h2 style="margin:14px 0">BBQ GARDEN</h2>
-
-  <div class="card cart-item">
-    <div>
-      <b>Куриный шашлык</b><br>
-      <small>12.00 GEL · 200г</small>
-    </div>
-    <div class="counter">
-      <button>-</button><span>2</span><button>+</button>
+<!-- RESTAURANTS -->
+<section class="screen" id="restaurants">
+  <div class="card" onclick="go('cart')">
+    <div class="card-img"></div>
+    <div class="card-body">
+      <b>BBQ GARDEN</b>
+      <span>25–30 мин · ★4.5</span>
     </div>
   </div>
-
-  <div class="card cart-item">
-    <div>
-      <b>Овощи на гриле</b><br>
-      <small>8.00 GEL · 250г</small>
-    </div>
-    <div class="counter">
-      <button>-</button><span>1</span><button>+</button>
-    </div>
-  </div>
-
-  <h2 style="margin:20px 0 12px">Что-то еще?</h2>
-
-  <div class="icon-grid">
-    <div class="icon-item"><div class="icon-circle">➕</div>Ассорти сыров<br><small>8 GEL</small></div>
-    <div class="icon-item"><div class="icon-circle">➕</div>Соленья<br><small>8 GEL</small></div>
-    <div class="icon-item"><div class="icon-circle">➕</div>Картофель фри<br><small>6 GEL</small></div>
-    <div class="icon-item"><div class="icon-circle">➕</div>Салат<br><small>7 GEL</small></div>
-  </div>
-
-  <div class="primary" style="margin-top:20px">Далее</div>
 </section>
 
 <!-- FAVORITES -->
 <section class="screen" id="favorites">
-  <div style="text-align:center;margin-top:80px;color:var(--muted)">
-    <div style="font-size:64px;margin-bottom:16px">🛍</div>
-    Похоже, тут ничего нет…<br>
-    Выбирайте и добавляйте в избранное
+  <div class="empty">
+    Похоже, тут ничего нет.<br>
+    Добавляйте рестораны в избранное
+  </div>
+</section>
+
+<!-- CART -->
+<section class="screen" id="cart">
+  <div class="cart-item">
+    <span>Куриный шашлык</span>
+    <div class="counter">
+      <button>-</button><span>1</span><button>+</button>
+    </div>
+  </div>
+  <button class="primary">Далее</button>
+</section>
+
+<!-- PROFILE -->
+<section class="screen" id="profile">
+  <div class="card-body">
+    <b>affiliate sxclipse</b><br>
+    <span>ID 9344544</span>
   </div>
 </section>
 
@@ -155,30 +283,25 @@ main{flex:1;padding-bottom:90px}
   <button class="active" onclick="go('home',this)">🏠</button>
   <button onclick="go('favorites',this)">♥</button>
   <button onclick="go('cart',this)">🛒</button>
-  <button>👤</button>
+  <button onclick="go('profile',this)">👤</button>
 </nav>
 
 </div>
 
 <script>
-let stack=['home'];
 function go(id,el){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+
   document.getElementById('title').innerText =
     id==='home'?'Главная':
-    id==='restaurant'?'Ресторан':
-    id==='favorites'?'Избранное':'Корзина';
-  stack.push(id);
+    id==='restaurants'?'Рестораны':
+    id==='favorites'?'Избранное':
+    id==='cart'?'Корзина':'Профиль';
+
   if(el){
     document.querySelectorAll('.tabbar button').forEach(b=>b.classList.remove('active'));
     el.classList.add('active');
-  }
-}
-function back(){
-  if(stack.length>1){
-    stack.pop();
-    go(stack[stack.length-1]);
   }
 }
 </script>
