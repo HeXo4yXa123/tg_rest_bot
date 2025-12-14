@@ -2,16 +2,16 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Food Mini App</title>
+<title>Mini App</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 :root{
-  --bg:#0A0A09;
-  --card:#191917;
+  --bg-main:#0A0A09;
+  --bg-surface:#191917;
   --accent:#21EA7C;
   --text:#fff;
-  --muted:#8a8a8a;
+  --muted:#7a7a7a;
 }
 
 *{box-sizing:border-box}
@@ -19,21 +19,28 @@
 body{
   margin:0;
   padding:16px;
-  padding-bottom:120px;
-  background:var(--bg);
-  font-family:system-ui;
+  padding-bottom:110px;
+  background:var(--bg-main);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   color:var(--text);
 }
 
-h1{margin:12px 0}
+/* TYPO */
+h1{
+  font-size:26px;
+  margin:8px 0 16px;
+}
+h2{margin:0;font-size:18px}
 
+/* CARD */
 .card{
-  background:var(--card);
+  background:var(--bg-surface);
   border-radius:18px;
   padding:16px;
   margin-bottom:12px;
 }
 
+/* BUTTON */
 button{
   width:100%;
   padding:14px;
@@ -44,22 +51,79 @@ button{
   color:#000;
 }
 
-.secondary{
-  background:#2a2a2a;
-  color:#fff;
-  margin-top:8px;
+/* EMPTY */
+.empty{
+  text-align:center;
+  margin-top:40px;
+}
+.empty-icon{
+  width:120px;
+  height:120px;
+  margin:0 auto 16px;
+  border-radius:28px;
+  background:#1f1f1c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.muted{color:var(--muted)}
+/* PROFILE */
+.profile-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
+.profile-left{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#c77dff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+.arrow{color:var(--accent);font-size:20px}
+
+/* LIST */
+.list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.list li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 0;
+  border-bottom:1px solid #2a2a2a;
+}
+.list li:last-child{border-bottom:none}
+
+.list-left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.icon{color:var(--accent)}
+
+/* BOTTOM NAV */
 .bottom-nav{
   position:fixed;
   bottom:12px;
   left:12px;
   right:12px;
-  background:var(--card);
+  background:var(--bg-surface);
   border-radius:26px;
-  padding:10px;
+  padding:10px 6px;
   display:flex;
 }
 
@@ -69,7 +133,6 @@ button{
   font-size:11px;
   color:var(--muted);
 }
-
 .nav-item.active{color:var(--accent)}
 </style>
 </head>
@@ -78,14 +141,15 @@ button{
 
 <div id="content"></div>
 
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <div class="nav-item active" data-tab="home">🏠<br><span data-t="home">Главная</span></div>
-  <div class="nav-item" data-tab="cart">🛒<br><span data-t="cart">Корзина</span></div>
-  <div class="nav-item" data-tab="profile">👤<br><span data-t="profile">Профиль</span></div>
+  <div class="nav-item active" data-tab="home">Главная</div>
+  <div class="nav-item" data-tab="cart">Корзина</div>
+  <div class="nav-item" data-tab="profile">Профиль</div>
 </div>
 
 <script>
-const tg = window.Telegram.WebApp;
+const tg=window.Telegram.WebApp;
 tg.ready();
 
 /* SUPABASE */
@@ -95,28 +159,28 @@ const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 /* STATE */
 let role=localStorage.getItem("role")||"client";
 let lang=localStorage.getItem("lang")||"ru";
-const tgUser=tg.initDataUnsafe?.user;
+const user=tg.initDataUnsafe?.user;
+const content=document.getElementById("content");
 
-/* TRANSLATIONS */
-const t={
+/* TEXT */
+const txt={
   ru:{
     home:"Главная",
-    cart:"Корзина",
-    profile:"Профиль",
+    cart:"Корзина пуста",
     order:"Сделать заказ",
-    empty:"Корзина пуста",
-    language:"Язык"
+    language:"Язык",
+    empty:"Пока ничего нет"
   },
   en:{
     home:"Home",
-    cart:"Cart",
-    profile:"Profile",
+    cart:"Cart is empty",
     order:"Make order",
-    empty:"Cart is empty",
-    language:"Language"
+    language:"Language",
+    empty:"Nothing here yet"
   }
 };
 
+/* RESTAURANTS */
 const restaurants=[
   "BBQ Garden",
   "Cafe LaiLa",
@@ -125,13 +189,18 @@ const restaurants=[
   "Sunset Restaurant"
 ];
 
-const content=document.getElementById("content");
-const nav=document.querySelectorAll(".nav-item");
+/* NAV */
+document.querySelectorAll(".nav-item").forEach(i=>{
+  i.onclick=()=>{
+    document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+    i.classList.add("active");
+    render(i.dataset.tab);
+  };
+});
 
-/* INIT USER */
-async function initUser(){
-  if(!tgUser) return;
-  await fetch(`${SUPABASE_URL}/rest/v1/users`,{
+/* USER INIT */
+if(user){
+  fetch(`${SUPABASE_URL}/rest/v1/users`,{
     method:"POST",
     headers:{
       apikey:SUPABASE_KEY,
@@ -140,71 +209,82 @@ async function initUser(){
       Prefer:"resolution=ignore-duplicates"
     },
     body:JSON.stringify({
-      telegram_id:tgUser.id,
+      telegram_id:user.id,
       role,
       language:lang
     })
   });
 }
 
-/* NAV */
-nav.forEach(i=>{
-  i.onclick=()=>{
-    nav.forEach(n=>n.classList.remove("active"));
-    i.classList.add("active");
-    render(i.dataset.tab);
-  };
-});
-
-function translate(){
-  document.querySelectorAll("[data-t]").forEach(el=>{
-    el.innerText=t[lang][el.dataset.t];
-  });
-}
-
+/* RENDER */
 function render(tab){
-  translate();
-
   if(tab==="home"){
-    content.innerHTML=`<h1>${t[lang].home}</h1>`+
+    content.innerHTML=`<h1>${txt[lang].home}</h1>`+
       restaurants.map(r=>`
         <div class="card">
-          <b>${r}</b>
-          <button class="secondary">Open</button>
-        </div>
-      `).join("");
+          <h2>${r}</h2>
+          <p class="muted">${txt[lang].empty}</p>
+        </div>`).join("");
   }
 
   if(tab==="cart"){
     content.innerHTML=`
-      <div class="card">
-        <p>${t[lang].empty}</p>
-        <button onclick="createOrder()">${t[lang].order}</button>
+      <div class="empty">
+        <div class="empty-icon"></div>
+        <p>${txt[lang].cart}</p>
+        <button onclick="createOrder()">${txt[lang].order}</button>
       </div>`;
   }
 
   if(tab==="profile"){
     content.innerHTML=`
       <div class="card">
-        <b>${tgUser?.first_name||"User"}</b><br>
-        <span class="muted">ID ${tgUser?.id}</span>
+        <div class="profile-head">
+          <div class="profile-left">
+            <div class="avatar">${user?.first_name?.[0]||"U"}</div>
+            <div>
+              <b>${user?.first_name||"User"}</b><br>
+              <span class="muted">ID ${user?.id||""}</span>
+            </div>
+          </div>
+          <span class="arrow" onclick="toggleRole()">›</span>
+        </div>
+        <div id="roles" style="display:none;margin-top:12px">
+          <button onclick="setRole('client')">Client</button>
+          <button onclick="setRole('manager')">Manager</button>
+          <button onclick="setRole('courier')">Courier</button>
+        </div>
       </div>
 
       <div class="card">
-        <p>${t[lang].language}</p>
-        <button class="secondary" onclick="setLang('ru')">Русский</button>
-        <button class="secondary" onclick="setLang('en')">English</button>
+        <ul class="list">
+          <li>
+            <div class="list-left"><span class="icon">🌐</span>${txt[lang].language}</div>
+            <span class="arrow" onclick="toggleLang()">›</span>
+          </li>
+        </ul>
       </div>`;
   }
 }
 
-function setLang(l){
-  lang=l;
-  localStorage.setItem("lang",l);
+/* ACTIONS */
+function setRole(r){
+  role=r;
+  localStorage.setItem("role",r);
   render("profile");
 }
 
-/* ORDER */
+function toggleRole(){
+  const r=document.getElementById("roles");
+  r.style.display=r.style.display==="block"?"none":"block";
+}
+
+function toggleLang(){
+  lang=lang==="ru"?"en":"ru";
+  localStorage.setItem("lang",lang);
+  render("profile");
+}
+
 async function createOrder(){
   await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
     method:"POST",
@@ -215,14 +295,13 @@ async function createOrder(){
     },
     body:JSON.stringify({
       status:"new",
-      telegram_id:tgUser.id
+      telegram_id:user.id
     })
   });
-  alert("Order created");
+  alert("OK");
 }
 
 /* INIT */
-initUser();
 render("home");
 </script>
 
