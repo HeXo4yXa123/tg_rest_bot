@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Mini App</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 :root{
   --bg:#0A0A09;
-  --card:#191917;
+  --card:#1A1A18;
   --accent:#21EA7C;
-  --text:#FFFFFF;
+  --text:#fff;
   --muted:#8A8A8A;
-  --divider:#2A2A2A;
 }
 
 *{box-sizing:border-box}
@@ -20,102 +19,120 @@
 body{
   margin:0;
   padding:16px;
-  padding-bottom:110px;
+  padding-bottom:96px;
   background:var(--bg);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
   color:var(--text);
 }
 
-h1{font-size:24px;margin:12px 0 16px}
-.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px}
-.center{text-align:center}
-.muted{color:var(--muted)}
+/* ---------- CARDS ---------- */
+.card{
+  background:linear-gradient(180deg,#1C1C1A,#141412);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+/* ---------- PROFILE HEADER ---------- */
+.profile-header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#C77DFF;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+/* ---------- LIST ---------- */
+.list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.list li{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid #2A2A2A;
+}
+
+.list li:last-child{border-bottom:none}
+
+.item{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.icon{
+  width:22px;
+  height:22px;
+  stroke:var(--accent);
+}
+
+/* ---------- EMPTY CART ---------- */
+.cart-empty{
+  height:70vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.cart-icon{
+  width:140px;
+  margin-bottom:24px;
+}
 
 button{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:14px;
+  border-radius:16px;
   background:var(--accent);
   color:#000;
   font-weight:600;
+  margin-top:16px;
 }
 
-/* PROFILE */
-.profile-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.profile-left{
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-.avatar{
-  width:48px;height:48px;border-radius:50%;
-  background:#C77DFF;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;
-}
-.arrow{color:var(--accent);font-size:22px;cursor:pointer}
-.role-select{display:none;margin-top:12px}
-
-/* LIST */
-.list{list-style:none;padding:0;margin:0}
-.list li{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:14px 0;
-  border-bottom:1px solid var(--divider);
-}
-.list li:last-child{border-bottom:none}
-.list svg{
-  width:22px;
-  height:22px;
-  stroke:var(--accent);
-  fill:none;
-  stroke-width:1.6;
-}
-.list .right{
-  margin-left:auto;
-  color:var(--accent);
-}
-
-/* BOTTOM NAV */
+/* ---------- BOTTOM NAV ---------- */
 .bottom-nav{
   position:fixed;
-  bottom:0;
   left:0;
   right:0;
-  height:86px;
-  background:var(--card);
+  bottom:0;
+  background:#1A1A18;
   border-radius:18px 18px 0 0;
+  padding:10px 0;
   display:flex;
 }
 
 .nav-item{
   flex:1;
   text-align:center;
-  font-size:13px;
+  font-size:12px;
   color:var(--muted);
-  padding-top:10px;
-  cursor:pointer;
 }
 
 .nav-item.active{color:var(--accent)}
 
 .nav-item svg{
-  width:28px;
-  height:28px;
-  margin:0 auto 6px;
+  width:26px;
+  height:26px;
   display:block;
+  margin:0 auto 4px;
   stroke:currentColor;
-  fill:none;
-  stroke-width:1.6;
-  stroke-linecap:round;
-  stroke-linejoin:round;
 }
 </style>
 </head>
@@ -125,131 +142,106 @@ button{
 <div id="content"></div>
 
 <div class="bottom-nav">
-  <div class="nav-item active" data-tab="home">
-    <svg viewBox="0 0 24 24">
-      <path d="M4 11L12 5l8 6"/>
-      <path d="M6.5 10.5V20h11V10.5"/>
-      <path d="M10 20v-5h4v5"/>
-    </svg>
-    Главная
-  </div>
-
-  <div class="nav-item" data-tab="fav">
-    <svg viewBox="0 0 24 24">
-      <path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9z"/>
-    </svg>
-    Избранное
-  </div>
-
-  <div class="nav-item" data-tab="cart">
-    <svg viewBox="0 0 24 24">
-      <path d="M4 6h2l2.2 10h9.6l2-7H7"/>
-      <circle cx="10" cy="20" r="1.2"/>
-      <circle cx="17" cy="20" r="1.2"/>
-    </svg>
-    Корзина
-  </div>
-
-  <div class="nav-item" data-tab="profile">
-    <svg viewBox="0 0 24 24">
-      <circle cx="12" cy="7" r="3.5"/>
-      <path d="M4.5 20c1.6-3.6 5.1-5 7.5-5s5.9 1.4 7.5 5"/>
-    </svg>
-    Профиль
-  </div>
+  <div class="nav-item" data-tab="home">🏠<br>Главная</div>
+  <div class="nav-item" data-tab="fav">♡<br>Избранное</div>
+  <div class="nav-item active" data-tab="cart">🛍<br>Корзина</div>
+  <div class="nav-item" data-tab="profile">👤<br>Профиль</div>
 </div>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.ready();
 
-const content = document.getElementById("content");
-const navItems = document.querySelectorAll(".nav-item");
-const user = tg.initDataUnsafe?.user;
+const SUPABASE_URL = "https://urpxgkdzvzvxvykhusxo.supabase.co";
+const SUPABASE_KEY = "PASTE_YOUR_KEY";
 
-/* NAVIGATION */
-navItems.forEach(item=>{
-  item.onclick=()=>{
-    navItems.forEach(n=>n.classList.remove("active"));
-    item.classList.add("active");
-    render(item.dataset.tab);
+const content = document.getElementById("content");
+const nav = document.querySelectorAll(".nav-item");
+const user = tg.initDataUnsafe.user || {id:0,first_name:"User"};
+
+nav.forEach(n=>{
+  n.onclick=()=>{
+    nav.forEach(x=>x.classList.remove("active"));
+    n.classList.add("active");
+    render(n.dataset.tab);
   };
 });
 
-/* RENDER */
 function render(tab){
-
-  if(tab==="home"){
-    content.innerHTML=`
-      <h1>Главная</h1>
-      <div class="card center muted">Пока ничего нет</div>
-    `;
-  }
-
-  if(tab==="fav"){
-    content.innerHTML=`
-      <h1>Избранное</h1>
-      <div class="card center muted">Пока пусто</div>
-    `;
-  }
-
   if(tab==="cart"){
     content.innerHTML=`
-      <h1>Корзина</h1>
-      <div class="card center muted">Корзина пуста</div>
-      <button>Сделать заказ</button>
+      <div class="cart-empty">
+        <svg class="cart-icon" viewBox="0 0 200 200">
+          <rect x="40" y="60" width="120" height="100" rx="12" fill="#E8FFF1"/>
+          <circle cx="80" cy="100" r="8" fill="#21EA7C"/>
+          <circle cx="120" cy="100" r="8" fill="#21EA7C"/>
+        </svg>
+        <h3>Похоже, тут ничего нет..</h3>
+        <p class="muted">Пока что корзина пуста</p>
+        <button onclick="createOrder()">Сделать заказ</button>
+      </div>
     `;
   }
 
   if(tab==="profile"){
     content.innerHTML=`
-      <div class="card">
-        <div class="profile-top">
-          <div class="profile-left">
-            <div class="avatar">${user?.first_name?.[0]||"U"}</div>
-            <div>
-              <b>${user?.first_name||"User"}</b><br>
-              <span class="muted">ID ${user?.id||""}</span>
-            </div>
-          </div>
-          <div class="arrow" onclick="toggleRole()">⌄</div>
-        </div>
-
-        <div class="role-select" id="roles">
-          <button onclick="setRole('client')">Клиент</button>
-          <button onclick="setRole('manager')">Менеджер</button>
-          <button onclick="setRole('courier')">Курьер</button>
+      <div class="card profile-header">
+        <div class="avatar">${user.first_name[0]||"A"}</div>
+        <div>
+          <b>${user.first_name}</b><br>
+          <span class="muted">ID ${user.id}</span>
         </div>
       </div>
 
       <div class="card">
         <ul class="list">
-          <li>
-            <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9z"/></svg>
-            Избранное <span class="right">›</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/></svg>
-            Мои адреса <span class="right">›</span>
-          </li>
+          <li><div class="item"><span class="icon">♡</span>Избранное</div><span style="color:var(--accent)">›</span></li>
+          <li><div class="item"><span class="icon">📍</span>Мои адреса</div><span style="color:var(--accent)">›</span></li>
+          <li><div class="item"><span class="icon">🧾</span>История заказов</div><span style="color:var(--accent)">›</span></li>
+          <li><div class="item"><span class="icon">💳</span>Способы оплаты</div><span style="color:var(--accent)">›</span></li>
         </ul>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li><div class="item">💬 Поддержка</div><span style="color:var(--accent)">›</span></li>
+          <li><div class="item">👥 Пригласить друга</div><span style="color:var(--accent)">›</span></li>
+          <li><div class="item">🤝 Стать партнёром</div><span style="color:var(--accent)">›</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li><div class="item">ℹ️ О сервисе</div><span style="color:var(--accent)">›</span></li>
+          <li><div class="item">🌐 Язык</div><span class="muted">Русский</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        ➕ Добавить на главный экран
+        <p class="muted">Раздел пока пустует</p>
       </div>
     `;
   }
 }
 
-/* ROLE */
-function toggleRole(){
-  const r=document.getElementById("roles");
-  r.style.display=r.style.display==="block"?"none":"block";
-}
-function setRole(r){
-  localStorage.setItem("role",r);
-  render("profile");
+async function createOrder(){
+  await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
+    method:"POST",
+    headers:{
+      apikey:SUPABASE_KEY,
+      Authorization:`Bearer ${SUPABASE_KEY}`,
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      telegram_id:user.id,
+      status:"new"
+    })
+  });
+  alert("Заказ создан");
 }
 
-/* INIT */
-render("home");
+render("cart");
 </script>
 
 </body>
