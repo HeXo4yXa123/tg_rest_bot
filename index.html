@@ -1,293 +1,257 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Mini App</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>MestiGo</title>
+
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#0A0A09;
-  --card:#1A1A18;
-  --accent:#21EA7C;
-  --text:#fff;
-  --muted:#8A8A8A;
+:root {
+  --green: #21EA7C;
+  --bg: #0F0F0F;
+  --card: #1A1A1A;
+  --muted: #8B8B8B;
+  --white: #FFFFFF;
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  padding:16px;
-  padding-bottom:120px;
-  background:var(--bg);
-  font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-  color:var(--text);
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ---------- CARDS ---------- */
-.card{
-  background:linear-gradient(180deg,#1C1C1A,#141412);
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:12px;
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--white);
 }
 
-/* ---------- PROFILE HEADER ---------- */
-.profile-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+/* APP */
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 80px;
 }
 
-.profile-left{
-  display:flex;
-  gap:12px;
-  align-items:center;
+/* SCREENS */
+.screen {
+  display: none;
+  animation: fade .25s ease;
 }
 
-.avatar{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#C77DFF;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
+.screen.active {
+  display: block;
 }
 
-.role-toggle svg{
-  width:24px;
-  height:24px;
-  stroke:var(--accent);
+@keyframes fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- ROLE MENU ---------- */
-.role-menu{
-  margin-top:12px;
-  display:none;
+/* HEADER */
+.header {
+  padding: 16px;
+  font-size: 26px;
+  font-weight: 700;
 }
 
-.role-btn{
-  padding:12px;
-  border-radius:14px;
-  background:#20201E;
-  margin-bottom:8px;
-  text-align:center;
+/* SEARCH */
+.search {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 16px;
 }
 
-.role-btn.active{
-  background:var(--accent);
-  color:#000;
+.search input {
+  flex: 1;
+  background: #1E1E1E;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  color: white;
 }
 
-/* ---------- LIST ---------- */
-.list{
-  list-style:none;
-  padding:0;
-  margin:0;
+.search button {
+  background: var(--green);
+  border: none;
+  border-radius: 14px;
+  padding: 0 18px;
+  font-weight: 600;
 }
 
-.list li{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 0;
-  border-bottom:1px solid #2A2A2A;
+/* CARD */
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  margin: 0 16px 16px;
+  overflow: hidden;
 }
 
-.list li:last-child{border-bottom:none}
-
-.item{
-  display:flex;
-  gap:12px;
-  align-items:center;
+.card img {
+  width: 100%;
+  display: block;
 }
 
-.item svg{
-  width:22px;
-  height:22px;
-  stroke:var(--accent);
+.card-body {
+  padding: 14px;
 }
 
-.arrow{
-  width:18px;
-  height:18px;
-  stroke:var(--accent);
+.card-title {
+  font-weight: 600;
 }
 
-/* ---------- CART EMPTY ---------- */
-.cart-empty{
-  height:70vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.card-meta {
+  font-size: 13px;
+  color: var(--green);
+  margin-top: 6px;
 }
 
-.cart-empty svg{
-  width:140px;
-  margin-bottom:24px;
+/* EMPTY */
+.empty {
+  text-align: center;
+  padding: 80px 20px;
 }
 
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  background:var(--accent);
-  color:#000;
-  font-weight:600;
-  margin-top:16px;
+.empty p {
+  color: var(--muted);
 }
 
-/* ---------- BOTTOM NAV ---------- */
-.bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  background:#1A1A18;
-  border-radius:18px 18px 0 0;
-  padding:12px 0 8px;
-  display:flex;
+/* BUTTON */
+.btn {
+  margin-top: 20px;
+  background: var(--green);
+  color: black;
+  padding: 14px 20px;
+  border-radius: 16px;
+  font-weight: 600;
+  display: inline-block;
 }
 
-.nav-item{
-  flex:1;
-  text-align:center;
-  font-size:14px;
-  color:var(--muted);
+/* TAB BAR */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #141414;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 18px;
 }
 
-.nav-item.active{color:var(--accent)}
+.tab {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
 
-.nav-item svg{
-  width:32px;
-  height:32px;
-  display:block;
-  margin:0 auto 6px;
-  stroke:currentColor;
+.tab.active {
+  color: var(--green);
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<div id="content"></div>
+<!-- HOME -->
+<div class="screen active" id="home">
+  <div class="header">Местия</div>
 
-<div class="bottom-nav">
-  <div class="nav-item active" data-tab="home">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V21h-6v-7H9v7H3z"/></svg>
-    Главная
+  <div class="search">
+    <input placeholder="Искать в mestigo">
+    <button>Найти</button>
   </div>
-  <div class="nav-item" data-tab="fav">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10z"/></svg>
-    Избранное
-  </div>
-  <div class="nav-item" data-tab="cart">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
-    Корзина
-  </div>
-  <div class="nav-item" data-tab="profile">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>
-    Профиль
+
+  <div class="card" onclick="go('restaurants')">
+    <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe">
+    <div class="card-body">
+      <div class="card-title">Рестораны</div>
+      <div class="card-meta">25–30 мин</div>
+    </div>
   </div>
 </div>
 
+<!-- RESTAURANTS -->
+<div class="screen" id="restaurants">
+  <div class="header">Рестораны</div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1544025162-d76694265947">
+    <div class="card-body">
+      <div class="card-title">SUNSET RESTAURANT</div>
+      <div class="card-meta">⭐ 4.7 · 25–30 мин</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
+    <div class="card-body">
+      <div class="card-title">BBQ GARDEN</div>
+      <div class="card-meta">⭐ 4.5 · 25–30 мин</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAVORITES -->
+<div class="screen" id="favorites">
+  <div class="header">Избранное</div>
+
+  <div class="empty">
+    <p>Нажимайте на сердечки,<br>чтобы сохранять любимые места</p>
+    <div class="btn" onclick="go('restaurants')">Перейти к ресторанам</div>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="screen" id="cart">
+  <div class="header">Корзина</div>
+
+  <div class="empty">
+    <p>Похоже, тут ничего нет…</p>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="screen" id="profile">
+  <div class="header">Профиль</div>
+
+  <div class="card">
+    <div class="card-body">Избранное</div>
+  </div>
+  <div class="card">
+    <div class="card-body">История заказов</div>
+  </div>
+  <div class="card">
+    <div class="card-body">Поддержка</div>
+  </div>
+</div>
+
+</div>
+
+<!-- TAB BAR -->
+<div class="tabbar">
+  <div class="tab active" onclick="tab('home')">Главная</div>
+  <div class="tab" onclick="tab('favorites')">Избранное</div>
+  <div class="tab" onclick="tab('cart')">Корзина</div>
+  <div class="tab" onclick="tab('profile')">Профиль</div>
+</div>
+
 <script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-
-const SUPABASE_URL="https://urpxgkdzvzvxvykhusxo.supabase.co";
-const SUPABASE_KEY="PASTE_KEY";
-
-let role="client";
-const content=document.getElementById("content");
-const nav=document.querySelectorAll(".nav-item");
-const user=tg.initDataUnsafe.user || {id:0,first_name:"User"};
-
-nav.forEach(n=>{
-  n.onclick=()=>{
-    nav.forEach(x=>x.classList.remove("active"));
-    n.classList.add("active");
-    render(n.dataset.tab);
-  };
-});
-
-function render(tab){
-  if(tab==="cart"){
-    content.innerHTML=`
-      <div class="cart-empty">
-        <svg viewBox="0 0 200 200">
-          <rect x="40" y="60" width="120" height="100" rx="16" fill="#E8FFF1"/>
-          <circle cx="80" cy="100" r="8" fill="#21EA7C"/>
-          <circle cx="120" cy="100" r="8" fill="#21EA7C"/>
-        </svg>
-        <h3>Похоже, тут ничего нет..</h3>
-        <p class="muted">Пока что корзина пуста</p>
-        <button onclick="createOrder()">Сделать заказ</button>
-      </div>`;
-  }
-
-  if(tab==="profile"){
-    content.innerHTML=`
-      <div class="card">
-        <div class="profile-header">
-          <div class="profile-left">
-            <div class="avatar">${user.first_name[0]}</div>
-            <div>
-              <b>${user.first_name}</b><br>
-              <span class="muted">ID ${user.id}</span>
-            </div>
-          </div>
-          <div class="role-toggle" onclick="toggleRoles()">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-        </div>
-
-        <div class="role-menu" id="roles">
-          <div class="role-btn ${role==="client"?"active":""}" onclick="setRole('client')">Клиент</div>
-          <div class="role-btn ${role==="manager"?"active":""}" onclick="setRole('manager')">Менеджер</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <ul class="list">
-          <li><div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2"/></svg>Избранное</div><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></li>
-          <li><div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/></svg>Мои адреса</div><svg class="arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></li>
-          <li><div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/></svg>История заказов</div><svg class="arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></li>
-        </ul>
-      </div>`;
-  }
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-function toggleRoles(){
-  const r=document.getElementById("roles");
-  r.style.display=r.style.display==="block"?"none":"block";
+function tab(id) {
+  go(id);
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
 }
-
-function setRole(r){
-  role=r;
-  render("profile");
-}
-
-async function createOrder(){
-  await fetch(`${SUPABASE_URL}/rest/v1/orders`,{
-    method:"POST",
-    headers:{
-      apikey:SUPABASE_KEY,
-      Authorization:`Bearer ${SUPABASE_KEY}`,
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({telegram_id:user.id,status:"new"})
-  });
-  alert("Заказ создан");
-}
-
-render("cart");
 </script>
 
 </body>
