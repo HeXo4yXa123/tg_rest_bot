@@ -10,8 +10,9 @@
   --bg:#0A0A09;
   --card:#191917;
   --accent:#21EA7C;
-  --text:#fff;
-  --muted:#8a8a8a;
+  --text:#FFFFFF;
+  --muted:#8A8A8A;
+  --divider:#2A2A2A;
 }
 
 *{box-sizing:border-box}
@@ -19,13 +20,17 @@
 body{
   margin:0;
   padding:16px;
-  padding-bottom:110px;
+  padding-bottom:96px;
   background:var(--bg);
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   color:var(--text);
 }
 
-h1{font-size:26px;margin:12px 0 16px}
+/* ---------- COMMON ---------- */
+h1{
+  font-size:24px;
+  margin:12px 0 16px;
+}
 
 .card{
   background:var(--card);
@@ -34,34 +39,34 @@ h1{font-size:26px;margin:12px 0 16px}
   margin-bottom:12px;
 }
 
-.center{text-align:center}
 .muted{color:var(--muted)}
+.center{text-align:center}
 
 button{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:16px;
-  font-weight:600;
+  border-radius:14px;
   background:var(--accent);
   color:#000;
+  font-weight:600;
 }
 
-/* EMPTY */
+/* ---------- EMPTY STATES ---------- */
 .empty-icon{
-  width:120px;
-  height:120px;
-  border-radius:24px;
-  background:linear-gradient(145deg,#1f1f1c,#141412);
+  width:128px;
+  height:128px;
   margin:32px auto 16px;
+  border-radius:24px;
+  background:#1E1E1B;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:48px;
+  font-size:52px;
 }
 
-/* PROFILE */
-.profile-header{
+/* ---------- PROFILE ---------- */
+.profile-top{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -69,54 +74,75 @@ button{
 
 .profile-left{
   display:flex;
-  gap:12px;
   align-items:center;
+  gap:12px;
 }
 
 .avatar{
   width:48px;
   height:48px;
   border-radius:50%;
-  background:#c77dff;
+  background:#C77DFF;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:700;
 }
 
-.role-toggle{
+.arrow{
   color:var(--accent);
   font-size:20px;
   cursor:pointer;
 }
 
-.role-select{display:none;margin-top:12px}
+.role-select{
+  display:none;
+  margin-top:12px;
+}
 
-.list{list-style:none;padding:0;margin:0}
+.role-select button{
+  margin-top:8px;
+}
+
+/* ---------- LIST ---------- */
+.list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
 
 .list li{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:14px 0;
-  border-bottom:1px solid #2a2a2a;
+  border-bottom:1px solid var(--divider);
 }
 
 .list li:last-child{border-bottom:none}
 
-.arrow{color:var(--accent)}
+.list-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-/* BOTTOM NAV */
+.icon{
+  width:20px;
+  height:20px;
+  stroke:var(--accent);
+}
+
+/* ---------- BOTTOM NAV ---------- */
 .bottom-nav{
   position:fixed;
-  bottom:12px;
-  left:12px;
-  right:12px;
+  bottom:0;
+  left:0;
+  right:0;
+  height:72px;
   background:var(--card);
-  border-radius:24px;
-  padding:10px 6px;
+  border-radius:18px 18px 0 0;
   display:flex;
-  justify-content:space-around;
 }
 
 .nav-item{
@@ -124,6 +150,7 @@ button{
   text-align:center;
   font-size:11px;
   color:var(--muted);
+  padding-top:8px;
 }
 
 .nav-item.active{color:var(--accent)}
@@ -144,6 +171,7 @@ button{
 
 <div class="bottom-nav">
   <div class="nav-item active" data-tab="home">🏠<br>Главная</div>
+  <div class="nav-item" data-tab="fav">❤️<br>Избранное</div>
   <div class="nav-item" data-tab="cart">🛒<br>Корзина</div>
   <div class="nav-item" data-tab="profile">👤<br>Профиль</div>
 </div>
@@ -152,14 +180,14 @@ button{
 const tg = window.Telegram.WebApp;
 tg.ready();
 
-const SUPABASE_URL="https://urpxgkdzvzvxvykhusxo.supabase.co";
-const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
+const SUPABASE_URL = "https://urpxgkdzvzvxvykhusxo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHhna2R6dnp2eHZ5a2h1c3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTM1MjgsImV4cCI6MjA4MTIyOTUyOH0.i5qMCpsWx6E6YbxCEUZ8r0L90MHshJoMsOe55JZsAE0";
 
-const content=document.getElementById("content");
-const nav=document.querySelectorAll(".nav-item");
+const content = document.getElementById("content");
+const nav = document.querySelectorAll(".nav-item");
 
 let role = localStorage.getItem("role") || "client";
-const user = tg.initDataUnsafe.user;
+const user = tg.initDataUnsafe?.user;
 
 /* NAV */
 nav.forEach(i=>{
@@ -173,7 +201,21 @@ nav.forEach(i=>{
 /* RENDER */
 function render(tab){
   if(tab==="home"){
-    content.innerHTML=`<h1>Главная</h1><div class="card center muted">Пока ничего нет</div>`;
+    content.innerHTML=`
+      <h1>Главная</h1>
+      <div class="card center muted">Пока ничего нет</div>
+    `;
+  }
+
+  if(tab==="fav"){
+    content.innerHTML=`
+      <h1>Избранное</h1>
+      <div class="empty-icon">♡</div>
+      <div class="center">
+        <p>Здесь будут ваши любимые места</p>
+        <button>Перейти к ресторанам</button>
+      </div>
+    `;
   }
 
   if(tab==="cart"){
@@ -181,6 +223,7 @@ function render(tab){
       <div class="empty-icon">🛍️</div>
       <div class="center">
         <h2>Корзина пуста</h2>
+        <p class="muted">Добавьте блюда из меню</p>
         <button onclick="createOrder()">Сделать заказ</button>
       </div>
     `;
@@ -189,15 +232,15 @@ function render(tab){
   if(tab==="profile"){
     content.innerHTML=`
       <div class="card">
-        <div class="profile-header">
+        <div class="profile-top">
           <div class="profile-left">
-            <div class="avatar">${user.first_name[0]}</div>
+            <div class="avatar">${user?.first_name?.[0]||"U"}</div>
             <div>
-              <b>${user.first_name}</b><br>
-              <span class="muted">ID ${user.id}</span>
+              <b>${user?.first_name||"User"}</b><br>
+              <span class="muted">ID ${user?.id||""}</span>
             </div>
           </div>
-          <div class="role-toggle" onclick="toggleRole()">⌄</div>
+          <div class="arrow" onclick="toggleRole()">⌄</div>
         </div>
 
         <div class="role-select" id="roles">
@@ -205,6 +248,15 @@ function render(tab){
           <button onclick="setRole('manager')">Менеджер</button>
           <button onclick="setRole('courier')">Курьер</button>
         </div>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li><span>Избранное</span><span class="arrow">›</span></li>
+          <li><span>Мои адреса</span><span class="arrow">›</span></li>
+          <li><span>История заказов</span><span class="arrow">›</span></li>
+          <li><span>Способы оплаты</span><span class="arrow">›</span></li>
+        </ul>
       </div>
 
       ${role==="manager" ? `<div id="orders"></div>` : ""}
@@ -219,7 +271,7 @@ function render(tab){
 /* ROLE */
 function toggleRole(){
   const r=document.getElementById("roles");
-  r.style.display=r.style.display==="block"?"none":"block";
+  r.style.display = r.style.display==="block"?"none":"block";
 }
 
 function setRole(r){
@@ -251,14 +303,14 @@ async function loadManager(){
     headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
   });
   const orders=await res.json();
-  document.getElementById("orders").innerHTML=orders.map(o=>`
+  document.getElementById("orders").innerHTML = orders.map(o=>`
     <div class="card">
       <b>Заказ ${o.id}</b>
       <select onchange="updateStatus('${o.id}',this.value)">
-        <option ${o.status==="new"?"selected":""}>new</option>
-        <option ${o.status==="cooking"?"selected":""}>cooking</option>
-        <option ${o.status==="ready"?"selected":""}>ready</option>
-        <option ${o.status==="courier"?"selected":""}>courier</option>
+        <option>new</option>
+        <option>cooking</option>
+        <option>ready</option>
+        <option>courier</option>
       </select>
     </div>
   `).join("");
@@ -282,7 +334,7 @@ async function loadCourier(){
     headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
   });
   const orders=await res.json();
-  document.getElementById("orders").innerHTML=orders.map(o=>`
+  document.getElementById("orders").innerHTML = orders.map(o=>`
     <div class="card">
       Заказ ${o.id}
       <button onclick="completeOrder('${o.id}')">Сдать заказ</button>
