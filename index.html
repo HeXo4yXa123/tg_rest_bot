@@ -101,6 +101,7 @@ button{
   font-size:13px;
   color:var(--muted);
   padding-top:10px;
+  cursor:pointer;
 }
 
 .nav-item.active{color:var(--accent)}
@@ -159,20 +160,47 @@ button{
 </div>
 
 <script>
-const tg = window.Telegram.WebApp; tg.ready();
-const content=document.getElementById("content");
-const nav=document.querySelectorAll(".nav-item");
-const user=tg.initDataUnsafe?.user;
+const tg = window.Telegram.WebApp;
+tg.ready();
 
-nav.forEach(i=>{
-  i.onclick=()=>{
-    nav.forEach(n=>n.classList.remove("active"));
-    i.classList.add("active");
-    render(i.dataset.tab);
-  }
+const content = document.getElementById("content");
+const navItems = document.querySelectorAll(".nav-item");
+const user = tg.initDataUnsafe?.user;
+
+/* NAVIGATION */
+navItems.forEach(item=>{
+  item.onclick=()=>{
+    navItems.forEach(n=>n.classList.remove("active"));
+    item.classList.add("active");
+    render(item.dataset.tab);
+  };
 });
 
+/* RENDER */
 function render(tab){
+
+  if(tab==="home"){
+    content.innerHTML=`
+      <h1>Главная</h1>
+      <div class="card center muted">Пока ничего нет</div>
+    `;
+  }
+
+  if(tab==="fav"){
+    content.innerHTML=`
+      <h1>Избранное</h1>
+      <div class="card center muted">Пока пусто</div>
+    `;
+  }
+
+  if(tab==="cart"){
+    content.innerHTML=`
+      <h1>Корзина</h1>
+      <div class="card center muted">Корзина пуста</div>
+      <button>Сделать заказ</button>
+    `;
+  }
+
   if(tab==="profile"){
     content.innerHTML=`
       <div class="card">
@@ -184,23 +212,44 @@ function render(tab){
               <span class="muted">ID ${user?.id||""}</span>
             </div>
           </div>
-          <div class="arrow">⌄</div>
+          <div class="arrow" onclick="toggleRole()">⌄</div>
+        </div>
+
+        <div class="role-select" id="roles">
+          <button onclick="setRole('client')">Клиент</button>
+          <button onclick="setRole('manager')">Менеджер</button>
+          <button onclick="setRole('courier')">Курьер</button>
         </div>
       </div>
 
       <div class="card">
         <ul class="list">
-          <li><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9z"/></svg>Избранное<span class="right">›</span></li>
-          <li><svg viewBox="0 0 24 24"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/></svg>Мои адреса<span class="right">›</span></li>
-          <li><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/><path d="M9 8h6M9 12h6"/></svg>История заказов<span class="right">›</span></li>
-          <li><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/></svg>Способы оплаты<span class="right">›</span></li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9z"/></svg>
+            Избранное <span class="right">›</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/></svg>
+            Мои адреса <span class="right">›</span>
+          </li>
         </ul>
       </div>
     `;
   }
 }
 
-render("profile");
+/* ROLE */
+function toggleRole(){
+  const r=document.getElementById("roles");
+  r.style.display=r.style.display==="block"?"none":"block";
+}
+function setRole(r){
+  localStorage.setItem("role",r);
+  render("profile");
+}
+
+/* INIT */
+render("home");
 </script>
 
 </body>
