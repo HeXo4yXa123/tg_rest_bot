@@ -52,23 +52,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
-const tg = window.Telegram?.WebApp;
+const tg = window.Telegram && window.Telegram.WebApp;
 
-if (tg && tg.initDataUnsafe?.user) {
-  const user = tg.initDataUnsafe.user;
+if (!tg) {
+  console.log('Not in Telegram WebApp');
+} else {
+  const user = tg.initDataUnsafe?.user;
 
-  const avatarContainer = document.getElementById('profileAvatar');
-  const initials = document.getElementById('profileInitials');
-
-  // ЕСЛИ ЕСТЬ АВАТАР
-  if (user.photo_url) {
-    avatarContainer.innerHTML = `
-      <img src="${user.photo_url}" alt="Avatar">
-    `;
+  if (!user) {
+    console.log('No user data');
   } else {
-    // ЕСЛИ НЕТ АВАТАРА — ИНИЦИАЛЫ
-    const first = user.first_name?.[0] || '';
-    const last = user.last_name?.[0] || '';
-    initials.textContent = (first + last).toUpperCase();
+    const avatarContainer = document.getElementById('profileAvatar');
+
+    if (user.photo_url) {
+      avatarContainer.innerHTML = `
+        <img src="${user.photo_url}" alt="Avatar">
+      `;
+    } else {
+      const initials =
+        (user.first_name?.[0] || '') +
+        (user.last_name?.[0] || '');
+
+      avatarContainer.textContent = initials.toUpperCase();
+    }
   }
 }
