@@ -1,62 +1,122 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title>MestiGo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="style.css" rel="stylesheet">
+  <title>MestiGo</title>
 </head>
+
 <body class="preview-mode">
-    <div class="preview">
-        <div id="miniapp">
-    <section class="screen active" id="home">
+  <div class="preview">
+    <div id="miniapp">
+
+      <!-- ================= HOME ================= -->
+      <section class="screen active" id="home">
+
+        <!-- TOPBAR -->
         <div class="topbar">
-  <div class="topbar-inner">
+          <div class="topbar-inner">
 
-    <!-- ЛЕВАЯ ЧАСТЬ -->
-    <div class="location">
-      <div class="location-text">
-        <span class="city">г. Местия</span>
-        <span class="address">Укажите адрес доставки</span>
-      </div>
-      <span class="arrow">›</span>
-    </div>
+            <div class="location">
+              <div class="location-text">
+                <span class="city">г. Местия</span>
+                <span class="address">Укажите адрес доставки</span>
+              </div>
+              <span class="arrow">
+                <img src="icons/image 188.png" class="arrow">
+              </span>
+            </div>
 
-    <!-- ПРАВАЯ ЧАСТЬ -->
-    <div class="profile-icon" id="profileAvatar">
-  <span id="profileInitials">AS</span>
-</div>
+            <div class="profile-icon" id="profileAvatar">
+              <span id="profileInitials">AS</span>
+            </div>
 
-  </div>
-</div>
+          </div>
         </div>
-    </section>
-    <section class="screen" id="favorites"></section>
-    <section class="screen" id="cart"></section> 
-    <section class="screen" id="profile"></section>  
-        <nav class="tabbar">
-    <button class="tab active" onclick="goTab('home', this)">
-   <img src="icons/general-green.png" data-default="icons/general-gray.png" data-active="icons/general-green.png" class="tabicon">
-    <span class="label">Главная</span>
-    </button>
 
-    <button class="tab" onclick="goTab('favorites', this)">
-  <img src="icons/heart-gray.png" data-default="icons/heart-gray.png" data-active="icons/heart-green.png" class="tabicon">
-    <span class="label">Избранное</span>
-    </button>
+        <!-- SEARCH (ТОЛЬКО НА ГЛАВНОЙ) -->
+        <div class="search-row">
+          <div class="search-field">
+            <span class="search-icon">
+              <img src="icons/Group 1321314496.png" class="search-icon">
+            </span>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Искать в mestigo"
+            >
+          </div>
 
-    <button class="tab" onclick="goTab('cart', this)">
-    <img src="icons/basket-gray.png" class="tabicon">
-    <span class="label">Корзина</span>
-    </button>
+          <button class="search-btn">Найти</button>
+        </div>
+      <div class="home-scroll">
 
-    <button class="tab" onclick="goTab('profile', this)">
-        <img src="icons/profile-gray.png" data-default="icons/profile-gray.png" data-active="icons/profile-green.png" class="tabicon">
-    <span class="label">Профиль</span>
-    </button>
-        </nav>
-    </div>
+  <!-- ВРЕМЕННЫЙ КОНТЕНТ ДЛЯ СКРОЛЛА -->
+  <div style="height:600px;"></div>
+
+  <div class="scroll-end">
+    <p>Вы дошли до конца главной страницы</p>
+    <p>Здесь позже будет футер, инфо или оферта</p>
+  </div>
+
 </div>
-<script src="app.js"></script>
+
+
+      </section>
+
+      <!-- ================= FAVORITES ================= -->
+      <section class="screen" id="favorites"></section>
+
+      <!-- ================= CART ================= -->
+      <section class="screen" id="cart"></section>
+
+      <!-- ================= PROFILE ================= -->
+      <section class="screen" id="profile"></section>
+
+      <!-- ================= TABBAR ================= -->
+      <nav class="tabbar">
+
+        <button class="tab active" onclick="goTab('home', this)">
+          <img
+            src="icons/general-green.png"
+            data-default="icons/general-gray.png"
+            data-active="icons/general-green.png"
+            class="tabicon"
+          >
+          <span class="label">Главная</span>
+        </button>
+
+        <button class="tab" onclick="goTab('favorites', this)">
+          <img
+            src="icons/heart-gray.png"
+            data-default="icons/heart-gray.png"
+            data-active="icons/heart-green.png"
+            class="tabicon"
+          >
+          <span class="label">Избранное</span>
+        </button>
+
+        <button class="tab" onclick="goTab('cart', this)">
+          <img src="icons/basket-gray.png" class="tabicon">
+          <span class="label">Корзина</span>
+        </button>
+
+        <button class="tab" onclick="goTab('profile', this)">
+          <img
+            src="icons/profile-gray.png"
+            data-default="icons/profile-gray.png"
+            data-active="icons/profile-green.png"
+            class="tabicon"
+          >
+          <span class="label">Профиль</span>
+        </button>
+
+      </nav>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
