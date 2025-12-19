@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,29 +8,34 @@
 </head>
 <body class="preview-mode">
     <div class="preview">
-    <div id="miniapp">
-    <nav class="tabbar">
-  <button class="tab active" onclick="goTab('home', this)">
-    <span class="icon">🏠</span>
+        <div id="miniapp">
+    <section class="screen active" id="home"></section>
+    <section class="screen" id="favorites"></section>
+    <section class="screen" id="cart"></section> 
+    <section class="screen" id="profile"></section>  
+        <nav class="tabbar">
+    <button class="tab active" onclick="goTab('home', this)">
+   <img src="icons/image-removebg-preview (9) 1.png" data-default="icons/general-gray.png" data-active="icons/general-green.png" class="tabicon">
     <span class="label">Главная</span>
-  </button>
+    </button>
 
-  <button class="tab" onclick="goTab('favorites', this)">
-    <span class="icon">♥</span>
+    <button class="tab" onclick="goTab('favorites', this)">
+  <img src="icons/heart-gray.png" data-default="icons/heart-gray.png" data-active="icons/heart-green.png" class="tabicon">
     <span class="label">Избранное</span>
-  </button>
+    </button>
 
-  <button class="tab" onclick="goTab('cart', this)">
-    <span class="icon">🛒</span>
+    <button class="tab" onclick="goTab('cart', this)">
+    <img src="icons/basket-gray.png" class="tabicon">
     <span class="label">Корзина</span>
-  </button>
+    </button>
 
-  <button class="tab" onclick="goTab('profile', this)">
-    <span class="icon">👤</span>
+    <button class="tab" onclick="goTab('profile', this)">
+        <img src="icons/profile-gray.png" data-default="icons/profile-gray.png" data-active="icons/profile-green.png" class="tabicon">
     <span class="label">Профиль</span>
-  </button>
-</nav>
+    </button>
+        </nav>
+    </div>
 </div>
-</div>
+<script src="app.js"></script>
 </body>
 </html>
