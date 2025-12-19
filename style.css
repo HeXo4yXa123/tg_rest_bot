@@ -30,7 +30,7 @@ h1{
   left: 0;
   right: 0;
 
-  height: 80px;
+  height: 82px;
   background: #0e110f;
 
   display: flex;
@@ -41,8 +41,8 @@ h1{
   z-index: 100;
 }
 .tabicon{
-  width:35px;
-  height:35px;
+  width:22px;
+  height:22px;
   display: block;          /* 🔥 убирает baseline */
   margin: 0 auto;   
 }
@@ -64,7 +64,7 @@ h1{
 }
 .label{
     color: #8c8c8b;
-    font-size: 16px;
+    font-size: 11px;
 }
 .tab .label{
   color: inherit;       /* 🔥 обязательно */
