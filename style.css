@@ -1,0 +1,42 @@
+body {
+    font-family: Inter;
+    background-color: #191917;
+
+}
+body.preview-mode{
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+body.preview-mode .preview{
+  display:block;
+}
+
+.preview{
+  display:none;
+  width:390px;
+  height:844px;
+  border-radius:32px;
+  overflow:hidden;
+}
+h1{
+    color: rgb(204, 0, 0);
+}
+.tabbar{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 72px;
+  background: #0e110f;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  border-top: 1px solid rgba(255,255,255,.08);
+  z-index: 100;
+}
