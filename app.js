@@ -52,3 +52,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+const tg = window.Telegram?.WebApp;
+
+if (tg && tg.initDataUnsafe?.user) {
+  const user = tg.initDataUnsafe.user;
+
+  const avatarContainer = document.getElementById('profileAvatar');
+  const initials = document.getElementById('profileInitials');
+
+  // ЕСЛИ ЕСТЬ АВАТАР
+  if (user.photo_url) {
+    avatarContainer.innerHTML = `
+      <img src="${user.photo_url}" alt="Avatar">
+    `;
+  } else {
+    // ЕСЛИ НЕТ АВАТАРА — ИНИЦИАЛЫ
+    const first = user.first_name?.[0] || '';
+    const last = user.last_name?.[0] || '';
+    initials.textContent = (first + last).toUpperCase();
+  }
+}
