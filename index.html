@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="style.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MestiGo</title>
+
+  <!-- Inter (тонкий) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="preview-mode">
@@ -13,105 +19,273 @@
 
       <!-- ================= HOME ================= -->
       <section class="screen active" id="home">
+        <div class="page-scroll">
 
-        <!-- TOPBAR -->
-        <div class="topbar">
-          <div class="topbar-inner">
-
-            <div class="location">
-              <div class="location-text">
-                <span class="city">г. Местия</span>
-                <span class="address">Укажите адрес доставки</span>
+          <!-- TOPBAR -->
+          <header class="topbar">
+            <div class="topbar-left">
+              <div class="topline">
+                <span class="mini-muted">г. Местия</span>
+                <span class="mini-muted">›</span>
               </div>
-              <span class="arrow">
-                <img src="icons/image 188.png" class="arrow">
-              </span>
+              <div class="top-sub">Укажите адрес доставки</div>
             </div>
 
             <div class="profile-icon" id="profileAvatar">
               <span id="profileInitials">AS</span>
             </div>
+          </header>
 
-          </div>
-        </div>
-
-        <!-- SEARCH (ТОЛЬКО НА ГЛАВНОЙ) -->
-        <div class="search-row">
-          <div class="search-field">
-            <span class="search-icon">
-              <img src="icons/Group 1321314496.png" class="search-icon">
-            </span>
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Искать в mestigo"
-            >
+          <!-- SEARCH -->
+          <div class="search-row">
+            <div class="search-field glow-soft">
+              <span class="search-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18">
+                  <path d="M10.5 3a7.5 7.5 0 1 1 0 15A7.5 7.5 0 0 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm7.9 12.5 2.2 2.2-1.4 1.4-2.2-2.2 1.4-1.4Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <input id="homeSearchInput" class="search-input" type="text" placeholder="Искать в mestigo" />
+            </div>
+            <button id="homeSearchBtn" class="search-btn">Найти</button>
           </div>
 
-          <button class="search-btn">Найти</button>
+          <!-- BANNER (чуть выше, фон на весь блок, текст справа над кнопками) -->
+          <section class="banner searchable" data-search="скидка 15 первый заказ доставка промокод">
+            <div class="banner-bg placeholder"></div>
+
+            <div class="banner-overlay banner-right">
+              <div class="banner-text">
+                <div class="banner-title">СКИДКА 15%<br>НА ПЕРВЫЙ ЗАКАЗ</div>
+                <div class="banner-sub">ОТ 50 GEL</div>
+              </div>
+
+              <div class="banner-tags">
+                <span class="tag tag-yellow">Промокод по ссылке</span>
+                <span class="tag tag-green">Бесплатная доставка</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- QUICK (рестораны слева, магазины+акции справа) + чуть выше -->
+          <section class="quick-grid">
+            <div class="quick-big searchable" data-search="рестораны">
+              <div class="quick-media placeholder"></div>
+              <div class="quick-label">Рестораны</div>
+            </div>
+
+            <div class="quick-right">
+              <div class="quick-small searchable" data-search="магазины">
+                <div class="quick-media placeholder"></div>
+                <div class="quick-label">Магазины</div>
+              </div>
+
+              <div class="quick-small searchable" data-search="акции скидки">
+                <div class="quick-media placeholder"></div>
+                <div class="quick-label">Акции</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- STORES -->
+          <div class="section-head">
+            <div class="section-title">Магазины</div>
+            <button class="seeall seeall-dark">Все <span>›</span></button>
+          </div>
+
+          <!-- магазины: 3 плитки больше, БЕЗ названий/рейтинга -->
+          <section class="stores-row">
+            <div class="store-item searchable" data-search="spar">
+              <div class="store-tile placeholder"></div>
+              <div class="store-time">15–25 мин</div>
+            </div>
+            <div class="store-item searchable" data-search="magniti">
+              <div class="store-tile placeholder"></div>
+              <div class="store-time">20–30 мин</div>
+            </div>
+            <div class="store-item searchable" data-search="магазин">
+              <div class="store-tile placeholder"></div>
+              <div class="store-time">20–30 мин</div>
+            </div>
+          </section>
+
+          <!-- CATEGORIES -->
+          <div class="section-head">
+            <div class="section-title">Категории блюд</div>
+          </div>
+
+          <section class="cat-row">
+            <div class="cat"><div class="cat-ico placeholder"></div><div class="cat-label">Фастфуд</div></div>
+            <div class="cat"><div class="cat-ico placeholder"></div><div class="cat-label">Местная</div></div>
+            <div class="cat"><div class="cat-ico placeholder"></div><div class="cat-label">Грузинская</div></div>
+            <div class="cat"><div class="cat-ico placeholder"></div><div class="cat-label">Европа</div></div>
+            <div class="cat"><div class="cat-ico placeholder"></div><div class="cat-label">Восток</div></div>
+          </section>
+
+          <!-- 4 кнопки (добавил фильтр) + зелёное свечение -->
+          <section class="chips">
+            <button class="chip chip-icon chip-glow" type="button" title="Фильтр">☰</button>
+            <button class="chip chip-glow" type="button">★ <span>Рейтинг</span></button>
+            <button class="chip chip-glow" type="button">％ <span>Акции</span></button>
+            <button class="chip chip-glow" type="button">⏱ <span>До 30 мин</span></button>
+          </section>
+
+          <!-- POPULAR -->
+          <div class="section-head">
+            <div class="section-title">Популярные рестораны</div>
+            <button class="seeall seeall-dark">Все <span>›</span></button>
+          </div>
+
+          <section class="popular">
+            <div class="pop-card searchable" data-search="sunset"><div class="pop-logo placeholder"></div><div class="pop-time">15–25 мин</div></div>
+            <div class="pop-card searchable" data-search="laila"><div class="pop-logo placeholder"></div><div class="pop-time">20–30 мин</div></div>
+            <div class="pop-card searchable" data-search="bbq"><div class="pop-logo placeholder"></div><div class="pop-time">25–30 мин</div></div>
+          </section>
+
+          <!-- SPECIAL (все карточки большие и длиннее) -->
+          <div class="section-head">
+            <div class="section-title">Специально для вас</div>
+            <button class="seeall seeall-dark">Все <span>›</span></button>
+          </div>
+
+          <section class="cards-row">
+            <article class="rest-card home-card searchable" data-id="sunset" data-name="SUNSET RESTAURANT" data-search="sunset restaurant">
+              <div class="rest-media placeholder"></div>
+              <button class="fav-btn" type="button" aria-label="В избранное" data-id="sunset">♥</button>
+              <div class="rest-bottom">
+                <div class="rest-name">SUNSET RESTAURANT</div>
+                <div class="rest-row">
+                  <span class="time">25–30 мин</span>
+                  <span class="rate">★ 4.7</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="rest-card home-card searchable" data-id="bbq" data-name="BBQ GARDEN" data-search="bbq garden">
+              <div class="rest-media placeholder"></div>
+              <button class="fav-btn" type="button" aria-label="В избранное" data-id="bbq">♥</button>
+              <div class="rest-bottom">
+                <div class="rest-name">BBQ GARDEN</div>
+                <div class="rest-row">
+                  <span class="time">25–30 мин</span>
+                  <span class="rate">★ 4.5</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <!-- TRY (в духе "Специально для вас", тоже длиннее) -->
+          <div class="section-head">
+            <div class="section-title">Стоит попробовать</div>
+            <button class="seeall seeall-dark">Все <span>›</span></button>
+          </div>
+
+          <section class="cards-row">
+            <article class="rest-card home-card searchable" data-id="kubdari" data-name="DOM KUBDARI" data-search="dom kubdari">
+              <div class="rest-media placeholder"></div>
+              <button class="fav-btn" type="button" aria-label="В избранное" data-id="kubdari">♥</button>
+              <div class="rest-bottom">
+                <div class="rest-name">DOM KUBDARI</div>
+                <div class="rest-row">
+                  <span class="time">25–30 мин</span>
+                  <span class="rate">★ 4.9</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="rest-card home-card searchable" data-id="laila" data-name="CAFE LAILA" data-search="cafe laila">
+              <div class="rest-media placeholder"></div>
+              <button class="fav-btn" type="button" aria-label="В избранное" data-id="laila">♥</button>
+              <div class="rest-bottom">
+                <div class="rest-name">CAFE LAILA</div>
+                <div class="rest-row">
+                  <span class="time">25–30 мин</span>
+                  <span class="rate">★ 4.8</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <!-- LIST (для теста поиска/избранного) -->
+          <section class="list">
+            <article class="rest-card home-card searchable" data-id="ushba" data-name="CAFE USHBA" data-search="cafe ushba">
+              <div class="rest-media placeholder"></div>
+              <button class="fav-btn" type="button" aria-label="В избранное" data-id="ushba">♥</button>
+              <div class="rest-bottom">
+                <div class="rest-name">CAFE USHBA</div>
+                <div class="rest-row">
+                  <span class="time">25–30 мин</span>
+                  <span class="rate">★ 4.6</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <div id="homeSearchEmpty" class="search-empty" hidden>Ничего не найдено 😕</div>
+
         </div>
-      <div class="home-scroll">
-
-  <!-- ВРЕМЕННЫЙ КОНТЕНТ ДЛЯ СКРОЛЛА -->
-  <div style="height:600px;"></div>
-
-  <div class="scroll-end">
-    <p>Вы дошли до конца главной страницы</p>
-    <p>Здесь позже будет футер, инфо или оферта</p>
-  </div>
-
-</div>
-
-
       </section>
 
       <!-- ================= FAVORITES ================= -->
-      <section class="screen" id="favorites"></section>
+      <section class="screen" id="favorites">
+        <div class="page-scroll">
 
-      <!-- ================= CART ================= -->
-      <section class="screen" id="cart"></section>
+          <header class="fav-header">
+            <button class="back-btn" type="button" onclick="goToTab('home')" aria-label="Назад">←</button>
+            <div class="fav-title">Избранное</div>
+          </header>
 
-      <!-- ================= PROFILE ================= -->
-      <section class="screen" id="profile"></section>
+          <div class="search-row">
+            <div class="search-field glow-soft">
+              <span class="search-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18">
+                  <path d="M10.5 3a7.5 7.5 0 1 1 0 15A7.5 7.5 0 0 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm7.9 12.5 2.2 2.2-1.4 1.4-2.2-2.2 1.4-1.4Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <input id="favSearchInput" class="search-input" type="text" placeholder="Искать в избранном" />
+            </div>
+            <button id="favSearchBtn" class="search-btn">Найти</button>
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div id="favoritesEmpty" class="fav-empty" hidden>
+            <div class="empty-illu placeholder"></div>
+            <div class="empty-title">Нажимайте на сердечки,</div>
+            <div class="empty-sub">чтобы сохранять любимые места</div>
+            <button class="cta" type="button" onclick="goToTab('home')">Перейти к ресторанам</button>
+          </div>
+
+          <!-- LIST -->
+          <div id="favoritesList" class="fav-list"></div>
+          <div id="favSearchEmpty" class="search-empty" hidden>Ничего не найдено 😕</div>
+
+        </div>
+      </section>
+
+      <!-- ================= CART / PROFILE ================= -->
+      <section class="screen" id="cart"><div class="empty">Корзина</div></section>
+      <section class="screen" id="profile"><div class="empty">Профиль</div></section>
 
       <!-- ================= TABBAR ================= -->
       <nav class="tabbar">
-
         <button class="tab active" onclick="goTab('home', this)">
-          <img
-            src="icons/general-green.png"
-            data-default="icons/general-gray.png"
-            data-active="icons/general-green.png"
-            class="tabicon"
-          >
+          <img src="icons/general-green.png" data-default="icons/general-gray.png" data-active="icons/general-green.png" class="tabicon" alt="">
           <span class="label">Главная</span>
         </button>
 
         <button class="tab" onclick="goTab('favorites', this)">
-          <img
-            src="icons/heart-gray.png"
-            data-default="icons/heart-gray.png"
-            data-active="icons/heart-green.png"
-            class="tabicon"
-          >
+          <img src="icons/heart-gray.png" data-default="icons/heart-gray.png" data-active="icons/heart-green.png" class="tabicon" alt="">
           <span class="label">Избранное</span>
         </button>
 
         <button class="tab" onclick="goTab('cart', this)">
-          <img src="icons/basket-gray.png" class="tabicon">
+          <img src="icons/basket-gray.png" data-default="icons/basket-gray.png" data-active="icons/basket-green.png" class="tabicon" alt="">
           <span class="label">Корзина</span>
         </button>
 
         <button class="tab" onclick="goTab('profile', this)">
-          <img
-            src="icons/profile-gray.png"
-            data-default="icons/profile-gray.png"
-            data-active="icons/profile-green.png"
-            class="tabicon"
-          >
+          <img src="icons/profile-gray.png" data-default="icons/profile-gray.png" data-active="icons/profile-green.png" class="tabicon" alt="">
           <span class="label">Профиль</span>
         </button>
-
       </nav>
 
     </div>
