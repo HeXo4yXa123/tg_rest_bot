@@ -10,9 +10,14 @@
 /* === BASE (merged from both) === */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--design-w:393;--scale:1;--inv-scale:1;--vh:1vh;--tg-top:var(--tg-safe-area-inset-top,0px);--tg-bottom:var(--tg-safe-area-inset-bottom,0px);--safe-top:max(env(safe-area-inset-top,0px),var(--tg-top));--safe-bottom:max(env(safe-area-inset-bottom,0px),var(--tg-bottom));}
-body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow-x:hidden;min-height:calc(var(--vh)*100);}
-.scale-wrap{width:100%;max-width:calc(var(--design-w)*1px);margin:0 auto;overflow:hidden}
-.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:calc(var(--vh)*100);position:relative;padding-bottom:64px;transform:scale(var(--scale));transform-origin:top left}
+html,body{height:100%}
+body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow:hidden;}
+/* Telegram/Desktop safe viewport wrapper */
+.viewport{width:100%;height:calc(var(--vh)*100);display:flex;justify-content:center;background:#0b0b0b;overflow:hidden}
+.scale-wrap{width:100%;max-width:calc(var(--design-w)*1px);height:100%;margin:0 auto;position:relative}
+.app-scroll{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.app-stage{position:relative;width:var(--stage-w, calc(var(--design-w)*1px));height:var(--stage-h, calc(var(--vh)*100));margin:0 auto}
+.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:calc(var(--vh)*100);position:absolute;left:0;top:0;padding-bottom:64px;transform:scale(var(--scale));transform-origin:top left}
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
@@ -53,7 +58,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 }
 .screen[data-screen="favorites"] .go-btn{width:100%;max-width:361px;height:44px;border-radius:16px}
 /* ===== CART OVERLAY ===== */
-body.cart-open{overflow:hidden}
+.cart-open #scrollRoot{overflow:hidden}
 .cart-open .tabbar-wrapper{display:none}
 
 .cart-overlay{
@@ -409,8 +414,11 @@ body.cart-open{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="scale-wrap">
-<div class="app">
+<div class="viewport">
+  <div class="scale-wrap">
+    <div class="app-scroll" id="scrollRoot">
+      <div class="app-stage" id="appStage">
+        <div class="app" id="app">
   <!-- HOME (full content from index.html integrated) -->
   <div class="screen active" data-screen="home">
     <!-- Header -->
@@ -1157,6 +1165,9 @@ body.cart-open{overflow:hidden}
 
 
 </div>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- CART OVERLAY -->
 <div class="cart-overlay" id="cart">
@@ -1205,8 +1216,13 @@ function getViewportWidth(){
   return document.documentElement.clientWidth || window.innerWidth || 393;
 }
 function getViewportHeight(){
-  if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.viewportHeight === 'number' && Telegram.WebApp.viewportHeight > 0){
-    return Telegram.WebApp.viewportHeight;
+  // Telegram WebApp: stable height is most reliable (especially on desktop)
+  if (window.Telegram && Telegram.WebApp){
+    const hs = Telegram.WebApp.viewportStableHeight;
+    if (typeof hs === 'number' && hs > 0) return hs;
+
+    const h = Telegram.WebApp.viewportHeight;
+    if (typeof h === 'number' && h > 0) return h;
   }
   if (window.visualViewport && typeof visualViewport.height === 'number' && visualViewport.height > 0){
     return visualViewport.height;
@@ -1218,29 +1234,29 @@ function updateViewportVars(){
   document.documentElement.style.setProperty('--vh', (h * 0.01) + 'px');
 }
 function resetScroll(){
+  const root = document.getElementById('scrollRoot');
+  if(root) root.scrollTop = 0;
+
   const se = document.scrollingElement || document.documentElement;
-  se.scrollTop = 0;
+  if(se) se.scrollTop = 0;
   document.body.scrollTop = 0;
   try { window.scrollTo(0,0); } catch(e){}
 }
 // hard scroll-lock for iOS/Telegram when overlays are open
 let __lockY = 0;
 function lockScroll(){
-  const se = document.scrollingElement || document.documentElement;
-  __lockY = window.scrollY || se.scrollTop || 0;
-  document.body.style.position = 'fixed';
-  document.body.style.top = (-__lockY) + 'px';
-  document.body.style.left = '0';
-  document.body.style.right = '0';
-  document.body.style.width = '100%';
+  const root = document.getElementById('scrollRoot');
+  if(!root) return;
+  __lockY = root.scrollTop || 0;
+  root.style.overflow = 'hidden';
+  root.style.touchAction = 'none';
 }
 function unlockScroll(){
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.left = '';
-  document.body.style.right = '';
-  document.body.style.width = '';
-  try { window.scrollTo(0, __lockY); } catch(e){}
+  const root = document.getElementById('scrollRoot');
+  if(!root) return;
+  root.style.overflow = '';
+  root.style.touchAction = '';
+  root.scrollTop = __lockY;
 }
 
 function applyScale(){
@@ -1248,16 +1264,21 @@ function applyScale(){
   const designW = 393;
   const vw = getViewportWidth();
   const scale = Math.min(1, vw / designW);
+
   document.documentElement.style.setProperty('--scale', String(scale));
   document.documentElement.style.setProperty('--inv-scale', String(1/scale));
 
-  const wrap = document.querySelector('.scale-wrap');
-  const app = document.querySelector('.app');
-  if(wrap && app){
-    // Match wrapper height to the *visual* height (scaled) and never smaller than viewport.
-    const scaledH = app.scrollHeight * scale;
+  // Stage takes the *visual* size so Telegram/Desktop scroll works consistently
+  const stage = document.getElementById('appStage');
+  const app = document.getElementById('app');
+  if(stage && app){
     const minH = getViewportHeight();
-    wrap.style.height = Math.max(scaledH, minH) + 'px';
+    const stageW = Math.round(designW * scale);
+    const stageH = Math.max(Math.round(app.scrollHeight * scale), Math.round(minH));
+    stage.style.width = stageW + 'px';
+    stage.style.height = stageH + 'px';
+    document.documentElement.style.setProperty('--stage-w', stageW + 'px');
+    document.documentElement.style.setProperty('--stage-h', stageH + 'px');
   }
 }
 
@@ -1453,15 +1474,15 @@ document.addEventListener('click', (e)=>{
 ========================= */
 function initTabbarHideOnScroll(){
   const bar = document.querySelector('.tabbar');
-  if(!bar) return;
+  const root = document.getElementById('scrollRoot');
+  if(!bar || !root) return;
 
-  let lastY = window.scrollY || 0;
+  let lastY = root.scrollTop || 0;
   let ticking = false;
 
   function onScroll(){
-    const y = window.scrollY || 0;
+    const y = root.scrollTop || 0;
     const delta = y - lastY;
-
     if(Math.abs(delta) < 8) return;
 
     if(delta > 0){
@@ -1474,7 +1495,7 @@ function initTabbarHideOnScroll(){
     lastY = y;
   }
 
-  window.addEventListener('scroll', ()=>{
+  root.addEventListener('scroll', ()=>{
     if(!ticking){
       window.requestAnimationFrame(()=>{
         onScroll();
