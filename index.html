@@ -6,6 +6,7 @@
 <title>MestiGo — Combined</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rubik:wght@400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Rubik:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* === BASE (merged from both) === */
 *{box-sizing:border-box;margin:0;padding:0}
@@ -55,36 +56,31 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .allRestaurantFavorite {
   background: rgba(33,234,124,.55);
 }
-
 /* SVG по умолчанию */
 .heart-svg {
   width: 20px;
   height: 20px;
   fill: transparent;
-  stroke: #0E3F23;      /* тёмный зелёный */
+  stroke: #0E3F23; /* тёмный зелёный */
   stroke-width: 2;
   transition: fill .25s ease, transform .2s ease;
 }
-
 /* активное состояние (БЕЗ анимации) */
 .specialFavorite.active .heart-svg,
 .allRestaurantFavorite.active .heart-svg {
   fill: #0E3F23;
   stroke: #0E3F23;
 }
-
 /* анимация ТОЛЬКО при клике */
 .specialFavorite.animate .heart-svg,
 .allRestaurantFavorite.animate .heart-svg {
   animation: heart-pop .25s ease;
 }
-
 @keyframes heart-pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.18); }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
   100% { transform: scale(1); }
 }
-
 /* Additional styles from index.html */
 .header{background-color:#252525;border-radius:0 0 20px 20px;box-shadow:0 0 20px rgba(0,0,0,0.2);position:relative;width:100%;max-width:393px;left:0;right:0}
 .header-content{padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
@@ -211,45 +207,333 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .profile-add-icon{
   width:60px;
   height:25px;
-  background:#21EA7C;          /* фирменный зелёный */
-  color:#0E3F23;               /* тёмно-зелёный плюс */
+  background:#21EA7C; /* фирменный зелёный */
+  color:#0E3F23; /* тёмно-зелёный плюс */
   display:flex;
   justify-content:center;
   align-items:center;
   font-size:24px;
   font-weight:60px;
-  border-radius:7px;           /* закруглённый квадрат */
+  border-radius:7px; /* закруглённый квадрат */
   box-shadow:0 2px 6px rgba(33,234,124,.35);
 }
 .profile-add-title{font-size:16px;font-weight:600}
 .profile-add-subtitle{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.4}
-.tabbar-wrapper{
+.tabbar-wrapper {
   position:fixed;
   left:0;
   right:0;
   bottom:0;
   margin:0 auto;
-
   width:100%;
   max-width:393px;
-
-  z-index:100 padding-bottom: env(safe-area-inset-bottom);.cart-sheet{
+ 
+  z-index:100 .padding-bottom: env(safe-area-inset-bottom);.cart-sheet{
   position:absolute;
   left:0;
   right:0;
   margin:0 auto;
-
   width:100%;
   max-width:393px;
   height:100%;
   background:#0b0b0b;
-}.app{
+}
+.padding-bottom: env(safe-area-inset-bottom);
+.app{
   width:100%;
   max-width:393px;
   margin:0 auto;
   min-height:100vh;
   position:relative;
   padding-bottom:64px;
+}
+.body {
+  height: 100%;
+  overflow: hidden;
+}
+.app {
+  min-height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+:root {
+  --tg-safe-bottom: 0px;
+}
+@supports (padding: env(safe-area-inset-bottom)) {
+  :root {
+    --tg-safe-bottom: env(safe-area-inset-bottom);
+  }
+}
+.app {
+  padding-bottom: calc(64px + var(--tg-safe-bottom));
+}
+.tabbar-wrapper {
+  bottom: 0;
+  padding-bottom: var(--tg-safe-bottom);
+  will-change: transform;
+}
+.tabbar {
+  transform: translateZ(0);
+}
+.cart-sheet {
+  height: 100vh;
+  max-height: 100%;
+}
+
+/* Styles from attached profile file */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    background-color: #0B0B0B;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    font-family: 'Inter', sans-serif;
+}
+body {
+    margin: 0 auto;
+    min-height: 100vh;
+}
+.screen {
+    max-width: 393px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 80px; /* место под таббар */
+}
+.header {
+    position: relative;
+    width: 393px;
+    height: 87px;
+    background: #252525;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.avatar {
+    position: absolute;
+    left: 20px;
+    top: 21px;
+    width: 41px;
+    height: 41px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom right, #a855f7, #d946ef);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 41px;
+    text-align: center;
+}
+.nickname {
+    position: absolute;
+    left: 80px;
+    top: 24px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 15px;
+}
+.id {
+    position: absolute;
+    left: 80px;
+    top: 48px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    line-height: 15px;
+}
+/* Все меню-блоки теперь с одинаковыми боковыми отступами */
+.menu,
+.new-menu,
+.service-menu {
+    width: 361px;
+    margin: 30px 16px 0 16px; /* одинаковые 16px слева/справа, верхний можно варьировать */
+    background: #252525;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+/* Для второго и третьего блоков уменьшаем верхний отступ, если нужно */
+.new-menu {
+    margin-top: 14px;
+}
+.service-menu {
+    margin-top: 14px;
+}
+.item {
+    position: relative;
+    height: 44px;
+    line-height: 44px;
+    padding-left: 62px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 62px;
+    bottom: 0;
+    width: 299px;
+    height: 0.3px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.new-item {
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding-left: 62px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.new-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 62px;
+    bottom: 0;
+    width: 299px;
+    height: 0.3px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.service-item {
+    position: relative;
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 62px;
+    padding-right: 41px;
+}
+.service-item__text {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.service-item__subtext {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.35);
+}
+.service-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 62px;
+    bottom: 0;
+    width: 299px;
+    height: 0.3px;
+    background: rgba(255, 255, 255, 0.08);
+}
+/* Блок "Добавить на главный экран" — теперь как остальные */
+.add-home-block {
+    width: 361px;
+    height: 112px;
+    margin: 24px 16px 0 16px;
+    background: linear-gradient(to bottom, #1B1B1B 0%, #232323 100%);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 11px 11px 14px 11px;
+}
+.add-home-inner-block {
+    width: 100%; /* растягиваем на всю ширину родителя */
+    height: 44px;
+    background: #252525;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.add-home-description {
+    margin-top: 10px;
+    padding: 0 38px;
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+/* TABBAR */
+.tabbar-wrapper {
+    width: 393px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    z-index: 100;
+}
+.tabbar {
+    height: 64px;
+    background: #0e110f;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #8c8c8b;
+    font-size: 10.5px;
+    cursor: pointer;
+}
+.tab.active {
+    color: #21EA7C;
+}
+.tabicon {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+/* Adaptation for all mobile screens */
+@media (max-width: 393px) {
+    .app, .tabbar-wrapper, .header, .screen, .cart-sheet {
+        width: 100%;
+        max-width: none;
+    }
+    .promoBannerWrap, .promoBanner {
+        width: calc(100% - 30px);
+        background-size: cover;
+    }
+    .menu, .new-menu, .service-menu, .add-home-block {
+        width: calc(100% - 32px);
+    }
+    .item:not(:last-child)::after, .new-item:not(:last-child)::after, .service-item:not(:last-child)::after {
+        width: calc(100% - 103px);
+    }
+    .cart-btn {
+        width: calc(100% - 32px);
+    }
+    .specialCard {
+        width: calc(100% - 32px);
+    }
+    .specialPreview {
+        width: 100%;
+    }
+    .storesCards, .restaurantsCards {
+        gap: 10px;
+    }
+    .storeCard, .restaurantCard {
+        width: calc((100% - 48px) / 3);
+    }
+    .storesTimings, .restaurantsTimings {
+        gap: calc((100% - 48px) / 3 - 70px);
+    }
+    .allRestaurantPreview {
+        height: auto;
+        aspect-ratio: 16/9;
+    }
 }
 </style>
 </head>
@@ -961,80 +1245,43 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
   </div>
   <!-- PROFILE -->
   <div class="screen" data-screen="profile">
-    <div class="profile-header">
-      <div class="profile-avatar">AS</div>
-      <div class="profile-info">
-        <div class="profile-username">affiliate sxclipse</div>
-        <div class="profile-id">ID 9344544</div>
-      </div>
-    </div>
-    <div class="profile-menu-group">
-      <div class="profile-menu-group-title">Личный кабинет</div>
-      <ul class="profile-menu">
-        <li>
-          <div class="profile-menu-icon"><!-- heart icon --></div>
-          <span class="profile-menu-text">Избранное</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-        <li>
-          <div class="profile-menu-icon"><!-- location icon --></div>
-          <span class="profile-menu-text">Мой адрес</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-        <li>
-          <div class="profile-menu-icon"><!-- document icon --></div>
-          <span class="profile-menu-text">История заказов</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-        <li>
-          <div class="profile-menu-icon"><!-- card icon --></div>
-          <span class="profile-menu-text">Способы оплаты</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-      </ul>
-    </div>
-    <div class="profile-menu-group">
-      <div class="profile-menu-group-title">Поддержка и партнёрство</div>
-      <ul class="profile-menu">
-        <li>
-          <div class="profile-menu-icon"><!-- chat icon --></div>
-          <span class="profile-menu-text">Поддержка</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-        <li>
-          <div class="profile-menu-icon"><!-- friend icon --></div>
-          <span class="profile-menu-text">Пригласить друга</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-        <li>
-          <div class="profile-menu-icon"><!-- partner icon --></div>
-          <span class="profile-menu-text">Стать партнером</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-      </ul>
-    </div>
-    <div class="profile-menu-group">
-      <div class="profile-menu-group-title">Настройки</div>
-      <ul class="profile-menu">
-        <li>
-          <div class="profile-menu-icon"><!-- info icon --></div>
-          <span class="profile-menu-text">О сервисе</span>
-          <span class="profile-menu-arrow">></span>
-        </li>
-        <li>
-          <div class="profile-menu-icon"><!-- globe icon --></div>
-          <span class="profile-menu-text">Язык</span>
-          <span class="profile-menu-arrow">Русский</span>
-        </li>
-      </ul>
-    </div>
-    <div class="profile-add-btn">
-      <div class="profile-add-icon">+</div>
-      <div>
-        <div class="profile-add-title">Добавить на главный экран</div>
-        <div class="profile-add-subtitle">Добавьте значок сервиса на главный экран вашего смартфона, чтобы он всегда был под рукой</div>
-      </div>
-    </div>
+        <div class="header">
+            <div class="avatar">AS</div>
+            <div class="nickname">affiliate sxclipse</div>
+            <div class="id">ID 9344544</div>
+        </div>
+        
+        <div class="menu">
+            <div class="item">Избранное</div>
+            <div class="item">Мой адрес</div>
+            <div class="item">История заказов</div>
+            <div class="item">Способы оплаты</div>
+        </div>
+        
+        <div class="new-menu">
+            <div class="new-item">Поддержка</div>
+            <div class="new-item">Пригласить друга</div>
+            <div class="new-item">Стать партнером</div>
+        </div>
+        
+        <div class="service-menu">
+            <div class="service-item">
+                <div class="service-item__text">О сервисе</div>
+            </div>
+            <div class="service-item">
+                <div class="service-item__text">Язык</div>
+                <div class="service-item__subtext">Русский</div>
+            </div>
+        </div>
+        
+        <div class="add-home-block">
+            <div class="add-home-inner-block">
+                Добавить на главный экран
+            </div>
+            <div class="add-home-description">
+                Добавьте значок сервиса на главный экран смартфона, чтобы он всегда был под рукой.
+            </div>
+        </div>
   </div>
 </div>
 <!-- CART OVERLAY -->
@@ -1164,12 +1411,10 @@ document.addEventListener('click',e=>{
   if(favBtn){
   e.preventDefault();
   e.stopPropagation();
-
   // локальная анимация ТОЛЬКО этого сердца
   favBtn.classList.remove('animate');
   void favBtn.offsetWidth; // reset animation
   favBtn.classList.add('animate');
-
   const c = favBtn.closest('.restaurant-card');
   if(c && c.dataset.id) toggleFav(c.dataset.id);
   return;
@@ -1208,6 +1453,9 @@ function initTabbarHideOnScroll(){
     }
     last = current;
   }, { passive:true });
+}
+if (window.Telegram && Telegram.WebApp) {
+  Telegram.WebApp.expand();
 }
 </script>
 </body>
