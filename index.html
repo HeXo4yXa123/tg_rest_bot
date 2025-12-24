@@ -1,8 +1,9 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>MestiGo — Combined</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rubik:wght@400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Rubik:wght@400&display=swap" rel="stylesheet">
@@ -11,12 +12,12 @@
 /* === BASE (merged from both) === */
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-.app{max-width:393px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:64px}
+.app{width:100%;max-width:393px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:64px}
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
 /* ===== TABBAR (merged) ===== */
-.tabbar-wrapper{width:393px;margin:0 auto;position:fixed;left:0;right:0;bottom:0;z-index:100}
+.tabbar-wrapper{width:100%;max-width:393px;margin:0 auto;position:fixed;left:0;right:0;bottom:0;z-index:100}
 .tabbar{height:64px;background:#0e110f;border-top-left-radius:24px;border-top-right-radius:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;align-items:center;transform:translateY(0);transition:transform 0.3s ease}
 .tab{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:#8c8c8b;font-size:10.5px;font-weight:400}
 .tab.active{color:#21EA7C}
@@ -45,12 +46,12 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 /* ===== CART OVERLAY ===== */
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200}
 .cart-overlay.active{display:block}
-.cart-sheet{position:absolute;left:50%;top:0;transform:translateX(-50%);width:393px;height:100%;background:#0b0b0b}
+.cart-sheet{position:absolute;left:0;right:0;margin:0 auto;width:100%;max-width:393px;height:100%;background:#0b0b0b}
 .cart-close{position:absolute;top:55px;left:30px;color:#21EA7C;font-size:22px;cursor:pointer}
 .cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png);border-radius:16px}
 .cart-empty-title{position:absolute;top:495px;left:0;right:0;padding:0 70px;text-align:center;font-size:16px;font-weight:600}
 .cart-empty-sub{position:absolute;top:531px;left:0;right:0;padding:0 32px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
-.cart-btn{position:absolute;bottom:13px;left:16px;width:361px;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
+.cart-btn{position:absolute;bottom:13px;left:16px;right:16px;width:auto;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
 /* ===== HEART STATES (updated) ===== */
 .specialFavorite,
 .allRestaurantFavorite {
@@ -95,8 +96,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .search-icon{width:13px;height:13px;margin-right:8px;flex-shrink:0;display:block;transform:translateY(-1px)}
 .search-text{font-weight:500;font-size:16px;line-height:22px;color:#C7CFCB}
 .find-button{width:98px;height:36px;background:linear-gradient(135deg,#40CC5E,#36B854);border-radius:14px;border:none;box-shadow:0 0 5px rgba(59,180,74,0.25);font-weight:500;font-size:16px;line-height:22px;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.promoBannerWrap{position:relative;width:363px;height:120px;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);margin-bottom:40px;margin-left:15px;margin-right:15px}
-.promoBanner{position:relative;width:363px;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url("icons/Rectangle\ 10.png");background-size:393px;background-position:center;background-repeat:no-repeat}
+.promoBannerWrap{position:relative;width:calc(100% - 30px);height:120px;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);margin-bottom:40px;margin-left:auto;margin-right:auto}
+.promoBanner{position:relative;width:100%;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url("icons/Rectangle\ 10.png");background-size:cover;background-position:center;background-repeat:no-repeat}
 .promoBanner__food{position:absolute;left:0;top:0;width:154px;height:120px;object-fit:cover;pointer-events:none}
 .promoBanner__title{position:absolute;left:154px;top:25px;width:164px;height:50px;font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;line-height:17px;color:#FFFFFF;text-align:left}
 .promoBanner__titleLine{display:block;white-space:nowrap}
@@ -124,8 +125,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .storesButton{width:57px;height:25px;border-radius:20px;background:#2E2E2C;box-shadow:0 0 5px rgba(59,180,74,0.25);display:flex;align-items:center;gap:8px;padding:0 5px 0 10px;border:none;cursor:pointer}
 .storesButtonText{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(33,234,124,0.85)}
 .storesButtonArrow{width:5px;height:7px}
-.storesCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px}
-.storeCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
+.storesCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px;overflow-x:auto}
+.storeCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);flex-shrink:0}
 .storesTimings{display:flex;gap:56px;padding:0 16px}
 .storeTiming{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;letter-spacing:0.1px;color:#21EA7C;padding-left:5px;text-align:left;white-space:nowrap;display:block}
 .restaurantsSection{margin-top:30px}
@@ -134,8 +135,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .restaurantsButton{width:57px;height:25px;border-radius:20px;background:#2E2E2C;box-shadow:0 0 5px rgba(59,180,74,0.25);display:flex;align-items:center;gap:8px;padding:0 5px 0 10px;border:none;cursor:pointer}
 .restaurantsButtonText{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(33,234,124,0.85)}
 .restaurantsButtonArrow{width:5px;height:7px}
-.restaurantsCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px}
-.restaurantCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
+.restaurantsCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px;overflow-x:auto}
+.restaurantCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);flex-shrink:0}
 .restaurantsTimings{display:flex;gap:56px;padding:0 16px}
 .restaurantTiming{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;letter-spacing:0.1px;color:#21EA7C;padding-left:5px;text-align:left;white-space:nowrap;display:block}
 .mg-categories{margin-left:14px;margin-right:14px;margin-top:30px}
@@ -163,7 +164,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .specialCards{display:flex;flex-wrap:nowrap;gap:15px;overflow-x:auto;overflow-y:visible;padding:0 16px 30px 16px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;cursor:pointer}
 .specialCards::-webkit-scrollbar{display:none}
 .specialCard{flex-shrink:0;width:286px;display:flex;flex-direction:column;cursor:pointer}
-.specialPreview{position:relative;width:286px;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden}
+.specialPreview{position:relative;width:100%;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden}
 .specialFavorite{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,0.5);border:none;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
 .specialInfo{margin-top:10px}
 .specialNameRow{display:flex;justify-content:space-between;align-items:center}
@@ -191,34 +192,223 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .back-btn{margin-top:60px;margin-left:16px;width:24px;height:24px;cursor:pointer}
 .back-btn svg{width:24px;height:24px;stroke:#21EA7C;display:block}
 /* ===== PROFILE ===== */
-.profile-header{display:flex;align-items:center;gap:16px;padding:16px;background:#252525;border-radius:0 0 20px 20px;box-shadow:0 0 20px rgba(0,0,0,0.2)}
-.profile-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(to bottom right,#a855f7,#d946ef);display:flex;justify-content:center;align-items:center;color:#fff;font-size:20px;font-weight:600}
-.profile-info{flex:1}
-.profile-username{font-size:16px;font-weight:600}
-.profile-id{font-size:12px;color:rgba(255,255,255,0.7)}
-.profile-menu-group{margin-top:16px;margin-bottom:16px;background:#1D1D1D;border-radius:16px;box-shadow:0 0 5px rgba(59,180,74,0.25);padding:8px 0}
-.profile-menu-group-title{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:8px;padding:0 16px}
-.profile-menu{list-style:none;padding:0;margin:0}
-.profile-menu li{display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid rgba(255,255,255,0.08);cursor:pointer}
-.profile-menu-icon{width:24px;height:24px;background:green} /* Placeholder for icons, replace with actual */
-.profile-menu-text{flex:1;font-size:16px}
-.profile-menu-arrow{color:#21EA7C}
-.profile-add-btn{margin:32px 16px 0;background:#1D1D1D;border-radius:16px;padding:16px;display:flex;align-items:center;gap:16px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
-.profile-add-icon{
-  width:60px;
-  height:25px;
-  background:#21EA7C; /* фирменный зелёный */
-  color:#0E3F23; /* тёмно-зелёный плюс */
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:24px;
-  font-weight:60px;
-  border-radius:7px; /* закруглённый квадрат */
-  box-shadow:0 2px 6px rgba(33,234,124,.35);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-.profile-add-title{font-size:16px;font-weight:600}
-.profile-add-subtitle{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.4}
+html, body {
+    background-color: #0B0B0B;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    font-family: 'Inter', sans-serif;
+}
+body {
+    margin: 0 auto;
+    min-height: 100vh;
+}
+.screen {
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 80px; /* место под таббар */
+}
+.header {
+    position: relative;
+    width: 100%;
+    max-width: 393px;
+    height: 87px;
+    background: #252525;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.avatar {
+    position: absolute;
+    left: 20px;
+    top: 21px;
+    width: 41px;
+    height: 41px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom right, #a855f7, #d946ef);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 41px;
+    text-align: center;
+}
+.nickname {
+    position: absolute;
+    left: 80px;
+    top: 24px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 15px;
+}
+.id {
+    position: absolute;
+    left: 80px;
+    top: 48px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    line-height: 15px;
+}
+/* Все меню-блоки теперь с одинаковыми боковыми отступами */
+.menu,
+.new-menu,
+.service-menu {
+    width: calc(100% - 32px);
+    margin: 30px auto 0 auto; /* одинаковые 16px слева/справа, верхний можно варьировать */
+    background: #252525;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+/* Для второго и третьего блоков уменьшаем верхний отступ, если нужно */
+.new-menu {
+    margin-top: 14px;
+}
+.service-menu {
+    margin-top: 14px;
+}
+.item {
+    position: relative;
+    height: 44px;
+    line-height: 44px;
+    padding-left: 62px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 62px;
+    bottom: 0;
+    width: calc(100% - 103px);
+    height: 0.3px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.new-item {
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding-left: 62px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.new-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 62px;
+    bottom: 0;
+    width: calc(100% - 103px);
+    height: 0.3px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.service-item {
+    position: relative;
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 62px;
+    padding-right: 41px;
+}
+.service-item__text {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.service-item__subtext {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.35);
+}
+.service-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 62px;
+    bottom: 0;
+    width: calc(100% - 103px);
+    height: 0.3px;
+    background: rgba(255, 255, 255, 0.08);
+}
+/* Блок "Добавить на главный экран" — теперь как остальные */
+.add-home-block {
+    width: calc(100% - 32px);
+    height: 112px;
+    margin: 24px auto 0 auto;
+    background: linear-gradient(to bottom, #1B1B1B 0%, #232323 100%);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 11px 11px 14px 11px;
+}
+.add-home-inner-block {
+    width: 100%; /* растягиваем на всю ширину родителя */
+    height: 44px;
+    background: #252525;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+.add-home-description {
+    margin-top: 10px;
+    padding: 0 38px;
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+/* TABBAR */
+.tabbar-wrapper {
+    width: 100%;
+    max-width: 393px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    z-index: 100;
+}
+.tabbar {
+    height: 64px;
+    background: #0e110f;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #8c8c8b;
+    font-size: 10.5px;
+    cursor: pointer;
+}
+.tab.active {
+    color: #21EA7C;
+}
+.tabicon {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
 .tabbar-wrapper {
   position:fixed;
   left:0;
@@ -227,16 +417,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
   margin:0 auto;
   width:100%;
   max-width:393px;
- 
-  z-index:100 .padding-bottom: env(safe-area-inset-bottom);.cart-sheet{
-  position:absolute;
-  left:0;
-  right:0;
-  margin:0 auto;
-  width:100%;
-  max-width:393px;
-  height:100%;
-  background:#0b0b0b;
+  z-index:100;
 }
 .padding-bottom: env(safe-area-inset-bottom);
 .app{
@@ -280,260 +461,417 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
   max-height: 100%;
 }
 
-/* Styles from attached profile file */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-html, body {
-    background-color: #0B0B0B;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: geometricPrecision;
-    font-family: 'Inter', sans-serif;
-}
-body {
-    margin: 0 auto;
-    min-height: 100vh;
-}
-.screen {
-    max-width: 393px;
-    margin: 0 auto;
-    position: relative;
-    padding-bottom: 80px; /* место под таббар */
-}
-.header {
-    position: relative;
-    width: 393px;
-    height: 87px;
-    background: #252525;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-.avatar {
-    position: absolute;
-    left: 20px;
-    top: 21px;
-    width: 41px;
-    height: 41px;
+/* Adaptation for smaller screens */
+@media (max-width: 392px) {
+  .fav-title {
+    font-size: 7.6vw;
+    margin: 8.9vw 4.1vw 0;
+  }
+  .searchRow {
+    padding: 0 3.8vw;
+    gap: 1.8vw;
+    margin-top: 7.6vw;
+  }
+  .search-input {
+    height: 9.7vw;
+    padding: 0 3.6vw;
+    border-radius: 3.6vw;
+  }
+  .search-text {
+    font-size: 4.1vw;
+  }
+  .find-button {
+    width: 25vw;
+    height: 9.7vw;
+    font-size: 4.1vw;
+    border-radius: 3.6vw;
+  }
+  .promoBannerWrap {
+    height: 30.5vw;
+    border-radius: 3.8vw;
+    margin-bottom: 10.2vw;
+  }
+  .promoBanner {
+    height: 30.5vw;
+    border-radius: 3.8vw;
+  }
+  .promoBanner__title {
+    left: 39.2vw;
+    top: 6.4vw;
+    width: 41.7vw;
+    font-size: 3.8vw;
+    line-height: 4.3vw;
+  }
+  .promoBanner__food {
+    width: 39.2vw;
+    height: 30.5vw;
+  }
+  .promoBanner__badge {
+    top: 23.2vw;
+    width: 25.4vw;
+    height: 5.9vw;
+    border-radius: 2.8vw;
+  }
+  .promoBanner__badge--yellow {
+    left: 37.7vw;
+  }
+  .promoBanner__badge--green {
+    left: 64.1vw;
+  }
+  .promoBanner__badgeText {
+    font-size: 1.8vw;
+    line-height: 4.3vw;
+    top: 0.8vw;
+  }
+  .cardsBlock {
+    height: 44vw;
+    margin-bottom: 7.6vw;
+  }
+  .card {
+    border-radius: 3.8vw;
+  }
+  .card--restaurants {
+    left: 6.4vw;
+    width: 40.5vw;
+    height: 40.5vw;
+  }
+  .card--shops {
+    left: 53.2vw;
+    width: 40.5vw;
+    height: 16.3vw;
+  }
+  .card--promos {
+    left: 53.2vw;
+    top: 24.2vw;
+    width: 40.5vw;
+    height: 16.3vw;
+  }
+  .cardLabel {
+    width: 40.5vw;
+    font-size: 3.1vw;
+    line-height: 3.6vw;
+  }
+  .cardLabel--restaurants {
+    left: 6.4vw;
+    top: 41.5vw;
+  }
+  .cardLabel--shops {
+    left: 53.2vw;
+    top: 17.8vw;
+  }
+  .cardLabel--promos {
+    left: 53.2vw;
+    top: 41.5vw;
+  }
+  .storesHeader, .restaurantsHeader, .specialHeader {
+    padding: 0 5.1vw 0 4.1vw;
+    margin-bottom: 5.1vw;
+  }
+  .storesTitle, .restaurantsTitle, .specialTitle {
+    font-size: 5.1vw;
+    line-height: 6.1vw;
+  }
+  .storesButton, .restaurantsButton, .specialButton {
+    width: 14.5vw;
+    height: 6.4vw;
+    border-radius: 5.1vw;
+    gap: 2vw;
+    padding: 0 1.3vw 0 2.5vw;
+  }
+  .storesButtonText, .restaurantsButtonText, .specialButtonText {
+    font-size: 3.3vw;
+    line-height: 3.8vw;
+  }
+  .storesButtonArrow, .restaurantsButtonArrow, .specialButtonArrow {
+    width: 1.3vw;
+    height: 1.8vw;
+  }
+  .storesCards, .restaurantsCards {
+    padding: 0 4.1vw;
+    gap: 3.8vw;
+    margin-bottom: 0.8vw;
+  }
+  .storeCard, .restaurantCard {
+    width: 28.5vw;
+    height: 15vw;
+    border-radius: 3.8vw;
+  }
+  .storesTimings, .restaurantsTimings {
+    padding: 0 4.1vw;
+    gap: 14.2vw;
+  }
+  .storeTiming, .restaurantTiming {
+    font-size: 3.3vw;
+    line-height: 3.8vw;
+    padding-left: 1.3vw;
+  }
+  .mg-categories {
+    margin: 7.6vw 3.6vw 0;
+  }
+  .mg-categories__title {
+    font-size: 5.1vw;
+    line-height: 6.1vw;
+    margin-bottom: 2vw;
+    margin-left: 0.5vw;
+  }
+  .mg-categories__list {
+    gap: 6.1vw;
+    padding-right: 3.6vw;
+    padding-top: 2.5vw;
+  }
+  .mg-category-item__icon {
+    width: 16.5vw;
+    height: 16.5vw;
     border-radius: 50%;
-    background: linear-gradient(to bottom right, #a855f7, #d946ef);
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 41px;
-    text-align: center;
-}
-.nickname {
-    position: absolute;
-    left: 80px;
-    top: 24px;
-    font-size: 17px;
-    font-weight: 700;
-    color: #FFFFFF;
-    line-height: 15px;
-}
-.id {
-    position: absolute;
-    left: 80px;
-    top: 48px;
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.5);
-    line-height: 15px;
-}
-/* Все меню-блоки теперь с одинаковыми боковыми отступами */
-.menu,
-.new-menu,
-.service-menu {
-    width: 361px;
-    margin: 30px 16px 0 16px; /* одинаковые 16px слева/справа, верхний можно варьировать */
-    background: #252525;
-    border-radius: 16px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-/* Для второго и третьего блоков уменьшаем верхний отступ, если нужно */
-.new-menu {
-    margin-top: 14px;
-}
-.service-menu {
-    margin-top: 14px;
-}
-.item {
-    position: relative;
-    height: 44px;
-    line-height: 44px;
-    padding-left: 62px;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 62px;
-    bottom: 0;
-    width: 299px;
-    height: 0.3px;
-    background: rgba(255, 255, 255, 0.08);
-}
-.new-item {
-    position: relative;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    padding-left: 62px;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.new-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 62px;
-    bottom: 0;
-    width: 299px;
-    height: 0.3px;
-    background: rgba(255, 255, 255, 0.08);
-}
-.service-item {
-    position: relative;
-    height: 44px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 62px;
-    padding-right: 41px;
-}
-.service-item__text {
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.service-item__subtext {
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.35);
-}
-.service-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 62px;
-    bottom: 0;
-    width: 299px;
-    height: 0.3px;
-    background: rgba(255, 255, 255, 0.08);
-}
-/* Блок "Добавить на главный экран" — теперь как остальные */
-.add-home-block {
-    width: 361px;
-    height: 112px;
-    margin: 24px 16px 0 16px;
-    background: linear-gradient(to bottom, #1B1B1B 0%, #232323 100%);
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 11px 11px 14px 11px;
-}
-.add-home-inner-block {
-    width: 100%; /* растягиваем на всю ширину родителя */
-    height: 44px;
-    background: #252525;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.add-home-description {
-    margin-top: 10px;
-    padding: 0 38px;
-    font-size: 12px;
-    line-height: 15px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
-}
-/* TABBAR */
-.tabbar-wrapper {
-    width: 393px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto;
-    z-index: 100;
-}
-.tabbar {
-    height: 64px;
-    background: #0e110f;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    border-top: 1px solid rgba(255,255,255,.08);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    color: #8c8c8b;
-    font-size: 10.5px;
-    cursor: pointer;
-}
-.tab.active {
-    color: #21EA7C;
-}
-.tabicon {
-    width: 22px;
-    height: 22px;
-    display: block;
-}
-
-/* Adaptation for all mobile screens */
-@media (max-width: 393px) {
-    .app, .tabbar-wrapper, .header, .screen, .cart-sheet {
-        width: 100%;
-        max-width: none;
-    }
-    .promoBannerWrap, .promoBanner {
-        width: calc(100% - 30px);
-        background-size: cover;
-    }
-    .menu, .new-menu, .service-menu, .add-home-block {
-        width: calc(100% - 32px);
-    }
-    .item:not(:last-child)::after, .new-item:not(:last-child)::after, .service-item:not(:last-child)::after {
-        width: calc(100% - 103px);
-    }
-    .cart-btn {
-        width: calc(100% - 32px);
-    }
-    .specialCard {
-        width: calc(100% - 32px);
-    }
-    .specialPreview {
-        width: 100%;
-    }
-    .storesCards, .restaurantsCards {
-        gap: 10px;
-    }
-    .storeCard, .restaurantCard {
-        width: calc((100% - 48px) / 3);
-    }
-    .storesTimings, .restaurantsTimings {
-        gap: calc((100% - 48px) / 3 - 70px);
-    }
-    .allRestaurantPreview {
-        height: auto;
-        aspect-ratio: 16/9;
-    }
+  }
+  .mg-category-item__text {
+    font-size: 2.8vw;
+    line-height: 3.3vw;
+  }
+  .mg-categories__controls {
+    margin-top: 4.6vw;
+    gap: 1.3vw;
+    padding: 2.5vw 0.5vw 3.1vw;
+  }
+  .mg-control-button {
+    height: 9.4vw;
+    border-radius: 6.4vw;
+  }
+  .mg-control-button--settings {
+    width: 9.7vw;
+  }
+  .mg-control-button--rating {
+    width: 25.4vw;
+  }
+  .mg-control-button--promos {
+    width: 21.6vw;
+  }
+  .mg-control-button--time {
+    width: 26.7vw;
+  }
+  .mg-control-button__text {
+    font-size: 3.3vw;
+    line-height: 3.8vw;
+  }
+  .specialSection {
+    margin-top: 7.6vw;
+  }
+  .specialHeader {
+    margin-bottom: 5.1vw;
+  }
+  .specialCards {
+    gap: 3.8vw;
+    padding: 0 4.1vw 7.6vw 4.1vw;
+  }
+  .specialCard {
+    width: 72.8vw;
+  }
+  .specialPreview {
+    height: 36.1vw;
+    border-radius: 6.4vw;
+  }
+  .specialFavorite {
+    top: 2.5vw;
+    right: 2.5vw;
+    width: 8.1vw;
+    height: 8.1vw;
+  }
+  .specialName {
+    font-size: 3.8vw;
+  }
+  .specialRating {
+    font-size: 3.3vw;
+    transform: translateX(-1.5vw);
+  }
+  .specialDelivery {
+    font-size: 3.3vw;
+    margin-top: 1vw;
+    gap: 2vw;
+  }
+  .specialDelivery::before {
+    width: 4.1vw;
+    height: 4.1vw;
+  }
+  .allRestaurantsList {
+    margin: 7.6vw 0 30.5vw;
+    padding: 0 4.1vw;
+    gap: 5.1vw;
+  }
+  .allRestaurantPreview {
+    height: 45.8vw;
+    border-radius: 6.4vw;
+  }
+  .allRestaurantFavorite {
+    top: 2.5vw;
+    right: 2.5vw;
+    width: 8.1vw;
+    height: 8.1vw;
+  }
+  .allRestaurantInfo {
+    margin-top: 2.8vw;
+  }
+  .allRestaurantName {
+    font-size: 4.3vw;
+  }
+  .allRestaurantRating {
+    font-size: 3.6vw;
+    transform: translateX(-1.5vw);
+  }
+  .allRestaurantDelivery {
+    font-size: 3.6vw;
+    margin-top: 1.8vw;
+    gap: 2vw;
+  }
+  .allRestaurantDelivery::before {
+    width: 4.1vw;
+    height: 4.1vw;
+  }
+  .allRestaurantNameRow {
+    padding-left: 5.3vw;
+    padding-right: 6.6vw;
+    margin-left: -2.5vw;
+  }
+  .allRestaurantDelivery {
+    padding-left: 5.3vw;
+    margin-left: -2.5vw;
+  }
+  .empty-wrap {
+    margin-top: 12.7vw;
+    padding: 0 17.8vw;
+  }
+  .image-placeholder {
+    width: 61vw;
+    height: 42.5vw;
+    margin-bottom: 4.1vw;
+  }
+  .empty-title {
+    font-size: 4.1vw;
+  }
+  .empty-subtitle {
+    margin-top: 1vw;
+    font-size: 3.6vw;
+  }
+  .go-btn {
+    margin-top: 6.1vw;
+    width: 67.9vw;
+    height: 9.2vw;
+    border-radius: 3.1vw;
+    font-size: 3.6vw;
+  }
+  .back-btn {
+    margin-top: 15.3vw;
+    margin-left: 4.1vw;
+    width: 6.1vw;
+    height: 6.1vw;
+  }
+  .back-btn svg {
+    width: 6.1vw;
+    height: 6.1vw;
+  }
+  .cart-close {
+    top: 14vw;
+    left: 7.6vw;
+    font-size: 5.6vw;
+  }
+  .cart-empty-img {
+    top: 63.4vw;
+    width: 49.6vw;
+    height: 52.4vw;
+  }
+  .cart-empty-title {
+    top: 126vw;
+    padding: 0 17.8vw;
+    font-size: 4.1vw;
+  }
+  .cart-empty-sub {
+    top: 135.1vw;
+    padding: 0 8.1vw;
+    font-size: 3.6vw;
+  }
+  .cart-btn {
+    bottom: 3.3vw;
+    height: 13.2vw;
+    border-radius: 4.1vw;
+    font-size: 4.1vw;
+  }
+  .header {
+    height: 22.1vw;
+    border-bottom-left-radius: 5.1vw;
+    border-bottom-right-radius: 5.1vw;
+  }
+  .avatar {
+    left: 5.1vw;
+    top: 5.3vw;
+    width: 10.4vw;
+    height: 10.4vw;
+    font-size: 4.1vw;
+    line-height: 10.4vw;
+  }
+  .nickname {
+    left: 20.4vw;
+    top: 6.1vw;
+    font-size: 4.3vw;
+    line-height: 3.8vw;
+  }
+  .id {
+    left: 20.4vw;
+    top: 12.2vw;
+    font-size: 3.1vw;
+    line-height: 3.8vw;
+  }
+  .menu, .new-menu, .service-menu {
+    margin-top: 7.6vw;
+    border-radius: 4.1vw;
+  }
+  .new-menu, .service-menu {
+    margin-top: 3.6vw;
+  }
+  .item, .new-item, .service-item {
+    height: 11.2vw;
+    line-height: 11.2vw;
+    padding-left: 15.8vw;
+    font-size: 4.1vw;
+  }
+  .service-item {
+    padding-right: 10.4vw;
+  }
+  .item:not(:last-child)::after, .new-item:not(:last-child)::after, .service-item:not(:last-child)::after {
+    left: 15.8vw;
+    width: calc(100% - 26.2vw);
+  }
+  .service-item__text, .service-item__subtext {
+    font-size: 4.1vw;
+  }
+  .add-home-block {
+    height: 28.5vw;
+    margin-top: 6.1vw;
+    border-radius: 5.1vw;
+    padding: 2.8vw;
+  }
+  .add-home-inner-block {
+    height: 11.2vw;
+    border-radius: 2.8vw;
+    font-size: 4.1vw;
+  }
+  .add-home-description {
+    margin-top: 2.5vw;
+    padding: 0 9.7vw;
+    font-size: 3.1vw;
+    line-height: 3.8vw;
+  }
+  .tabbar {
+    height: 16.3vw;
+    border-top-left-radius: 6.1vw;
+    border-top-right-radius: 6.1vw;
+  }
+  .tab {
+    gap: 1vw;
+    font-size: 2.7vw;
+  }
+  .tabicon {
+    width: 5.6vw;
+    height: 5.6vw;
+  }
 }
 </style>
 </head>
@@ -1460,3 +1798,4 @@ if (window.Telegram && Telegram.WebApp) {
 </script>
 </body>
 </html>
+```
