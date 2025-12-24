@@ -9,10 +9,10 @@
 <style>
 /* === BASE (merged from both) === */
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--design-w:393;--scale:1;--inv-scale:1}
-body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow-x:hidden}
+:root{--design-w:393;--scale:1;--inv-scale:1;--vh:1vh;--tg-top:var(--tg-safe-area-inset-top,0px);--tg-bottom:var(--tg-safe-area-inset-bottom,0px);--safe-top:max(env(safe-area-inset-top,0px),var(--tg-top));--safe-bottom:max(env(safe-area-inset-bottom,0px),var(--tg-bottom));}
+body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow-x:hidden;min-height:calc(var(--vh)*100);}
 .scale-wrap{width:100%;max-width:calc(var(--design-w)*1px);margin:0 auto;overflow:hidden}
-.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:100vh;position:relative;padding-bottom:64px;transform:scale(var(--scale));transform-origin:top left}
+.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:calc(var(--vh)*100);position:relative;padding-bottom:64px;transform:scale(var(--scale));transform-origin:top left}
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
@@ -72,8 +72,9 @@ body.cart-open{overflow:hidden}
   position:relative;
   width:calc(var(--design-w)*1px);
   max-width:100%;
-  height:100%;
+  height:calc(var(--vh)*100);
   background:#0b0b0b;
+  padding-bottom:var(--safe-bottom);
   transform:scale(var(--scale));
   transform-origin:top center;
 }
@@ -83,7 +84,7 @@ body.cart-open{overflow:hidden}
 .cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png) center/cover no-repeat;border-radius:16px}
 .cart-empty-title{position:absolute;top:495px;left:0;right:0;padding:0 70px;text-align:center;font-size:16px;font-weight:600}
 .cart-empty-sub{position:absolute;top:531px;left:0;right:0;padding:0 32px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
-.cart-btn{position:absolute;bottom:13px;left:16px;width:361px;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
+.cart-btn{position:absolute;bottom:calc(13px + (var(--safe-bottom) * var(--inv-scale)));left:50%;transform:translateX(-50%);width:calc((var(--design-w)*1px) - 32px);max-width:calc(100% - 32px);height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center;padding:0;}
 /* ===== HEART STATES (updated) ===== */
 .specialFavorite,
 .allRestaurantFavorite {
@@ -221,7 +222,7 @@ body.cart-open{overflow:hidden}
 .allRestaurantRating{font-family:'Rubik';font-weight:400;font-size:14px;color:#21EA7C;transform:translateX(-6px)}
 .allRestaurantDelivery{font-family:'Rubik';font-weight:400;font-size:14px;color:#21EA7C;margin-top:4px;display:flex;align-items:center;gap:8px}
 .allRestaurantDelivery::before{content:'';display:inline-block;width:16px;height:16px;background:url('icons/delivery-icon.png');background-size:contain} /* Assume icons/delivery-icon.png */
-.screen-empty{min-height:100vh;padding-top:120px}
+.screen-empty{min-height:calc(var(--vh)*100);padding-top:120px}
 .empty-page{color:rgba(255,255,255,0.6);text-align:center;font-size:16px}
 /* Unified restaurant card class for favorites functionality */
 .restaurant-card { /* Added for unification */ }
@@ -1189,9 +1190,63 @@ body.cart-open{overflow:hidden}
 /* =========================
    RESPONSIVE SCALE (keeps 393px design, fits any phone width)
 ========================= */
+
+/* =========================
+   TELEGRAM / MOBILE VIEWPORT FIX
+   (prevents "everything slides down" and ensures overlays cover full height)
+========================= */
+function getViewportWidth(){
+  if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.viewportWidth === 'number' && Telegram.WebApp.viewportWidth > 0){
+    return Telegram.WebApp.viewportWidth;
+  }
+  if (window.visualViewport && typeof visualViewport.width === 'number' && visualViewport.width > 0){
+    return visualViewport.width;
+  }
+  return document.documentElement.clientWidth || window.innerWidth || 393;
+}
+function getViewportHeight(){
+  if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.viewportHeight === 'number' && Telegram.WebApp.viewportHeight > 0){
+    return Telegram.WebApp.viewportHeight;
+  }
+  if (window.visualViewport && typeof visualViewport.height === 'number' && visualViewport.height > 0){
+    return visualViewport.height;
+  }
+  return window.innerHeight || document.documentElement.clientHeight || 700;
+}
+function updateViewportVars(){
+  const h = getViewportHeight();
+  document.documentElement.style.setProperty('--vh', (h * 0.01) + 'px');
+}
+function resetScroll(){
+  const se = document.scrollingElement || document.documentElement;
+  se.scrollTop = 0;
+  document.body.scrollTop = 0;
+  try { window.scrollTo(0,0); } catch(e){}
+}
+// hard scroll-lock for iOS/Telegram when overlays are open
+let __lockY = 0;
+function lockScroll(){
+  const se = document.scrollingElement || document.documentElement;
+  __lockY = window.scrollY || se.scrollTop || 0;
+  document.body.style.position = 'fixed';
+  document.body.style.top = (-__lockY) + 'px';
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.width = '100%';
+}
+function unlockScroll(){
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.width = '';
+  try { window.scrollTo(0, __lockY); } catch(e){}
+}
+
 function applyScale(){
+  updateViewportVars();
   const designW = 393;
-  const vw = document.documentElement.clientWidth || window.innerWidth || designW;
+  const vw = getViewportWidth();
   const scale = Math.min(1, vw / designW);
   document.documentElement.style.setProperty('--scale', String(scale));
   document.documentElement.style.setProperty('--inv-scale', String(1/scale));
@@ -1199,8 +1254,10 @@ function applyScale(){
   const wrap = document.querySelector('.scale-wrap');
   const app = document.querySelector('.app');
   if(wrap && app){
-    // Match wrapper height to the *visual* height (scaled) to avoid empty scroll space.
-    wrap.style.height = (app.scrollHeight * scale) + 'px';
+    // Match wrapper height to the *visual* height (scaled) and never smaller than viewport.
+    const scaledH = app.scrollHeight * scale;
+    const minH = getViewportHeight();
+    wrap.style.height = Math.max(scaledH, minH) + 'px';
   }
 }
 
@@ -1237,7 +1294,8 @@ function goTab(screenId, btn){
     if(ai && ai.dataset.active) ai.src = ai.dataset.active;
   }
 
-  window.scrollTo(0,0);
+  resetScroll();
+  applyScale();
 
   // special: render favorites on enter
   if(screenId === 'favorites') renderFavorites();
@@ -1249,13 +1307,16 @@ function goTab(screenId, btn){
 ========================= */
 function toggleCart(open){
   const cart = document.getElementById('cart');
-  if(!cart) return;
+  const isOpen = !!open;
+  cart.classList.toggle('active', isOpen);
+  document.documentElement.classList.toggle('cart-open', isOpen);
 
-  cart.classList.toggle('active', !!open);
-  document.body.classList.toggle('cart-open', !!open);
-
-  // Always show from top, and prevent weird scroll behind the overlay
-  if(open) window.scrollTo(0,0);
+  if(isOpen){
+    lockScroll();
+  } else {
+    unlockScroll();
+  }
+  applyScale();
 }
 
 /* =========================
@@ -1432,10 +1493,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
   renderFavorites();
   initTabbarHideOnScroll();
   applyScale();
-  window.addEventListener('resize', applyScale);
-  // Telegram MiniApp support (optional)
+
+  const onViewportChange = ()=>{ applyScale(); };
+
+  window.addEventListener('resize', onViewportChange, {passive:true});
+  if (window.visualViewport){
+    try{
+      visualViewport.addEventListener('resize', onViewportChange, {passive:true});
+      visualViewport.addEventListener('scroll', onViewportChange, {passive:true});
+    }catch(e){}
+  }
+
+  // Telegram MiniApp support
   if (window.Telegram && Telegram.WebApp) {
-    Telegram.WebApp.expand();
+    try { Telegram.WebApp.ready && Telegram.WebApp.ready(); } catch(e){}
+    try { Telegram.WebApp.expand(); } catch(e){}
+    if (Telegram.WebApp.onEvent) {
+      Telegram.WebApp.onEvent('viewportChanged', onViewportChange);
+      Telegram.WebApp.onEvent('themeChanged', onViewportChange);
+    }
   }
 });
 </script>
