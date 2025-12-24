@@ -1,21 +1,23 @@
-<html>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MestiGo — Combined</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rubik:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Rubik:wght@400&display=swap" rel="stylesheet">
 <style>
 /* === BASE (merged from both) === */
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-.app{width:100%;max-width:393px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:64px}
+:root{--design-w:393;--scale:1;--inv-scale:1}
+body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow-x:hidden}
+.scale-wrap{width:100%;max-width:calc(var(--design-w)*1px);margin:0 auto;overflow:hidden}
+.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:100vh;position:relative;padding-bottom:64px;transform:scale(var(--scale));transform-origin:top left}
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
 /* ===== TABBAR (merged) ===== */
-.tabbar-wrapper{width:100%;max-width:393px;margin:0 auto;position:fixed;left:0;right:0;bottom:0;z-index:100}
+.tabbar-wrapper{width:calc(var(--design-w)*1px);position:fixed;left:50%;right:auto;bottom:var(--safe-bottom);z-index:100;transform:translateX(-50%) scale(var(--scale));transform-origin:bottom center;padding-bottom:0;}
 .tabbar{height:64px;background:#0e110f;border-top-left-radius:24px;border-top-right-radius:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;align-items:center;transform:translateY(0);transition:transform 0.3s ease}
 .tab{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:#8c8c8b;font-size:10.5px;font-weight:400}
 .tab.active{color:#21EA7C}
@@ -44,208 +46,47 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 /* ===== CART OVERLAY ===== */
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200}
 .cart-overlay.active{display:block}
-.cart-sheet{position:absolute;left:0;right:0;margin:0 auto;width:100%;max-width:393px;height:100%;background:#0b0b0b}
+.cart-sheet{position:absolute;left:50%;top:0;width:calc(var(--design-w)*1px);height:calc(100% * var(--inv-scale));background:#0b0b0b;transform:translateX(-50%) scale(var(--scale));transform-origin:top center;}
 .cart-close{position:absolute;top:55px;left:30px;color:#21EA7C;font-size:22px;cursor:pointer}
 .cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png);border-radius:16px}
 .cart-empty-title{position:absolute;top:495px;left:0;right:0;padding:0 70px;text-align:center;font-size:16px;font-weight:600}
 .cart-empty-sub{position:absolute;top:531px;left:0;right:0;padding:0 32px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
-.cart-btn{position:absolute;bottom:13px;left:16px;right:16px;width:auto;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
+.cart-btn{position:absolute;bottom:13px;left:16px;width:361px;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
 /* ===== HEART STATES (updated) ===== */
 .specialFavorite,
 .allRestaurantFavorite {
   background: rgba(33,234,124,.55);
 }
+
 /* SVG по умолчанию */
 .heart-svg {
   width: 20px;
   height: 20px;
   fill: transparent;
-  stroke: #0E3F23; /* тёмный зелёный */
+  stroke: #0E3F23;      /* тёмный зелёный */
   stroke-width: 2;
   transition: fill .25s ease, transform .2s ease;
 }
+
 /* активное состояние (БЕЗ анимации) */
 .specialFavorite.active .heart-svg,
 .allRestaurantFavorite.active .heart-svg {
   fill: #0E3F23;
   stroke: #0E3F23;
 }
+
 /* анимация ТОЛЬКО при клике */
 .specialFavorite.animate .heart-svg,
 .allRestaurantFavorite.animate .heart-svg {
   animation: heart-pop .25s ease;
 }
+
 @keyframes heart-pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.18); }
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.18); }
   100% { transform: scale(1); }
 }
-/* === BASE (merged from both) === */
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-.app{width:100%;max-width:430px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
-/* Screens */
-.screen{display:none}
-.screen.active{display:block}
-/* ===== TABBAR (merged) ===== */
-.tabbar-wrapper{width:100%;max-width:430px;margin:0 auto;position:fixed;left:0;right:0;bottom:0;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
-.tabbar{height:64px;background:#0e110f;border-top-left-radius:24px;border-top-right-radius:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;align-items:center;transform:translateY(0);transition:transform 0.3s ease}
-.tab{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:#8c8c8b;font-size:10.5px;font-weight:400}
-.tab.active{color:#21EA7C}
-.tabicon{width:24px;height:24px;object-fit:contain;display:block}
-/* ===== FAVORITES (EMPTY + LIST) ===== */
-.fav-title{margin:clamp(30px,8.5vw,35px) 16px 0;font-size:clamp(26px,7.5vw,30px);font-weight:800}
-.searchRow{margin-top:clamp(25px,7vw,30px);padding:0 15px;display:flex;gap:7px}
-.search-input{flex:1;height:clamp(36px,9.5vw,38px);background:#1B1B1B;border-radius:clamp(12px,3.5vw,14px);display:flex;align-items:center;padding:0 clamp(12px,3.5vw,14px);box-shadow:0 0 5px rgba(59,180,74,.25)}
-.search-text{font-size:clamp(15px,4.1vw,16px);color:#C7CFCB}
-.find-button{width:clamp(90px,24vw,98px);height:clamp(36px,9.5vw,38px);border-radius:clamp(12px,3.5vw,14px);background:linear-gradient(135deg,#40CC5E,#36B854);border:none;color:#fff;font-size:clamp(15px,4.1vw,16px)}
-.allRestaurantsList{margin:clamp(25px,7vw,30px) 0 clamp(100px,26vw,120px);padding:0 16px;display:flex;flex-direction:column;gap:clamp(18px,5vw,20px)}
-.allRestaurantPreview{height:clamp(160px,45vw,180px);background:#2E2E2C;border-radius:clamp(20px,6vw,25px);position:relative;overflow:hidden}
-.allRestaurantFavorite{position:absolute;top:clamp(8px,2.5vw,10px);right:clamp(8px,2.5vw,10px);width:clamp(28px,8vw,32px);height:clamp(28px,8vw,32px);border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.allRestaurantInfo{margin-top:clamp(9px,2.8vw,11px)}
-.allRestaurantNameRow{display:flex;justify-content:space-between;align-items:center;padding-left:clamp(16px,4.5vw,21px);padding-right:clamp(20px,5.5vw,26px);margin-left:0}
-.allRestaurantName{font-size:clamp(15px,4.4vw,17px);font-weight:700}
-.allRestaurantRating{font-family:'Rubik';font-size:clamp(13px,3.7vw,14px);color:#21EA7C;margin-right:0}
-.allRestaurantDelivery{margin-top:7px;font-family:'Rubik';font-size:clamp(13px,3.7vw,14px);color:#21EA7C;padding-left:clamp(16px,4.5vw,21px);margin-left:0;display:flex;align-items:center;gap:8px}
-.allRestaurantDelivery::before{content:'';display:inline-block;width:16px;height:16px;background:url('icons/delivery-icon.png');background-size:contain}
-/* Empty favorites */
-.empty-wrap{margin-top:50px;text-align:center;padding:0 70px}
-.image-placeholder{width:240px;height:167px;margin:0 auto 16px;background:url(icons/избранное.png);border-radius:16px}
-.empty-title{font-size:16px;font-weight:600}
-.empty-subtitle{margin-top:4px;font-size:14px;color:rgba(255,255,255,.7)}
-.go-btn{margin:24px auto 0;display:block;width:267px;height:36px;border-radius:12px;background:linear-gradient(135deg,#40CC5E,#36B854);border:none;color:#fff;font-size:14px}
-/* ===== CART OVERLAY ===== */
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200}
-.cart-overlay.active{display:block}
-.cart-sheet{position:absolute;left:0;right:0;margin:0 auto;width:100%;max-width:430px;height:100%;background:#0b0b0b}
-.cart-close{position:absolute;top:55px;left:30px;color:#21EA7C;font-size:22px;cursor:pointer}
-.cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png);border-radius:16px}
-.cart-empty-title{position:absolute;top:495px;left:0;right:0;padding:0 70px;text-align:center;font-size:16px;font-weight:600}
-.cart-empty-sub{position:absolute;top:531px;left:0;right:0;padding:0 32px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
-.cart-btn{position:absolute;bottom:13px;left:16px;right:16px;width:auto;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
-/* ===== HEART STATES (updated) ===== */
-.specialFavorite,
-.allRestaurantFavorite {
-  background: rgba(33,234,124,.55);
-}
-/* SVG по умолчанию */
-.heart-svg {
-  width: 20px;
-  height: 20px;
-  fill: transparent;
-  stroke: #0E3F23; /* тёмный зелёный */
-  stroke-width: 2;
-  transition: fill .25s ease, transform .2s ease;
-}
-/* активное состояние (БЕЗ анимации) */
-.specialFavorite.active .heart-svg,
-.allRestaurantFavorite.active .heart-svg {
-  fill: #0E3F23;
-  stroke: #0E3F23;
-}
-/* анимация ТОЛЬКО при клике */
-.specialFavorite.animate .heart-svg,
-.allRestaurantFavorite.animate .heart-svg {
-  animation: heart-pop .25s ease;
-}
-@keyframes heart-pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.18); }
-  100% { transform: scale(1); }
-}
-/* Additional styles from index.html */
-.header{background-color:#252525;border-radius:0 0 20px 20px;box-shadow:0 0 20px rgba(0,0,0,0.2);position:relative;width:100%;max-width:430px;left:0;right:0}
-.header-content{padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.address{display:flex;flex-direction:column;gap:2px}
-.city{font-size:16px;font-weight:500;line-height:22px;color:#ffffff;display:inline-flex;align-items:center}
-.city-text{color:#ffffff}
-.city-arrow{margin-left:6px;font-size:15px;color:#ffffff;opacity:0.6}
-.prompt{font-size:13px;font-weight:500;line-height:15px;color:rgba(255,255,255,0.7)}
-.avatar{width:41px;height:41px;border-radius:50%;background:linear-gradient(to bottom right,#a855f7,#d946ef);display:flex;justify-content:center;align-items:center;color:#ffffff;font-weight:500;font-size:16px;flex-shrink:0}
-.searchRow{margin-top:20px;margin-bottom:25px;padding:0 15px;width:100%;max-width:430px}
-.search-input{flex:1;height:clamp(34px,9vw,36px);background-color:#1B1B1B;border-radius:14px;box-shadow:0 0 5px rgba(59,180,74,0.25);display:flex;align-items:center;padding:0 15px}
-.search-icon{width:13px;height:13px;margin-right:8px;flex-shrink:0;display:block;transform:translateY(-1px)}
-.search-text{font-weight:500;font-size:16px;line-height:22px;color:#C7CFCB}
-.find-button{width:98px;height:36px;background:linear-gradient(135deg,#40CC5E,#36B854);border-radius:14px;border:none;box-shadow:0 0 5px rgba(59,180,74,0.25);font-weight:500;font-size:16px;line-height:22px;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.promoBannerWrap{position:relative;width:calc(100% - 30px);height:clamp(110px,30.5vw,120px);border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);margin-bottom:40px;margin-left:auto;margin-right:auto}
-.promoBanner{position:relative;width:100%;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url("icons/Rectangle\ 10.png");background-size:cover;background-position:center;background-repeat:no-repeat}
-.promoBanner__food{position:absolute;left:0;top:0;width:154px;height:120px;object-fit:cover;pointer-events:none}
-.promoBanner__title{position:absolute;left:154px;top:25px;width:164px;height:50px;font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;line-height:17px;color:#FFFFFF;text-align:left}
-.promoBanner__titleLine{display:block;white-space:nowrap}
-.card--img1{width:170px;top:12px;z-index:2;position:absolute;left:13px;cursor:pointer}
-.card--img2{width:100px;top:-15px;z-index:2;position:absolute;right:60px;cursor:pointer}
-.card--img3{width:90px;top:88px;z-index:2;position:absolute;right:60px;cursor:pointer}
-.promoBanner__badge{position:absolute;width:100px;height:23px;border-radius:11px;top:91px}
-.promoBanner__badge--yellow{left:148px;background:#FDC505}
-.promoBanner__badge--green{left:252px;background:#005218}
-.promoBanner__badgeText{position:absolute;font-family:'Inter',sans-serif;font-weight:900;font-size:7px;line-height:17px;color:#FFFFFF;white-space:nowrap;top:3px}
-.promoBanner__badgeText--yellow{left:50%;transform:translateX(calc(-50% - 1px))}
-.promoBanner__badgeText--green{left:8px}
-.cardsBlock{position:relative;width:100%;max-width:430px;height:173px;margin-bottom:30px}
-.card{position:absolute;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25),inset 0 4px 4px rgba(0,0,0,0.25);cursor:pointer}
-.card--restaurants{left:25px;top:0;width:159px;height:159px;background-position:center;background-repeat:no-repeat;background-size:contain}
-.card--shops{left:209px;top:0;width:159px;height:64px;background-position:center;background-repeat:no-repeat;background-size:contain}
-.card--promos{left:209px;top:95px;width:159px;height:64px;background-position:center;background-repeat:no-repeat;background-size:contain}
-.cardLabel{position:absolute;width:159px;font-family:'Roboto',sans-serif;font-weight:500;font-size:12px;line-height:14px;color:rgba(255,255,255,0.8);text-align:center}
-.cardLabel--restaurants{left:25px;top:163px}
-.cardLabel--shops{left:209px;top:70px}
-.cardLabel--promos{left:209px;top:163px}
-.storesSection{margin-top:0}
-.storesHeader{display:flex;justify-content:space-between;align-items:center;padding:0 16px}
-.storesTitle{font-size:20px;font-weight:800;color:rgba(255,255,255,0.85)}
-.storesButton{all:unset;display:flex;align-items:center;gap:4px;font-size:14px;font-weight:500;color:#21EA7C;cursor:pointer}
-.storesButtonArrow{width:12px;height:12px;object-fit:contain}
-.storesCards{margin-top:15px;display:flex;gap:15px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.storesCards::-webkit-scrollbar{display:none}
-.storesCard{width:clamp(120px,32vw,138px);height:clamp(120px,32vw,138px);border-radius:16px;background-size:cover;background-position:center;cursor:pointer}
-.restaurantsSection{margin-top:40px}
-.restaurantsHeader{display:flex;justify-content:space-between;align-items:center;padding:0 16px}
-.restaurantsTitle{font-size:20px;font-weight:800;color:rgba(255,255,255,0.85)}
-.restaurantsButton{all:unset;display:flex;align-items:center;gap:4px;font-size:14px;font-weight:500;color:#21EA7C;cursor:pointer}
-.restaurantsButtonArrow{width:12px;height:12px;object-fit:contain}
-.restaurantsCards{margin-top:15px;display:flex;gap:15px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.restaurantsCards::-webkit-scrollbar{display:none}
-.restaurantsCard{width:clamp(120px,32vw,138px);height:clamp(120px,32vw,138px);border-radius:16px;background-size:cover;background-position:center;cursor:pointer}
-.mg-categories{margin-top:40px}
-.mg-categories__title{font-size:20px;font-weight:800;color:rgba(255,255,255,0.85);padding:0 16px}
-.mg-categories__list{margin-top:15px;display:flex;gap:15px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.mg-categories__list::-webkit-scrollbar{display:none}
-.mg-categories__item{width:clamp(120px,32vw,138px);height:clamp(120px,32vw,138px);border-radius:16px;background-size:cover;background-position:center;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.mg-categories__text{font-size:16px;font-weight:600;color:#fff;text-shadow:0 0 10px rgba(0,0,0,0.5)}
-.specialSection{margin-top:40px}
-.specialHeader{display:flex;justify-content:space-between;align-items:center;padding:0 16px}
-.specialTitle{font-size:20px;font-weight:800;color:rgba(255,255,255,0.85)}
-.specialButton{all:unset;display:flex;align-items:center;gap:4px;font-size:14px;font-weight:500;color:#21EA7C;cursor:pointer}
-.specialButtonArrow{width:12px;height:12px;object-fit:contain}
-.specialCards{margin-top:15px;display:flex;gap:15px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.specialCards::-webkit-scrollbar{display:none}
-.specialCard{width:clamp(260px,72vw,286px);display:flex;flex-direction:column;cursor:pointer}
-.specialPreview{height:clamp(132px,36vw,180px);border-radius:clamp(20px,6vw,25px);background-size:cover;background-position:center;position:relative}
-.specialFavorite{position:absolute;top:clamp(8px,2.5vw,10px);right:clamp(8px,2.5vw,10px);width:clamp(28px,8vw,32px);height:clamp(28px,8vw,32px);border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.specialInfo{margin-top:clamp(9px,2.8vw,11px)}
-.specialNameRow{display:flex;justify-content:space-between;align-items:center}
-.specialName{font-size:clamp(15px,4.4vw,17px);font-weight:700}
-.specialRating{font-family:'Rubik';font-size:clamp(13px,3.7vw,14px);color:#21EA7C}
-.specialDelivery{margin-top:4px;font-family:'Rubik';font-size:clamp(13px,3.7vw,14px);color:#21EA7C;display:flex;align-items:center;gap:8px}
-.specialDelivery::before{content:'';display:inline-block;width:16px;height:16px;background:url('icons/delivery-icon.png');background-size:contain}
-.back-btn{margin-top:clamp(50px,13vw,60px);margin-left:16px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:#21EA7C;cursor:pointer}
-.back-btn svg{width:24px;height:24px;stroke:#21EA7C;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.menu,.new-menu,.service-menu,.add-home-block{margin-top:24px;padding:16px;background:#252525;border-radius:16px}
-.item,.new-item,.service-item{display:flex;align-items:center;gap:12px;height:48px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.item:last-child,.new-item:last-child,.service-item:last-child{border-bottom:none}
-.service-item__text{font-size:16px;font-weight:500}
-.service-item__subtext{font-size:14px;color:rgba(255,255,255,0.7);margin-left:auto}
-.add-home-inner-block{font-size:16px;font-weight:600}
-.add-home-description{margin-top:4px;font-size:14px;color:rgba(255,255,255,0.7)}
-/* Media for narrow screens */
-@media (max-width:380px){
-  .app{max-width:380px}
-  .tabbar{height:60px;border-radius:20px}
-  .tabicon{width:22px;height:22px}
-  .tab{font-size:10px;gap:3px}
-  .fav-title{font-size:26px}
-  .allRestaurantPreview{height:160px}
-}
+
 /* Additional styles from index.html */
 .header{background-color:#252525;border-radius:0 0 20px 20px;box-shadow:0 0 20px rgba(0,0,0,0.2);position:relative;width:100%;max-width:393px;left:0;right:0}
 .header-content{padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
@@ -260,8 +101,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .search-icon{width:13px;height:13px;margin-right:8px;flex-shrink:0;display:block;transform:translateY(-1px)}
 .search-text{font-weight:500;font-size:16px;line-height:22px;color:#C7CFCB}
 .find-button{width:98px;height:36px;background:linear-gradient(135deg,#40CC5E,#36B854);border-radius:14px;border:none;box-shadow:0 0 5px rgba(59,180,74,0.25);font-weight:500;font-size:16px;line-height:22px;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.promoBannerWrap{position:relative;width:calc(100% - 30px);height:120px;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);margin-bottom:40px;margin-left:auto;margin-right:auto}
-.promoBanner{position:relative;width:100%;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url("icons/Rectangle\ 10.png");background-size:cover;background-position:center;background-repeat:no-repeat}
+.promoBannerWrap{position:relative;width:363px;height:120px;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);margin-bottom:40px;margin-left:15px;margin-right:15px}
+.promoBanner{position:relative;width:363px;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url("icons/Rectangle\ 10.png");background-size:393px;background-position:center;background-repeat:no-repeat}
 .promoBanner__food{position:absolute;left:0;top:0;width:154px;height:120px;object-fit:cover;pointer-events:none}
 .promoBanner__title{position:absolute;left:154px;top:25px;width:164px;height:50px;font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;line-height:17px;color:#FFFFFF;text-align:left}
 .promoBanner__titleLine{display:block;white-space:nowrap}
@@ -289,8 +130,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .storesButton{width:57px;height:25px;border-radius:20px;background:#2E2E2C;box-shadow:0 0 5px rgba(59,180,74,0.25);display:flex;align-items:center;gap:8px;padding:0 5px 0 10px;border:none;cursor:pointer}
 .storesButtonText{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(33,234,124,0.85)}
 .storesButtonArrow{width:5px;height:7px}
-.storesCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px;overflow-x:auto}
-.storeCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);flex-shrink:0}
+.storesCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px}
+.storeCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
 .storesTimings{display:flex;gap:56px;padding:0 16px}
 .storeTiming{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;letter-spacing:0.1px;color:#21EA7C;padding-left:5px;text-align:left;white-space:nowrap;display:block}
 .restaurantsSection{margin-top:30px}
@@ -299,8 +140,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .restaurantsButton{width:57px;height:25px;border-radius:20px;background:#2E2E2C;box-shadow:0 0 5px rgba(59,180,74,0.25);display:flex;align-items:center;gap:8px;padding:0 5px 0 10px;border:none;cursor:pointer}
 .restaurantsButtonText{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(33,234,124,0.85)}
 .restaurantsButtonArrow{width:5px;height:7px}
-.restaurantsCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px;overflow-x:auto}
-.restaurantCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);flex-shrink:0}
+.restaurantsCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px}
+.restaurantCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
 .restaurantsTimings{display:flex;gap:56px;padding:0 16px}
 .restaurantTiming{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;letter-spacing:0.1px;color:#21EA7C;padding-left:5px;text-align:left;white-space:nowrap;display:block}
 .mg-categories{margin-left:14px;margin-right:14px;margin-top:30px}
@@ -328,7 +169,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .specialCards{display:flex;flex-wrap:nowrap;gap:15px;overflow-x:auto;overflow-y:visible;padding:0 16px 30px 16px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;cursor:pointer}
 .specialCards::-webkit-scrollbar{display:none}
 .specialCard{flex-shrink:0;width:286px;display:flex;flex-direction:column;cursor:pointer}
-.specialPreview{position:relative;width:100%;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden}
+.specialPreview{position:relative;width:286px;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden}
 .specialFavorite{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,0.5);border:none;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
 .specialInfo{margin-top:10px}
 .specialNameRow{display:flex;justify-content:space-between;align-items:center}
@@ -355,691 +196,187 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 /* ===== BACK ARROW ===== */
 .back-btn{margin-top:60px;margin-left:16px;width:24px;height:24px;cursor:pointer}
 .back-btn svg{width:24px;height:24px;stroke:#21EA7C;display:block}
-/* ===== PROFILE ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-html, body {
-    background-color: #0B0B0B;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: geometricPrecision;
-    font-family: 'Inter', sans-serif;
-}
-body {
-    margin: 0 auto;
-    min-height: 100vh;
-}
-.screen {
-    width: 100%;
-    max-width: 393px;
-    margin: 0 auto;
-    position: relative;
-    padding-bottom: 80px; /* место под таббар */
-}
-.header {
-    position: relative;
-    width: 100%;
-    max-width: 393px;
-    height: 87px;
-    background: #252525;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-.avatar {
-    position: absolute;
-    left: 20px;
-    top: 21px;
-    width: 41px;
-    height: 41px;
-    border-radius: 50%;
-    background: linear-gradient(to bottom right, #a855f7, #d946ef);
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 41px;
-    text-align: center;
-}
-.nickname {
-    position: absolute;
-    left: 80px;
-    top: 24px;
-    font-size: 17px;
-    font-weight: 700;
-    color: #FFFFFF;
-    line-height: 15px;
-}
-.id {
-    position: absolute;
-    left: 80px;
-    top: 48px;
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.5);
-    line-height: 15px;
-}
-/* Все меню-блоки теперь с одинаковыми боковыми отступами */
-.menu,
-.new-menu,
-.service-menu {
-    width: calc(100% - 32px);
-    margin: 30px auto 0 auto; /* одинаковые 16px слева/справа, верхний можно варьировать */
-    background: #252525;
-    border-radius: 16px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-/* Для второго и третьего блоков уменьшаем верхний отступ, если нужно */
-.new-menu {
-    margin-top: 14px;
-}
-.service-menu {
-    margin-top: 14px;
-}
-.item {
-    position: relative;
-    height: 44px;
-    line-height: 44px;
-    padding-left: 62px;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 62px;
-    bottom: 0;
-    width: calc(100% - 103px);
-    height: 0.3px;
-    background: rgba(255, 255, 255, 0.08);
-}
-.new-item {
-    position: relative;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    padding-left: 62px;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.new-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 62px;
-    bottom: 0;
-    width: calc(100% - 103px);
-    height: 0.3px;
-    background: rgba(255, 255, 255, 0.08);
-}
-.service-item {
-    position: relative;
-    height: 44px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 62px;
-    padding-right: 41px;
-}
-.service-item__text {
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.service-item__subtext {
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.35);
-}
-.service-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 62px;
-    bottom: 0;
-    width: calc(100% - 103px);
-    height: 0.3px;
-    background: rgba(255, 255, 255, 0.08);
-}
-/* Блок "Добавить на главный экран" — теперь как остальные */
-.add-home-block {
-    width: calc(100% - 32px);
-    height: 112px;
-    margin: 24px auto 0 auto;
-    background: linear-gradient(to bottom, #1B1B1B 0%, #232323 100%);
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 11px 11px 14px 11px;
-}
-.add-home-inner-block {
-    width: 100%; /* растягиваем на всю ширину родителя */
-    height: 44px;
-    background: #252525;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
-}
-.add-home-description {
-    margin-top: 10px;
-    padding: 0 38px;
-    font-size: 12px;
-    line-height: 15px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
-}
-/* TABBAR */
-.tabbar-wrapper {
-    width: 100%;
-    max-width: 393px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto;
-    z-index: 100;
-}
-.tabbar {
-    height: 64px;
-    background: #0e110f;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    border-top: 1px solid rgba(255,255,255,.08);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    color: #8c8c8b;
-    font-size: 10.5px;
-    cursor: pointer;
-}
-.tab.active {
-    color: #21EA7C;
-}
-.tabicon {
-    width: 22px;
-    height: 22px;
-    display: block;
-}
-.tabbar-wrapper {
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  margin:0 auto;
-  width:100%;
-  max-width:393px;
-  z-index:100;
-}
-.padding-bottom: env(safe-area-inset-bottom);
-.app{
-  width:100%;
-  max-width:393px;
-  margin:0 auto;
-  min-height:100vh;
-  position:relative;
-  padding-bottom:64px;
-}
-.body {
-  height: 100%;
-  overflow: hidden;
-}
-.app {
-  min-height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-:root {
-  --tg-safe-bottom: 0px;
-}
-@supports (padding: env(safe-area-inset-bottom)) {
-  :root {
-    --tg-safe-bottom: env(safe-area-inset-bottom);
-  }
-}
-.app {
-  padding-bottom: calc(64px + var(--tg-safe-bottom));
-}
-.tabbar-wrapper {
-  bottom: 0;
-  padding-bottom: var(--tg-safe-bottom);
-  will-change: transform;
-}
-.tabbar {
-  transform: translateZ(0);
-}
-.cart-sheet {
-  height: 100vh;
-  max-height: 100%;
+/* ===== PROFILE (NEW LAYOUT) ===== */
+.screen[data-screen="profile"]{
+  position: relative;
+  padding-top: 0;
 }
 
-/* Adaptation for smaller screens */
-@media (max-width: 392px) {
-  .fav-title {
-    font-size: 7.6vw;
-    margin: 8.9vw 4.1vw 0;
-  }
-  .searchRow {
-    padding: 0 3.8vw;
-    gap: 1.8vw;
-    margin-top: 7.6vw;
-  }
-  .search-input {
-    height: 9.7vw;
-    padding: 0 3.6vw;
-    border-radius: 3.6vw;
-  }
-  .search-text {
-    font-size: 4.1vw;
-  }
-  .find-button {
-    width: 25vw;
-    height: 9.7vw;
-    font-size: 4.1vw;
-    border-radius: 3.6vw;
-  }
-  .promoBannerWrap {
-    height: 30.5vw;
-    border-radius: 3.8vw;
-    margin-bottom: 10.2vw;
-  }
-  .promoBanner {
-    height: 30.5vw;
-    border-radius: 3.8vw;
-  }
-  .promoBanner__title {
-    left: 39.2vw;
-    top: 6.4vw;
-    width: 41.7vw;
-    font-size: 3.8vw;
-    line-height: 4.3vw;
-  }
-  .promoBanner__food {
-    width: 39.2vw;
-    height: 30.5vw;
-  }
-  .promoBanner__badge {
-    top: 23.2vw;
-    width: 25.4vw;
-    height: 5.9vw;
-    border-radius: 2.8vw;
-  }
-  .promoBanner__badge--yellow {
-    left: 37.7vw;
-  }
-  .promoBanner__badge--green {
-    left: 64.1vw;
-  }
-  .promoBanner__badgeText {
-    font-size: 1.8vw;
-    line-height: 4.3vw;
-    top: 0.8vw;
-  }
-  .cardsBlock {
-    height: 44vw;
-    margin-bottom: 7.6vw;
-  }
-  .card {
-    border-radius: 3.8vw;
-  }
-  .card--restaurants {
-    left: 6.4vw;
-    width: 40.5vw;
-    height: 40.5vw;
-  }
-  .card--shops {
-    left: 53.2vw;
-    width: 40.5vw;
-    height: 16.3vw;
-  }
-  .card--promos {
-    left: 53.2vw;
-    top: 24.2vw;
-    width: 40.5vw;
-    height: 16.3vw;
-  }
-  .cardLabel {
-    width: 40.5vw;
-    font-size: 3.1vw;
-    line-height: 3.6vw;
-  }
-  .cardLabel--restaurants {
-    left: 6.4vw;
-    top: 41.5vw;
-  }
-  .cardLabel--shops {
-    left: 53.2vw;
-    top: 17.8vw;
-  }
-  .cardLabel--promos {
-    left: 53.2vw;
-    top: 41.5vw;
-  }
-  .storesHeader, .restaurantsHeader, .specialHeader {
-    padding: 0 5.1vw 0 4.1vw;
-    margin-bottom: 5.1vw;
-  }
-  .storesTitle, .restaurantsTitle, .specialTitle {
-    font-size: 5.1vw;
-    line-height: 6.1vw;
-  }
-  .storesButton, .restaurantsButton, .specialButton {
-    width: 14.5vw;
-    height: 6.4vw;
-    border-radius: 5.1vw;
-    gap: 2vw;
-    padding: 0 1.3vw 0 2.5vw;
-  }
-  .storesButtonText, .restaurantsButtonText, .specialButtonText {
-    font-size: 3.3vw;
-    line-height: 3.8vw;
-  }
-  .storesButtonArrow, .restaurantsButtonArrow, .specialButtonArrow {
-    width: 1.3vw;
-    height: 1.8vw;
-  }
-  .storesCards, .restaurantsCards {
-    padding: 0 4.1vw;
-    gap: 3.8vw;
-    margin-bottom: 0.8vw;
-  }
-  .storeCard, .restaurantCard {
-    width: 28.5vw;
-    height: 15vw;
-    border-radius: 3.8vw;
-  }
-  .storesTimings, .restaurantsTimings {
-    padding: 0 4.1vw;
-    gap: 14.2vw;
-  }
-  .storeTiming, .restaurantTiming {
-    font-size: 3.3vw;
-    line-height: 3.8vw;
-    padding-left: 1.3vw;
-  }
-  .mg-categories {
-    margin: 7.6vw 3.6vw 0;
-  }
-  .mg-categories__title {
-    font-size: 5.1vw;
-    line-height: 6.1vw;
-    margin-bottom: 2vw;
-    margin-left: 0.5vw;
-  }
-  .mg-categories__list {
-    gap: 6.1vw;
-    padding-right: 3.6vw;
-    padding-top: 2.5vw;
-  }
-  .mg-category-item__icon {
-    width: 16.5vw;
-    height: 16.5vw;
-    border-radius: 50%;
-  }
-  .mg-category-item__text {
-    font-size: 2.8vw;
-    line-height: 3.3vw;
-  }
-  .mg-categories__controls {
-    margin-top: 4.6vw;
-    gap: 1.3vw;
-    padding: 2.5vw 0.5vw 3.1vw;
-  }
-  .mg-control-button {
-    height: 9.4vw;
-    border-radius: 6.4vw;
-  }
-  .mg-control-button--settings {
-    width: 9.7vw;
-  }
-  .mg-control-button--rating {
-    width: 25.4vw;
-  }
-  .mg-control-button--promos {
-    width: 21.6vw;
-  }
-  .mg-control-button--time {
-    width: 26.7vw;
-  }
-  .mg-control-button__text {
-    font-size: 3.3vw;
-    line-height: 3.8vw;
-  }
-  .specialSection {
-    margin-top: 7.6vw;
-  }
-  .specialHeader {
-    margin-bottom: 5.1vw;
-  }
-  .specialCards {
-    gap: 3.8vw;
-    padding: 0 4.1vw 7.6vw 4.1vw;
-  }
-  .specialCard {
-    width: 72.8vw;
-  }
-  .specialPreview {
-    height: 36.1vw;
-    border-radius: 6.4vw;
-  }
-  .specialFavorite {
-    top: 2.5vw;
-    right: 2.5vw;
-    width: 8.1vw;
-    height: 8.1vw;
-  }
-  .specialName {
-    font-size: 3.8vw;
-  }
-  .specialRating {
-    font-size: 3.3vw;
-    transform: translateX(-1.5vw);
-  }
-  .specialDelivery {
-    font-size: 3.3vw;
-    margin-top: 1vw;
-    gap: 2vw;
-  }
-  .specialDelivery::before {
-    width: 4.1vw;
-    height: 4.1vw;
-  }
-  .allRestaurantsList {
-    margin: 7.6vw 0 30.5vw;
-    padding: 0 4.1vw;
-    gap: 5.1vw;
-  }
-  .allRestaurantPreview {
-    height: 45.8vw;
-    border-radius: 6.4vw;
-  }
-  .allRestaurantFavorite {
-    top: 2.5vw;
-    right: 2.5vw;
-    width: 8.1vw;
-    height: 8.1vw;
-  }
-  .allRestaurantInfo {
-    margin-top: 2.8vw;
-  }
-  .allRestaurantName {
-    font-size: 4.3vw;
-  }
-  .allRestaurantRating {
-    font-size: 3.6vw;
-    transform: translateX(-1.5vw);
-  }
-  .allRestaurantDelivery {
-    font-size: 3.6vw;
-    margin-top: 1.8vw;
-    gap: 2vw;
-  }
-  .allRestaurantDelivery::before {
-    width: 4.1vw;
-    height: 4.1vw;
-  }
-  .allRestaurantNameRow {
-    padding-left: 5.3vw;
-    padding-right: 6.6vw;
-    margin-left: -2.5vw;
-  }
-  .allRestaurantDelivery {
-    padding-left: 5.3vw;
-    margin-left: -2.5vw;
-  }
-  .empty-wrap {
-    margin-top: 12.7vw;
-    padding: 0 17.8vw;
-  }
-  .image-placeholder {
-    width: 61vw;
-    height: 42.5vw;
-    margin-bottom: 4.1vw;
-  }
-  .empty-title {
-    font-size: 4.1vw;
-  }
-  .empty-subtitle {
-    margin-top: 1vw;
-    font-size: 3.6vw;
-  }
-  .go-btn {
-    margin-top: 6.1vw;
-    width: 67.9vw;
-    height: 9.2vw;
-    border-radius: 3.1vw;
-    font-size: 3.6vw;
-  }
-  .back-btn {
-    margin-top: 15.3vw;
-    margin-left: 4.1vw;
-    width: 6.1vw;
-    height: 6.1vw;
-  }
-  .back-btn svg {
-    width: 6.1vw;
-    height: 6.1vw;
-  }
-  .cart-close {
-    top: 14vw;
-    left: 7.6vw;
-    font-size: 5.6vw;
-  }
-  .cart-empty-img {
-    top: 63.4vw;
-    width: 49.6vw;
-    height: 52.4vw;
-  }
-  .cart-empty-title {
-    top: 126vw;
-    padding: 0 17.8vw;
-    font-size: 4.1vw;
-  }
-  .cart-empty-sub {
-    top: 135.1vw;
-    padding: 0 8.1vw;
-    font-size: 3.6vw;
-  }
-  .cart-btn {
-    bottom: 3.3vw;
-    height: 13.2vw;
-    border-radius: 4.1vw;
-    font-size: 4.1vw;
-  }
-  .header {
-    height: 22.1vw;
-    border-bottom-left-radius: 5.1vw;
-    border-bottom-right-radius: 5.1vw;
-  }
-  .avatar {
-    left: 5.1vw;
-    top: 5.3vw;
-    width: 10.4vw;
-    height: 10.4vw;
-    font-size: 4.1vw;
-    line-height: 10.4vw;
-  }
-  .nickname {
-    left: 20.4vw;
-    top: 6.1vw;
-    font-size: 4.3vw;
-    line-height: 3.8vw;
-  }
-  .id {
-    left: 20.4vw;
-    top: 12.2vw;
-    font-size: 3.1vw;
-    line-height: 3.8vw;
-  }
-  .menu, .new-menu, .service-menu {
-    margin-top: 7.6vw;
-    border-radius: 4.1vw;
-  }
-  .new-menu, .service-menu {
-    margin-top: 3.6vw;
-  }
-  .item, .new-item, .service-item {
-    height: 11.2vw;
-    line-height: 11.2vw;
-    padding-left: 15.8vw;
-    font-size: 4.1vw;
-  }
-  .service-item {
-    padding-right: 10.4vw;
-  }
-  .item:not(:last-child)::after, .new-item:not(:last-child)::after, .service-item:not(:last-child)::after {
-    left: 15.8vw;
-    width: calc(100% - 26.2vw);
-  }
-  .service-item__text, .service-item__subtext {
-    font-size: 4.1vw;
-  }
-  .add-home-block {
-    height: 28.5vw;
-    margin-top: 6.1vw;
-    border-radius: 5.1vw;
-    padding: 2.8vw;
-  }
-  .add-home-inner-block {
-    height: 11.2vw;
-    border-radius: 2.8vw;
-    font-size: 4.1vw;
-  }
-  .add-home-description {
-    margin-top: 2.5vw;
-    padding: 0 9.7vw;
-    font-size: 3.1vw;
-    line-height: 3.8vw;
-  }
-  .tabbar {
-    height: 16.3vw;
-    border-top-left-radius: 6.1vw;
-    border-top-right-radius: 6.1vw;
-  }
-  .tab {
-    gap: 1vw;
-    font-size: 2.7vw;
-  }
-  .tabicon {
-    width: 5.6vw;
-    height: 5.6vw;
-  }
+/* header */
+.screen[data-screen="profile"] .header{
+  position: relative;
+  width: 393px;
+  height: 87px;
+  background: #252525;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
 }
+.screen[data-screen="profile"] .avatar{
+  position: absolute;
+  left: 20px;
+  top: 21px;
+  width: 41px;
+  height: 41px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom right, #a855f7, #d946ef);
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 41px;
+  text-align: center;
+}
+.screen[data-screen="profile"] .nickname{
+  position: absolute;
+  left: 80px;
+  top: 24px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 15px;
+}
+.screen[data-screen="profile"] .id{
+  position: absolute;
+  left: 80px;
+  top: 48px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  line-height: 15px;
+}
+
+/* menus */
+.screen[data-screen="profile"] .menu,
+.screen[data-screen="profile"] .new-menu,
+.screen[data-screen="profile"] .service-menu{
+  width: 361px;
+  margin: 30px 16px 0 16px;
+  background: #252525;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.screen[data-screen="profile"] .new-menu{ margin-top: 14px; }
+.screen[data-screen="profile"] .service-menu{ margin-top: 14px; }
+
+.screen[data-screen="profile"] .item{
+  position: relative;
+  height: 44px;
+  line-height: 44px;
+  padding-left: 62px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+}
+.screen[data-screen="profile"] .item:not(:last-child)::after{
+  content: '';
+  position: absolute;
+  left: 62px;
+  bottom: 0;
+  width: 299px;
+  height: 0.3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.screen[data-screen="profile"] .new-item{
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding-left: 62px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+}
+.screen[data-screen="profile"] .new-item:not(:last-child)::after{
+  content: '';
+  position: absolute;
+  left: 62px;
+  bottom: 0;
+  width: 299px;
+  height: 0.3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.screen[data-screen="profile"] .service-item{
+  position: relative;
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 62px;
+  padding-right: 41px;
+  cursor: pointer;
+}
+.screen[data-screen="profile"] .service-item__text{
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+}
+.screen[data-screen="profile"] .service-item__subtext{
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+}
+.screen[data-screen="profile"] .service-item:not(:last-child)::after{
+  content: '';
+  position: absolute;
+  left: 62px;
+  bottom: 0;
+  width: 299px;
+  height: 0.3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* add home block */
+.screen[data-screen="profile"] .add-home-block{
+  width: 361px;
+  height: 112px;
+  margin: 24px 16px 0 16px;
+  background: linear-gradient(to bottom, #1B1B1B 0%, #232323 100%);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 11px 11px 14px 11px;
+}
+.screen[data-screen="profile"] .add-home-inner-block{
+  width: 100%;
+  height: 44px;
+  background: #252525;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+}
+.screen[data-screen="profile"] .add-home-description{
+  margin-top: 10px;
+  padding: 0 38px;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+
+/* ===== SAFE AREA (iOS) ===== */
+:root{--safe-bottom:0px}
+@supports (padding: env(safe-area-inset-bottom)){
+  :root{--safe-bottom:env(safe-area-inset-bottom)}
+}
+.app{padding-bottom:calc(64px + (var(--safe-bottom) * var(--inv-scale)))}
+.tabbar-wrapper{padding-bottom:0}
+.cart-sheet{max-height:calc(100vh - var(--safe-bottom))}
+
 </style>
 </head>
 <body>
+<div class="scale-wrap">
 <div class="app">
   <!-- HOME (full content from index.html integrated) -->
   <div class="screen active" data-screen="home">
@@ -1107,7 +444,7 @@ body {
       <div class="storesCards">
         <div class="storeCard" style="background-image: url(icons/Rectangle\ 16.png);"></div>
         <div class="storeCard" style="background-image: url(icons/Rectangle\ 17.png);"> </div>
-        <div class="storeCard" style="background-image: url(icons/Rectangle\ 20.png);""> </div>
+        <div class="storeCard" style="background-image: url(icons/Rectangle\ 20.png);"> </div>
       </div>
       <div class="storesTimings">
         <span class="storeTiming">15–25 мин</span>
@@ -1747,44 +1084,46 @@ body {
   </div>
   <!-- PROFILE -->
   <div class="screen" data-screen="profile">
-        <div class="header">
-            <div class="avatar">AS</div>
-            <div class="nickname">affiliate sxclipse</div>
-            <div class="id">ID 9344544</div>
-        </div>
-        
-        <div class="menu">
-            <div class="item">Избранное</div>
-            <div class="item">Мой адрес</div>
-            <div class="item">История заказов</div>
-            <div class="item">Способы оплаты</div>
-        </div>
-        
-        <div class="new-menu">
-            <div class="new-item">Поддержка</div>
-            <div class="new-item">Пригласить друга</div>
-            <div class="new-item">Стать партнером</div>
-        </div>
-        
-        <div class="service-menu">
-            <div class="service-item">
-                <div class="service-item__text">О сервисе</div>
-            </div>
-            <div class="service-item">
-                <div class="service-item__text">Язык</div>
-                <div class="service-item__subtext">Русский</div>
-            </div>
-        </div>
-        
-        <div class="add-home-block">
-            <div class="add-home-inner-block">
-                Добавить на главный экран
-            </div>
-            <div class="add-home-description">
-                Добавьте значок сервиса на главный экран смартфона, чтобы он всегда был под рукой.
-            </div>
-        </div>
+    <div class="header">
+      <div class="avatar">AS</div>
+      <div class="nickname">affiliate sxclipse</div>
+      <div class="id">ID 9344544</div>
+    </div>
+
+    <div class="menu">
+      <div class="item" onclick="goTab('favorites')">Избранное</div>
+      <div class="item">Мой адрес</div>
+      <div class="item">История заказов</div>
+      <div class="item">Способы оплаты</div>
+    </div>
+
+    <div class="new-menu">
+      <div class="new-item">Поддержка</div>
+      <div class="new-item">Пригласить друга</div>
+      <div class="new-item">Стать партнером</div>
+    </div>
+
+    <div class="service-menu">
+      <div class="service-item">
+        <div class="service-item__text">О сервисе</div>
+      </div>
+      <div class="service-item">
+        <div class="service-item__text">Язык</div>
+        <div class="service-item__subtext">Русский</div>
+      </div>
+    </div>
+
+    <div class="add-home-block">
+      <div class="add-home-inner-block">Добавить на главный экран</div>
+      <div class="add-home-description">
+        Добавьте значок сервиса на главный экран смартфона, чтобы он всегда был под рукой.
+      </div>
+    </div>
   </div>
+
+
+
+</div>
 </div>
 <!-- CART OVERLAY -->
 <div class="cart-overlay" id="cart">
@@ -1813,66 +1152,131 @@ body {
     </button>
   </nav>
 </div>
+
 <script>
-/* ===== NAV ===== */
-function goTab(screenId, btn){
-  const tabMap = {
-    'home': document.querySelector('.tab:nth-child(1)'),
-    'favorites': document.querySelector('.tab:nth-child(2)'),
-    'profile': document.querySelector('.tab:nth-child(4)'),
-  };
-  if (!btn && tabMap[screenId]) {
-    btn = tabMap[screenId];
+/* =========================
+   RESPONSIVE SCALE (keeps 393px design, fits any phone width)
+========================= */
+function applyScale(){
+  const designW = 393;
+  const vw = document.documentElement.clientWidth || window.innerWidth || designW;
+  const scale = Math.min(1, vw / designW);
+  document.documentElement.style.setProperty('--scale', String(scale));
+  document.documentElement.style.setProperty('--inv-scale', String(1/scale));
+
+  const wrap = document.querySelector('.scale-wrap');
+  const app = document.querySelector('.app');
+  if(wrap && app){
+    // Match wrapper height to the *visual* height (scaled) to avoid empty scroll space.
+    wrap.style.height = (app.scrollHeight * scale) + 'px';
   }
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelector('.screen[data-screen="'+screenId+'"]').classList.add('active');
-  if(btn){
-    document.querySelectorAll('.tab').forEach(t=>{
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+function goTab(screenId, btn){
+  const screen = document.querySelector('.screen[data-screen="'+screenId+'"]');
+  if(!screen){
+    console.warn('Screen not found:', screenId);
+    return;
+  }
+
+  // show screen
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  screen.classList.add('active');
+
+  // update tab state only for real tabs
+  const tabMap = {
+    home: document.querySelector('.tabbar .tab:nth-child(1)'),
+    favorites: document.querySelector('.tabbar .tab:nth-child(2)'),
+    profile: document.querySelector('.tabbar .tab:nth-child(4)'),
+  };
+  if(!btn && tabMap[screenId]) btn = tabMap[screenId];
+
+  if(btn && tabMap[screenId]){
+    document.querySelectorAll('.tabbar .tab').forEach(t=>{
       t.classList.remove('active');
-      const i=t.querySelector('img'); if(i&&i.dataset.default) i.src=i.dataset.default;
+      const i = t.querySelector('img');
+      if(i && i.dataset.default) i.src = i.dataset.default;
     });
     btn.classList.add('active');
-    const ai=btn.querySelector('img'); if(ai&&ai.dataset.active) ai.src=ai.dataset.active;
+    const ai = btn.querySelector('img');
+    if(ai && ai.dataset.active) ai.src = ai.dataset.active;
   }
+
   window.scrollTo(0,0);
+
+  // special: render favorites on enter
+  if(screenId === 'favorites') renderFavorites();
+  applyScale();
 }
-/* ===== CART ===== */
+
+/* =========================
+   CART OVERLAY
+========================= */
 function toggleCart(open){
-  document.getElementById('cart').classList.toggle('active', !!open);
+  const cart = document.getElementById('cart');
+  if(!cart) return;
+  cart.classList.toggle('active', !!open);
 }
-/* ===== FAVORITES (localStorage, updated to handle all restaurant-card) ===== */
-const KEY='favorites';
-const getFav=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-const setFav=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
+
+/* =========================
+   FAVORITES (localStorage)
+========================= */
+const FAV_KEY = 'favorites';
+
+function getFav(){
+  try{
+    const v = JSON.parse(localStorage.getItem(FAV_KEY) || '[]');
+    return Array.isArray(v) ? v : [];
+  }catch(_){
+    return [];
+  }
+}
+function setFav(arr){
+  localStorage.setItem(FAV_KEY, JSON.stringify(arr || []));
+}
+
 function syncHearts(){
-  const fav=getFav().map(x=>x.id);
-  document.querySelectorAll('.restaurant-card').forEach(c=>{
-    const btn=c.querySelector('.specialFavorite, .allRestaurantFavorite');
+  const favIds = new Set(getFav().map(x => x.id));
+  document.querySelectorAll('.restaurant-card').forEach(card=>{
+    const btn = card.querySelector('.specialFavorite, .allRestaurantFavorite');
     if(!btn) return;
-    btn.classList.toggle('active', fav.includes(c.dataset.id));
+    btn.classList.toggle('active', favIds.has(card.dataset.id));
   });
 }
+
 function renderFavorites(){
-  const list=document.getElementById('fav-list');
-  const empty=document.getElementById('fav-empty');
-  const fav=getFav();
-  list.innerHTML='';
+  const list = document.getElementById('fav-list');
+  const empty = document.getElementById('fav-empty');
+  if(!list || !empty) return;
+
+  const fav = getFav();
+  list.innerHTML = '';
+
   if(!fav.length){
-    list.style.display='none'; empty.style.display='block'; return;
+    list.style.display = 'none';
+    empty.style.display = 'block';
+    return;
   }
-  empty.style.display='none'; list.style.display='flex';
+
+  empty.style.display = 'none';
+  list.style.display = 'flex';
+
   fav.forEach(it=>{
-    const card=document.createElement('div');
-    card.className='allRestaurantCard restaurant-card';
-    card.dataset.screen = `restaurant-${it.id}`;
+    const card = document.createElement('div');
+    card.className = 'allRestaurantCard restaurant-card';
+    card.dataset.screen = it.screen || ('restaurant-' + it.id);
     card.dataset.id = it.id;
     card.dataset.name = it.name;
     card.dataset.rating = it.rating;
     card.dataset.delivery = it.delivery;
     card.dataset.img = it.img;
-    card.innerHTML=`
+
+    card.innerHTML = `
       <div class="allRestaurantPreview" style="background-image:url(${it.img})">
-        <button class="allRestaurantFavorite">
+        <button class="allRestaurantFavorite" aria-label="Добавить в избранное">
           <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
@@ -1884,81 +1288,120 @@ function renderFavorites(){
           <span class="allRestaurantRating">${it.rating}</span>
         </div>
         <div class="allRestaurantDelivery">${it.delivery}</div>
-      </div>`;
+      </div>
+    `;
     list.appendChild(card);
   });
-  syncHearts(); // Sync after rendering
+
+  syncHearts();
+  applyScale();
 }
-function toggleFav(id){
-  const cards=[...document.querySelectorAll('.restaurant-card')];
-  const c=cards.find(x=>x.dataset.id===id);
-  let fav=getFav();
-  const idx=fav.findIndex(x=>x.id===id);
-  if(idx>-1){ fav.splice(idx,1); }
-  else{
-    fav.push({
-      id,
-      name:c.dataset.name,
-      rating:c.dataset.rating,
-      delivery:c.dataset.delivery,
-      img:c.dataset.img
-    });
+
+function toggleFavByCard(card){
+  const id = card?.dataset?.id;
+  if(!id) return;
+
+  const fav = getFav();
+  const idx = fav.findIndex(x => x.id === id);
+
+  if(idx > -1){
+    fav.splice(idx, 1);
+    setFav(fav);
+    syncHearts();
+    renderFavorites();
+    return;
   }
+
+  fav.push({
+    id,
+    screen: card.dataset.screen || ('restaurant-' + id),
+    name: card.dataset.name || '',
+    rating: card.dataset.rating || '',
+    delivery: card.dataset.delivery || '',
+    img: card.dataset.img || ''
+  });
   setFav(fav);
   syncHearts();
   renderFavorites();
 }
-document.addEventListener('click',e=>{
+
+/* =========================
+   CLICK HANDLERS
+========================= */
+document.addEventListener('click', (e)=>{
   const favBtn = e.target.closest('.specialFavorite, .allRestaurantFavorite');
   if(favBtn){
-  e.preventDefault();
-  e.stopPropagation();
-  // локальная анимация ТОЛЬКО этого сердца
-  favBtn.classList.remove('animate');
-  void favBtn.offsetWidth; // reset animation
-  favBtn.classList.add('animate');
-  const c = favBtn.closest('.restaurant-card');
-  if(c && c.dataset.id) toggleFav(c.dataset.id);
-  return;
-}
+    e.preventDefault();
+    e.stopPropagation();
+
+    // animate only this heart
+    favBtn.classList.remove('animate');
+    void favBtn.offsetWidth;
+    favBtn.classList.add('animate');
+
+    const card = favBtn.closest('.restaurant-card');
+    if(card) toggleFavByCard(card);
+    return;
+  }
+
   const card = e.target.closest('.restaurant-card');
   if(card && card.dataset.screen){
     goTab(card.dataset.screen);
   }
 });
-document.addEventListener('DOMContentLoaded',()=>{
+
+/* =========================
+   TABBAR HIDE ON SCROLL
+========================= */
+function initTabbarHideOnScroll(){
+  const bar = document.querySelector('.tabbar');
+  if(!bar) return;
+
+  let lastY = window.scrollY || 0;
+  let ticking = false;
+
+  function onScroll(){
+    const y = window.scrollY || 0;
+    const delta = y - lastY;
+
+    if(Math.abs(delta) < 8) return;
+
+    if(delta > 0){
+      // down
+      bar.style.transform = 'translateY(100%)';
+    }else{
+      // up
+      bar.style.transform = 'translateY(0)';
+    }
+    lastY = y;
+  }
+
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){
+      window.requestAnimationFrame(()=>{
+        onScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive:true});
+}
+
+/* =========================
+   INIT
+========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
   syncHearts();
   renderFavorites();
   initTabbarHideOnScroll();
+  applyScale();
+  window.addEventListener('resize', applyScale);
+  // Telegram MiniApp support (optional)
+  if (window.Telegram && Telegram.WebApp) {
+    Telegram.WebApp.expand();
+  }
 });
-/* ===== TABBAR HIDE ON SCROLL (from index.html) ===== */
-function showTabbar(){
-  var bar = document.querySelector('.tabbar');
-  if(bar){ bar.style.transform = 'translateY(0)'; }
-}
-function hideTabbar(){
-  var bar = document.querySelector('.tabbar');
-  if(bar){ bar.style.transform = 'translateY(100%)'; }
-}
-function initTabbarHideOnScroll(){
-  var bar = document.querySelector('.tabbar');
-  if(!bar) return;
-  var last = 0;
-  document.addEventListener('scroll', function(){
-    var current = window.scrollY || document.documentElement.scrollTop;
-    if (current <= 0) {
-      showTabbar();
-    } else if (current > last + 5) {
-      hideTabbar();
-    } else if (current < last - 5) {
-      showTabbar();
-    }
-    last = current;
-  }, { passive:true });
-}
-if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.expand();
-}
 </script>
+
 </body>
 </html>
