@@ -43,12 +43,44 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .empty-title{font-size:16px;font-weight:600}
 .empty-subtitle{margin-top:4px;font-size:14px;color:rgba(255,255,255,.7)}
 .go-btn{margin:24px auto 0;display:block;width:267px;height:36px;border-radius:12px;background:linear-gradient(135deg,#40CC5E,#36B854);border:none;color:#fff;font-size:14px}
+/* Favorites screen tweaks (чтобы не уезжало вниз) */
+.screen[data-screen="favorites"] .fav-title{margin-top:24px}
+.screen[data-screen="favorites"] .searchRow{margin-top:18px}
+.screen[data-screen="favorites"] .empty-wrap{margin-top:24px;padding:0 16px;text-align:center}
+.screen[data-screen="favorites"] .image-placeholder{
+  width:220px;height:220px;margin:0 auto 24px auto;border-radius:30px;
+  background:url(icons/избранное.png) center/cover no-repeat;
+}
+.screen[data-screen="favorites"] .go-btn{width:100%;max-width:361px;height:44px;border-radius:16px}
 /* ===== CART OVERLAY ===== */
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200}
-.cart-overlay.active{display:block}
-.cart-sheet{position:absolute;left:50%;top:0;width:calc(var(--design-w)*1px);height:calc(100% * var(--inv-scale));background:#0b0b0b;transform:translateX(-50%) scale(var(--scale));transform-origin:top center;}
+body.cart-open{overflow:hidden}
+.cart-open .tabbar-wrapper{display:none}
+
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:#0b0b0b; /* opaque: за корзиной ничего не видно */
+  display:none;
+  z-index:9999;
+  align-items:stretch;
+  justify-content:center;
+}
+.cart-overlay.active{display:flex}
+
+/* Fullscreen sheet (scaled like the app), centered */
+.cart-sheet{
+  position:relative;
+  width:calc(var(--design-w)*1px);
+  max-width:100%;
+  height:100%;
+  background:#0b0b0b;
+  transform:scale(var(--scale));
+  transform-origin:top center;
+}
+
+/* cart content */
 .cart-close{position:absolute;top:55px;left:30px;color:#21EA7C;font-size:22px;cursor:pointer}
-.cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png);border-radius:16px}
+.cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png) center/cover no-repeat;border-radius:16px}
 .cart-empty-title{position:absolute;top:495px;left:0;right:0;padding:0 70px;text-align:center;font-size:16px;font-weight:600}
 .cart-empty-sub{position:absolute;top:531px;left:0;right:0;padding:0 32px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
 .cart-btn{position:absolute;bottom:13px;left:16px;width:361px;height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600}
@@ -1130,7 +1162,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
   <div class="cart-sheet">
     <div class="cart-close" onclick="toggleCart(false)">✕</div>
     <div class="cart-empty-img"></div>
-    <div class="cart-empty-title">Похоже, тут ничего нет..</div>
+    <div class="cart-empty-title">Похоже, тут ничего нет.</div>
     <div class="cart-empty-sub">У нас большой выбор ресторанов и магазинов, выбирайте и заказывайте из понравившихся.</div>
     <button class="cart-btn" onclick="goTab('home'); toggleCart(false)">Перейти к ресторанам</button>
   </div>
@@ -1218,7 +1250,12 @@ function goTab(screenId, btn){
 function toggleCart(open){
   const cart = document.getElementById('cart');
   if(!cart) return;
+
   cart.classList.toggle('active', !!open);
+  document.body.classList.toggle('cart-open', !!open);
+
+  // Always show from top, and prevent weird scroll behind the overlay
+  if(open) window.scrollTo(0,0);
 }
 
 /* =========================
