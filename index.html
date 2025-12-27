@@ -433,6 +433,22 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
 .promoBanner__food{object-fit:cover}
 .cardsBlock img{display:block}
 
+
+
+/* ===== iPhone / iOS WebView stabilizers (added) =====
+   Fixes:
+   1) Tabbar "flies up" on iPhones when scale < 1 (bottom inset must be compensated)
+   2) iOS WebView height quirks (fallback if JS hasn't updated --vh yet)
+*/
+@supports (-webkit-touch-callout: none) {
+  html, body { height: -webkit-fill-available; }
+  .viewport { height: -webkit-fill-available; }
+  /* compensate safe-area when the whole tabbar is scaled */
+  .tabbar-wrapper{
+    bottom: calc(var(--safe-bottom) * var(--inv-scale));
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1575,6 +1591,41 @@ document.addEventListener('DOMContentLoaded', ()=>{
       Telegram.WebApp.onEvent('themeChanged', onViewportChange);
     }
   }
+
+  /* ===== iPhone / iOS Telegram WebView fixes (added) ===== */
+  const iOS_TABBAR_STICKY = (() => {
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+    const isAppleTouch =
+      /iP(hone|od|ad)/.test(platform) ||
+      (platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+      /iPhone|iPad|iPod/.test(ua);
+    return isAppleTouch;
+  })();
+
+  // iOS Telegram sometimes changes viewport after first paint (toolbars / safe-area animation)
+  // Re-apply scaling a few times to lock layout.
+  if (iOS_TABBAR_STICKY) {
+    requestAnimationFrame(applyScale);
+    setTimeout(applyScale, 60);
+    setTimeout(applyScale, 200);
+
+    // On iOS the "hide tabbar on scroll" can get stuck hidden due to elastic scroll.
+    // Keep it always visible.
+    const bar = document.querySelector('.tabbar');
+    const root = document.getElementById('scrollRoot');
+    if (bar && root) {
+      bar.style.transform = 'translateY(0)';
+      root.addEventListener('scroll', () => {
+        bar.style.transform = 'translateY(0)';
+      }, { passive: true });
+      // Also on touch-end (elastic bounce)
+      root.addEventListener('touchend', () => {
+        bar.style.transform = 'translateY(0)';
+      }, { passive: true });
+    }
+  }
+
 });
 </script>
 
