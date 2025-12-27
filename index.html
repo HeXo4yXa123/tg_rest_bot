@@ -28,22 +28,29 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .tab.active{color:#21EA7C}
 .tabicon{width:24px;height:24px;object-fit:contain;display:block}
 /* ===== iOS FIXES (Telegram iPhone/iPad) =====
-   Цель: не оставлять белую полоску снизу и не "улетать" таббару.
-   НИЧЕГО не ломаем: только доп. правила для iOS.
+   Цель: оставить место под Home Indicator (белая полоска), но при этом
+   закрасить низ фоном и НЕ уводить таббар слишком высоко.
+   Важно: не трогаем скролл/лейаут — только позиционирование таббара.
 */
+.ios{ --ios-bar-space: clamp(0px, var(--safe-bottom), 20px); }
+
 .ios .tabbar-wrapper{
-  /* на iPhone safe-area уже учтён в viewport, поэтому не поднимаем панель вверх */
+  /* фиксируем к самому низу и рисуем фон до низа */
   bottom: 0 !important;
-  background: #0e110f; /* чтобы низ не выглядел пустым/белым */
+  padding-bottom: calc(var(--ios-bar-space) * var(--inv-scale));
+  background: #0e110f;
 }
+
 .ios .tabbar{
   /* на iOS часто глючит hide-on-scroll (elastic scroll) — держим видимой */
   transform: translateY(0) !important;
 }
+
 /* чтобы контент не прятался под таббаром на iPhone */
 .ios .app{
-  padding-bottom: calc(64px + (var(--safe-bottom) * var(--inv-scale)));
+  padding-bottom: calc(64px + (var(--ios-bar-space) * var(--inv-scale)));
 }
+
 /* ===== FAVORITES (EMPTY + LIST) ===== */
 .fav-title{margin:35px 16px 0;font-size:30px;font-weight:800}
 .searchRow{margin-top:30px;padding:0 15px;display:flex;gap:7px}
