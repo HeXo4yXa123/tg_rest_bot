@@ -9,24 +9,41 @@
 <style>
 /* === BASE (merged from both) === */
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--design-w:393;--scale:1;--inv-scale:1;--vh:1vh;--tg-top:var(--tg-safe-area-inset-top,0px);--tg-bottom:var(--tg-safe-area-inset-bottom,0px);--safe-top:min(47px,max(env(safe-area-inset-top,0px),var(--tg-top)));--safe-bottom:min(34px,max(env(safe-area-inset-bottom,0px),var(--tg-bottom)));}
+:root{--design-w:393;--scale:1;--inv-scale:1;--vh:1vh;--tg-top:var(--tg-safe-area-inset-top,0px);--tg-bottom:var(--tg-safe-area-inset-bottom,0px);--safe-top:max(env(safe-area-inset-top,0px),var(--tg-top));--safe-bottom:max(env(safe-area-inset-bottom,0px),var(--tg-bottom));}
 html,body{height:100%}
 body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow:hidden;}
 /* Telegram/Desktop safe viewport wrapper */
-.viewport{width:100%;height:calc(var(--vh)*100);display:flex;justify-content:center;background:#0b0b0b;overflow:hidden;min-height:0;align-items:stretch;}
-.scale-wrap{width:100%;max-width:calc(var(--design-w)*1px);height:100%;margin:0 auto;position:relative;min-height:0;}
-.app-scroll{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;min-height:0;position:relative;}
+.viewport{width:100%;height:calc(var(--vh)*100);display:flex;justify-content:center;background:#0b0b0b;overflow:hidden}
+.scale-wrap{width:100%;max-width:calc(var(--design-w)*1px);height:100%;margin:0 auto;position:relative}
+.app-scroll{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 .app-stage{position:relative;width:var(--stage-w, calc(var(--design-w)*1px));height:var(--stage-h, calc(var(--vh)*100));margin:0 auto}
-.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:calc(var(--vh)*100);position:absolute;left:0;top:0;padding-bottom:calc(64px + (var(--safe-bottom) * var(--inv-scale)));transform:scale(var(--scale));transform-origin:top left}
+.app{width:calc(var(--design-w)*1px);max-width:none;margin:0;min-height:calc(var(--vh)*100);position:absolute;left:0;top:0;padding-bottom:64px;transform:scale(var(--scale));transform-origin:top left}
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
 /* ===== TABBAR (merged) ===== */
-.tabbar-wrapper{width:calc(var(--design-w)*1px);position:fixed;left:50%;right:auto;bottom:0;z-index:100;transform:translateX(-50%) scale(var(--scale));transform-origin:bottom center;padding-bottom:calc(var(--safe-bottom) * var(--inv-scale));will-change:transform;}
+.tabbar-wrapper{width:calc(var(--design-w)*1px);position:fixed;left:50%;right:auto;bottom:var(--safe-bottom);z-index:100;transform:translateX(-50%) scale(var(--scale));transform-origin:bottom center;padding-bottom:0;}
 .tabbar{height:64px;background:#0e110f;border-top-left-radius:24px;border-top-right-radius:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;align-items:center;transform:translateY(0);transition:transform 0.3s ease}
 .tab{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:#8c8c8b;font-size:10.5px;font-weight:400}
 .tab.active{color:#21EA7C}
 .tabicon{width:24px;height:24px;object-fit:contain;display:block}
+/* ===== iOS FIXES (Telegram iPhone/iPad) =====
+   Цель: не оставлять белую полоску снизу и не "улетать" таббару.
+   НИЧЕГО не ломаем: только доп. правила для iOS.
+*/
+.ios .tabbar-wrapper{
+  /* на iPhone safe-area уже учтён в viewport, поэтому не поднимаем панель вверх */
+  bottom: 0 !important;
+  background: #0e110f; /* чтобы низ не выглядел пустым/белым */
+}
+.ios .tabbar{
+  /* на iOS часто глючит hide-on-scroll (elastic scroll) — держим видимой */
+  transform: translateY(0) !important;
+}
+/* чтобы контент не прятался под таббаром на iPhone */
+.ios .app{
+  padding-bottom: calc(64px + (var(--safe-bottom) * var(--inv-scale)));
+}
 /* ===== FAVORITES (EMPTY + LIST) ===== */
 .fav-title{margin:35px 16px 0;font-size:30px;font-weight:800}
 .searchRow{margin-top:30px;padding:0 15px;display:flex;gap:7px}
@@ -34,7 +51,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .search-text{font-size:16px;color:#C7CFCB}
 .find-button{width:98px;height:38px;border-radius:14px;background:linear-gradient(135deg,#40CC5E,#36B854);border:none;color:#fff;font-size:16px}
 .allRestaurantsList{margin:30px 0 120px;padding:0 16px;display:flex;flex-direction:column;gap:20px}
-.allRestaurantPreview{height:180px;background:#2E2E2C;border-radius:25px;position:relative;overflow:hidden;background-position:center;background-size:cover;background-repeat:no-repeat;}
+.allRestaurantPreview{height:180px;background:#2E2E2C;border-radius:25px;position:relative;overflow:hidden}
 .allRestaurantFavorite{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .allRestaurantInfo{margin-top:11px}
 .allRestaurantNameRow{display:flex;justify-content:space-between;align-items:center;padding-left:21px;padding-right:26px;margin-left:-10px}
@@ -79,7 +96,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
   max-width:100%;
   height:calc(var(--vh)*100);
   background:#0b0b0b;
-  padding-bottom:calc(var(--safe-bottom) * var(--inv-scale));
+  padding-bottom:var(--safe-bottom);
   transform:scale(var(--scale));
   transform-origin:top center;
 }
@@ -207,7 +224,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .specialCards{display:flex;flex-wrap:nowrap;gap:15px;overflow-x:auto;overflow-y:visible;padding:0 16px 30px 16px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;cursor:pointer}
 .specialCards::-webkit-scrollbar{display:none}
 .specialCard{flex-shrink:0;width:286px;display:flex;flex-direction:column;cursor:pointer}
-.specialPreview{position:relative;width:286px;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden;background-position:center;background-size:cover;background-repeat:no-repeat;}
+.specialPreview{position:relative;width:286px;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden}
 .specialFavorite{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,0.5);border:none;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
 .specialInfo{margin-top:10px}
 .specialNameRow{display:flex;justify-content:space-between;align-items:center}
@@ -432,22 +449,6 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
 .promoBanner{background-size:cover !important;background-position:center !important}
 .promoBanner__food{object-fit:cover}
 .cardsBlock img{display:block}
-
-
-
-/* ===== iPhone / iOS WebView stabilizers (added) =====
-   Fixes:
-   1) Tabbar "flies up" on iPhones when scale < 1 (bottom inset must be compensated)
-   2) iOS WebView height quirks (fallback if JS hasn't updated --vh yet)
-*/
-@supports (-webkit-touch-callout: none) {
-  html, body { height: -webkit-fill-available; }
-  .viewport { height: -webkit-fill-available; }
-  /* compensate safe-area when the whole tabbar is scaled */
-  .tabbar-wrapper{
-    bottom: calc(var(--safe-bottom) * var(--inv-scale));
-  }
-}
 
 </style>
 </head>
@@ -1236,6 +1237,23 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
 </div>
 
 <script>
+/* ===== Platform detect (iOS) ===== */
+const IS_IOS = (() => {
+  const ua = navigator.userAgent || '';
+  const iOS = /iPad|iPhone|iPod/.test(ua);
+  const iPadOS = (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
+  return iOS || iPadOS;
+})();
+if (IS_IOS) document.documentElement.classList.add('ios');
+
+/* Telegram colors (helps убрать белые зоны на iOS) */
+try{
+  if (window.Telegram && Telegram.WebApp){
+    Telegram.WebApp.setBackgroundColor('#0b0b0b');
+    Telegram.WebApp.setHeaderColor('#0b0b0b');
+  }
+}catch(_){}
+
 /* =========================
    RESPONSIVE SCALE (keeps 393px design, fits any phone width)
 ========================= */
@@ -1533,6 +1551,7 @@ function initTabbarHideOnScroll(){
   const bar = document.querySelector('.tabbar');
   const root = document.getElementById('scrollRoot');
   if(!bar || !root) return;
+  if (document.documentElement.classList.contains('ios')) return;
 
   let lastY = root.scrollTop || 0;
   let ticking = false;
@@ -1567,37 +1586,12 @@ function initTabbarHideOnScroll(){
    INIT
 ========================= */
 document.addEventListener('DOMContentLoaded', ()=>{
-  /* ===== iPhone / iOS detection (Telegram WebView / Safari) ===== */
-  const IS_IOS = (() => {
-    const ua = navigator.userAgent || '';
-    const platform = navigator.platform || '';
-    return (
-      /iP(hone|od|ad)/.test(platform) ||
-      (platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
-      /iPhone|iPad|iPod/.test(ua)
-    );
-  })();
-  if(IS_IOS) document.documentElement.classList.add('is-ios');
-
   syncHearts();
   renderFavorites();
+  initTabbarHideOnScroll();
+  applyScale();
 
-  // Hide-on-scroll is nice on Android, but on iOS elastic scroll can "stuck-hide" the bar.
-  if(!IS_IOS) initTabbarHideOnScroll();
-
-  // Debounced relayout (stage size depends on fonts/images)
-  let __scaleRAF = 0;
-  const scheduleScale = () => {
-    if(__scaleRAF) cancelAnimationFrame(__scaleRAF);
-    __scaleRAF = requestAnimationFrame(()=>{
-      __scaleRAF = 0;
-      applyScale();
-    });
-  };
-
-  scheduleScale();
-
-  const onViewportChange = ()=>{ scheduleScale(); };
+  const onViewportChange = ()=>{ applyScale(); };
 
   window.addEventListener('resize', onViewportChange, {passive:true});
   if (window.visualViewport){
@@ -1614,51 +1608,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if (Telegram.WebApp.onEvent) {
       Telegram.WebApp.onEvent('viewportChanged', onViewportChange);
       Telegram.WebApp.onEvent('themeChanged', onViewportChange);
-    }
-  }
-
-  // Recompute stage size after full load / fonts / images
-  window.addEventListener('load', scheduleScale, {passive:true});
-  if (document.fonts && document.fonts.ready) {
-    try { document.fonts.ready.then(scheduleScale); } catch(e){}
-  }
-  try{
-    document.querySelectorAll('img').forEach(img=>{
-      if(!img.complete){
-        img.addEventListener('load', scheduleScale, {once:true, passive:true});
-        img.addEventListener('error', scheduleScale, {once:true, passive:true});
-      }
-    });
-  }catch(e){}
-
-  // Watch layout changes (best-effort)
-  if (window.ResizeObserver) {
-    try{
-      const app = document.getElementById('app');
-      if(app){
-        const ro = new ResizeObserver(()=>scheduleScale());
-        ro.observe(app);
-      }
-    }catch(e){}
-  }
-
-  /* ===== iOS-specific stability tweaks ===== */
-  if (IS_IOS) {
-    // Telegram iOS can animate toolbars/safe-area after first paint — re-apply scaling a few times.
-    requestAnimationFrame(scheduleScale);
-    setTimeout(scheduleScale, 60);
-    setTimeout(scheduleScale, 200);
-
-    // Keep tabbar always visible on iOS
-    const bar = document.querySelector('.tabbar');
-    const root = document.getElementById('scrollRoot');
-    const keepVisible = () => { if(bar) bar.style.transform = 'translateY(0)'; };
-
-    keepVisible();
-
-    if (root) {
-      root.addEventListener('scroll', keepVisible, { passive: true });
-      root.addEventListener('touchend', keepVisible, { passive: true });
     }
   }
 });
