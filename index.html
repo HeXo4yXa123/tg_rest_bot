@@ -411,6 +411,28 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .tabbar-wrapper{padding-bottom:0}
 .cart-sheet{max-height:calc(100vh - var(--safe-bottom))}
 
+
+/* =========================
+   RESPONSIVE IMAGE FIT FIX (Telegram/WebView safe)
+   - forces preview/background images to fully fill their containers
+========================= */
+html{-webkit-text-size-adjust:100%;}
+img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:none}
+.promoBanner,
+.storeCard,
+.restaurantCard,
+.specialPreview,
+.allRestaurantPreview,
+.image-placeholder,
+.cart-empty-img{
+  background-size:cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+}
+.promoBanner{background-size:cover !important;background-position:center !important}
+.promoBanner__food{object-fit:cover}
+.cardsBlock img{display:block}
+
 </style>
 </head>
 <body>
@@ -1235,12 +1257,26 @@ function updateViewportVars(){
 }
 function resetScroll(){
   const root = document.getElementById('scrollRoot');
-  if(root) root.scrollTop = 0;
-
   const se = document.scrollingElement || document.documentElement;
-  if(se) se.scrollTop = 0;
-  document.body.scrollTop = 0;
-  try { window.scrollTo(0,0); } catch(e){}
+
+  const doReset = () => {
+    try{
+      if(root){
+        if(root.scrollTo) root.scrollTo({top:0,left:0,behavior:'auto'});
+        root.scrollTop = 0;
+      }
+      if(se) se.scrollTop = 0;
+      if(document.body) document.body.scrollTop = 0;
+      try{ window.scrollTo(0,0); }catch(e){}
+    }catch(e){}
+  };
+
+  // Telegram Desktop/WebView sometimes applies scroll after layout — reset multiple times
+  doReset();
+  requestAnimationFrame(()=>{
+    doReset();
+    requestAnimationFrame(doReset);
+  });
 }
 // hard scroll-lock for iOS/Telegram when overlays are open
 let __lockY = 0;
@@ -1261,22 +1297,27 @@ function unlockScroll(){
 
 function applyScale(){
   updateViewportVars();
+
   const designW = 393;
   const vw = getViewportWidth();
-  const scale = Math.min(1, vw / designW);
+  const scaleRaw = vw / designW;
+  const scale = Math.min(1, scaleRaw);
 
   document.documentElement.style.setProperty('--scale', String(scale));
-  document.documentElement.style.setProperty('--inv-scale', String(1/scale));
+  document.documentElement.style.setProperty('--inv-scale', String(scale ? (1/scale) : 1));
 
-  // Stage takes the *visual* size so Telegram/Desktop scroll works consistently
+  // Stage takes the *visual* size so Telegram/Desktop scrolling is consistent
   const stage = document.getElementById('appStage');
   const app = document.getElementById('app');
   if(stage && app){
     const minH = getViewportHeight();
-    const stageW = Math.round(designW * scale);
-    const stageH = Math.max(Math.round(app.scrollHeight * scale), Math.round(minH));
+    const stageW = (designW * scale);
+    const contentH = app.scrollHeight * scale;
+    const stageH = Math.max(contentH, minH);
+
     stage.style.width = stageW + 'px';
     stage.style.height = stageH + 'px';
+
     document.documentElement.style.setProperty('--stage-w', stageW + 'px');
     document.documentElement.style.setProperty('--stage-h', stageH + 'px');
   }
