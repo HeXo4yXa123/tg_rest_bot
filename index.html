@@ -38,13 +38,19 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
   /* фиксируем к самому низу и рисуем фон до низа */
   bottom: 0 !important;
   padding-bottom: calc(var(--ios-bar-space) * var(--inv-scale));
-  background: #0e110f;
 }
 
-.ios .tabbar{
-  /* на iOS часто глючит hide-on-scroll (elastic scroll) — держим видимой */
-  transform: translateY(0) !important;
+/* iOS: закрашиваем safe-area ВМЕСТЕ с таббаром (чтобы при hide-on-scroll не оставалась плашка) */
+.ios .tabbar{ position:relative; }
+.ios .tabbar::after{
+  content:'';
+  position:absolute;
+  left:0; right:0;
+  bottom: calc(-1 * (var(--ios-bar-space) * var(--inv-scale)));
+  height: calc(var(--ios-bar-space) * var(--inv-scale));
+  background:#0e110f;
 }
+
 
 /* чтобы контент не прятался под таббаром на iPhone */
 .ios .app{
@@ -1558,7 +1564,6 @@ function initTabbarHideOnScroll(){
   const bar = document.querySelector('.tabbar');
   const root = document.getElementById('scrollRoot');
   if(!bar || !root) return;
-  if (document.documentElement.classList.contains('ios')) return;
 
   let lastY = root.scrollTop || 0;
   let ticking = false;
