@@ -74,7 +74,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .allRestaurantDelivery::before{content:'';display:inline-block;width:16px;height:16px;background:url('icons/delivery-icon.png');background-size:contain} /* Assume icons/delivery-icon.png for delivery icon */
 /* Empty favorites */
 .empty-wrap{margin-top:50px;text-align:center;padding:0 70px}
-.image-placeholder{width:240px;height:167px;margin:0 auto 16px;background:url(icons/избранное.png);border-radius:16px} /* Updated to match cart style */
+.image-placeholder{width:240px;height:167px;margin:0 auto 16px;background:url('icons/избранное.png');border-radius:16px} /* Updated to match cart style */
 .empty-title{font-size:16px;font-weight:600}
 .empty-subtitle{margin-top:4px;font-size:14px;color:rgba(255,255,255,.7)}
 .go-btn{margin:24px auto 0;display:block;width:267px;height:36px;border-radius:12px;background:linear-gradient(135deg,#40CC5E,#36B854);border:none;color:#fff;font-size:14px}
@@ -84,9 +84,66 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .screen[data-screen="favorites"] .empty-wrap{margin-top:24px;padding:0 16px;text-align:center}
 .screen[data-screen="favorites"] .image-placeholder{
   width:220px;height:220px;margin:0 auto 24px auto;border-radius:30px;
-  background:url(icons/избранное.png) center/cover no-repeat;
+  background:url('icons/избранное.png') center/cover no-repeat;
 }
 .screen[data-screen="favorites"] .go-btn{width:100%;max-width:361px;height:44px;border-radius:16px}
+
+/* ===== FILTER OVERLAY (fullscreen) ===== */
+.filter-open #scrollRoot{overflow:hidden}
+.filter-open .tabbar-wrapper{display:none}
+.filter-overlay{
+  position:fixed;
+  inset:0;
+  background:#0b0b0b;
+  display:none;
+  z-index:9998;
+  align-items:stretch;
+  justify-content:center;
+}
+.filter-overlay.active{display:flex}
+.filter-sheet{
+  position:relative;
+  width:calc(var(--design-w)*1px);
+  max-width:100%;
+  height:calc(var(--vh)*100);
+  background:#0b0b0b;
+  transform:scale(var(--scale));
+  transform-origin:top center;
+}
+.filter-top{
+  position:relative;
+  padding-top:calc(18px + (var(--safe-top) * var(--inv-scale)));
+  padding-left:16px;
+  padding-right:16px;
+  height:calc(24px + 18px + (var(--safe-top) * var(--inv-scale)));
+  display:flex;
+  align-items:flex-end;
+  gap:12px;
+}
+.filter-back{
+  width:24px;height:24px;
+  background:none;border:none;padding:0;margin:0;
+  cursor:pointer;
+}
+.filter-back svg{width:24px;height:24px;stroke:#21EA7C;display:block}
+.filter-title{
+  font-size:22px;
+  font-weight:800;
+  color:#fff;
+  padding-bottom:2px;
+}
+.filter-body{
+  padding:16px;
+}
+.filter-placeholder{
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  background:#1B1B1B;
+  color:rgba(255,255,255,.75);
+  font-size:14px;
+  line-height:1.35;
+}
 /* ===== CART OVERLAY ===== */
 .cart-open #scrollRoot{overflow:hidden}
 .cart-open .tabbar-wrapper{display:none}
@@ -116,7 +173,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 
 /* cart content */
 .cart-close{position:absolute;top:55px;left:30px;color:#21EA7C;font-size:22px;cursor:pointer}
-.cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url(icons/корзина.png) center/cover no-repeat;border-radius:16px}
+.cart-empty-img{position:absolute;top:249px;left:50%;transform:translateX(-50%);width:195px;height:206px;background:url('icons/корзина.png') center/cover no-repeat;border-radius:16px}
 .cart-empty-title{position:absolute;top:495px;left:0;right:0;padding:0 70px;text-align:center;font-size:16px;font-weight:600}
 .cart-empty-sub{position:absolute;top:531px;left:0;right:0;padding:0 32px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
 .cart-btn{position:absolute;bottom:calc(13px + (var(--safe-bottom) * var(--inv-scale)));left:50%;transform:translateX(-50%);width:calc((var(--design-w)*1px) - 32px);max-width:calc(100% - 32px);height:52px;background:#21EA7C;border-radius:16px;border:none;color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center;padding:0;}
@@ -170,7 +227,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .search-text{font-weight:500;font-size:16px;line-height:22px;color:#C7CFCB}
 .find-button{width:98px;height:36px;background:linear-gradient(135deg,#40CC5E,#36B854);border-radius:14px;border:none;box-shadow:0 0 5px rgba(59,180,74,0.25);font-weight:500;font-size:16px;line-height:22px;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .promoBannerWrap{position:relative;width:363px;height:120px;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25);margin-bottom:40px;margin-left:15px;margin-right:15px}
-.promoBanner{position:relative;width:363px;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url("icons/Rectangle\ 10.png");background-size:393px;background-position:center;background-repeat:no-repeat}
+.promoBanner{position:relative;width:363px;height:120px;border-radius:15px;overflow:hidden;cursor:pointer;opacity:0.9;box-shadow:inset 0 0 5px rgba(59,180,74,0.25);background-image:url('icons/Rectangle%2010.png');background-size:cover;background-position:center;background-repeat:no-repeat}
 .promoBanner__food{position:absolute;left:0;top:0;width:154px;height:120px;object-fit:cover;pointer-events:none}
 .promoBanner__title{position:absolute;left:154px;top:25px;width:164px;height:50px;font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;line-height:17px;color:#FFFFFF;text-align:left}
 .promoBanner__titleLine{display:block;white-space:nowrap}
@@ -199,7 +256,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .storesButtonText{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(33,234,124,0.85)}
 .storesButtonArrow{width:5px;height:7px}
 .storesCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px}
-.storeCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
+.storeCard{width:112px;height:59px;background:transparent;border-radius:15px;overflow:hidden;background-position:center;background-repeat:no-repeat;background-size:110% 110%}
 .storesTimings{display:flex;gap:56px;padding:0 16px}
 .storeTiming{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;letter-spacing:0.1px;color:#21EA7C;padding-left:5px;text-align:left;white-space:nowrap;display:block}
 .restaurantsSection{margin-top:30px}
@@ -209,25 +266,97 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .restaurantsButtonText{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(33,234,124,0.85)}
 .restaurantsButtonArrow{width:5px;height:7px}
 .restaurantsCards{display:flex;gap:15px;padding:0 16px;margin-bottom:3px}
-.restaurantCard{width:112px;height:59px;background:#1D1D1D;border-radius:15px;box-shadow:0 0 5px rgba(59,180,74,0.25)}
+.restaurantCard{width:112px;height:59px;background:transparent;border-radius:15px;overflow:hidden;background-position:center;background-repeat:no-repeat;background-size:110% 110%}
 .restaurantsTimings{display:flex;gap:56px;padding:0 16px}
 .restaurantTiming{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;letter-spacing:0.1px;color:#21EA7C;padding-left:5px;text-align:left;white-space:nowrap;display:block}
 .mg-categories{margin-left:14px;margin-right:14px;margin-top:30px}
 .mg-categories__title{font-family:Inter;font-weight:800;font-size:20px;line-height:24px;color:rgba(255,255,255,0.85);margin-bottom:8px;margin-left:2px}
-.mg-categories__list{display:flex;flex-direction:row;flex-wrap:nowrap;gap:24px;overflow-x:auto;overflow-y:visible;padding-left:0;padding-right:14px;padding-top:10px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;cursor:pointer}
+.mg-categories__list{display:flex;flex-direction:row;flex-wrap:nowrap;gap:24px;overflow-x:auto;overflow-y:visible;padding-left:14px;padding-right:14px;padding-top:10px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;cursor:pointer}
+.mg-categories__list .mg-category-item{will-change:transform;}
+.mg-categories__list.is-animating .mg-category-item{transition:transform .62s cubic-bezier(.22,1,.36,1);}
 .mg-categories__list::-webkit-scrollbar{display:none}
-.mg-category-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
-.mg-category-item__icon{width:65px;height:65px;border-radius:50%;background-color:transparent;box-shadow:0 0 5px rgba(59,180,74,0.25)}
-.mg-category-item__text{font-family:Roboto;font-weight:400;font-size:11px;line-height:13px;color:rgba(255,255,255,0.8);text-align:center}
-.mg-categories__controls{margin-top:18px;display:flex;flex-direction:row;flex-wrap:nowrap;gap:5px;overflow-x:auto;overflow-y:visible;padding-left:2px;padding-right:2px;padding-top:10px;padding-bottom:12px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none}
+.mg-category-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;padding:6px 8px 8px;border-radius:16px;transition:background-color .16s ease,transform .12s ease}
+.mg-category-item__icon{width:65px;height:65px;background:transparent;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mg-category-item__icon img{width:100%;height:100%;object-fit:contain;display:block;transform:scale(var(--cat-img-scale,1.4));transform-origin:center;pointer-events:none}
+.mg-category-item__text{
+  font-family:Roboto;
+  font-weight:400;
+  font-size:11px;
+  line-height:13px;
+  color:rgba(255,255,255,0.82);
+  text-align:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:3px 10px;
+  border-radius:999px;
+  background:transparent;
+  box-shadow:none;
+  transition:background-color .14s ease, box-shadow .14s ease;
+}
+.mg-category-item.is-selected{background:transparent;}
+.mg-category-item.is-selected .mg-category-item__text{
+  background:rgba(33,234,124,.18);
+  box-shadow:0 0 0 1px rgba(33,234,124,.55), 0 0 10px rgba(33,234,124,.22);
+}
+.mg-categories__controls{margin-top:18px;display:flex;flex-direction:row;flex-wrap:nowrap;gap:5px;overflow-x:auto;overflow-y:visible;padding-left:14px;padding-right:14px;padding-top:10px;padding-bottom:12px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none}
 .mg-categories__controls::-webkit-scrollbar{display:none}
-.mg-control-button{height:37px;border-radius:25px;background:#1D1D1D;box-shadow:0 0 5px rgba(59,180,74,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:none;cursor:pointer}
+.mg-control-button{height:37px;border-radius:25px;background:#1D1D1D;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,255,255,.10);cursor:pointer;transition:background-color .12s ease,color .12s ease,border-color .12s ease}
 .mg-control-button--settings{width:38px}
-.mg-control-button--rating{width:100px} /* Slightly smaller */
-.mg-control-button--promos{width:85px} /* Slightly smaller */
-.mg-control-button--time{width:105px} /* Slightly smaller */
-.mg-control-button__text{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(255,255,255,0.8)}
+.mg-control-button--rating{width:112px}
+.mg-control-button--promos{width:95px}
+.mg-control-button--time{width:128px}
+.mg-control-button__text{font-family:'Rubik';font-weight:400;font-size:13px;line-height:15px;color:rgba(255,255,255,0.85);transition:color .12s ease}
 .mg-control-icon{width:18px;height:18px}
+/* Controls: icons + arrow layout (keeps text away from right edge) */
+.mg-control-button{color:rgba(255,255,255,0.85);}
+.mg-control-button:not(.mg-control-button--settings){
+  justify-content:flex-start;
+  gap:8px;
+  padding:0 12px;
+}
+.mg-control-button--settings{
+  justify-content:center;
+  padding:0;
+}
+.mg-control-icon{
+  flex:0 0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.mg-control-icon img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  pointer-events:none;
+}
+.mg-control-button__text{
+  flex:0 1 auto;
+  min-width:0;
+  text-align:left;
+  white-space:nowrap;
+}
+.mg-control-arrow{
+  width:12px;
+  height:12px;
+  flex:0 0 auto;
+  margin-left:auto;
+  opacity:0.9;
+}
+.mg-control-button.is-active{color:#000;}
+
+.mg-control-button.is-active{background:#fff;border-color:#fff;}
+.mg-control-button.is-active .mg-control-button__text{color:#000;}
+.mg-control-button.is-active .mg-control-icon, .mg-control-button.is-active .mg-control-icon img{filter:invert(1);}
+.mg-control-button.pulse{animation:tap-invert .18s ease;}
+@keyframes tap-invert{
+  0%{filter:brightness(1)}
+  50%{filter:brightness(1.12)}
+  100%{filter:brightness(1)}
+}
+
 .specialSection{margin-top:30px}
 .specialHeader{display:flex;justify-content:space-between;align-items:center;padding:0 20px 0 16px;margin-bottom:20px}
 .specialTitle{font-family:'Inter';font-weight:800;font-size:20px;line-height:24px;color:rgba(255,255,255,0.85)}
@@ -237,7 +366,7 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .specialCards{display:flex;flex-wrap:nowrap;gap:15px;overflow-x:auto;overflow-y:visible;padding:0 16px 30px 16px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;cursor:pointer}
 .specialCards::-webkit-scrollbar{display:none}
 .specialCard{flex-shrink:0;width:286px;display:flex;flex-direction:column;cursor:pointer}
-.specialPreview{position:relative;width:286px;height:142px;background:#2E2E2C;border-radius:25px;overflow:hidden}
+.specialPreview{position:relative;width:286px;height:142px;background:transparent;border-radius:25px;overflow:hidden;background-position:center;background-repeat:no-repeat;background-size:110% 110%}
 .specialFavorite{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,0.5);border:none;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
 .specialInfo{margin-top:10px}
 .specialNameRow{display:flex;justify-content:space-between;align-items:center}
@@ -249,7 +378,18 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 .specialCards{padding-bottom:0 !important}
 .allRestaurantsList{padding:0 16px;display:flex;flex-direction:column;gap:20px;margin-bottom:30px;margin-top:30px}
 .allRestaurantCard{width:100%;display:flex;flex-direction:column;cursor:pointer}
-.allRestaurantPreview{position:relative;width:100%;height:180px;background:#2E2E2C;border-radius:25px;overflow:hidden}
+.allRestaurantPreview{position:relative;width:100%;height:180px;background:transparent;border-radius:25px;overflow:hidden;background-position:center;background-repeat:no-repeat;background-size:110% 110%}
+
+/* === IMAGE SAFETY (cards): if you use <img> inside preview blocks === */
+.storeCard img,.restaurantCard img,.specialPreview img,.allRestaurantPreview img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  transform:scale(1.06);
+  pointer-events:none;
+}
 .allRestaurantFavorite{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(33,234,124,.85);box-shadow:0 0 5px rgba(59,180,74,0.5);border:none;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
 .allRestaurantInfo{margin-top:10px}
 .allRestaurantNameRow{display:flex;justify-content:space-between;align-items:center}
@@ -448,6 +588,8 @@ body{background:#0b0b0b;font-family:'Inter',sans-serif;color:#fff;-webkit-font-s
 ========================= */
 html{-webkit-text-size-adjust:100%;}
 img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:none}
+.storeCard img,.restaurantCard img,.specialPreview img,.allRestaurantPreview img{width:100%;height:100%;object-fit:cover}
+
 .promoBanner,
 .storeCard,
 .restaurantCard,
@@ -462,6 +604,111 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
 .promoBanner{background-size:cover !important;background-position:center !important}
 .promoBanner__food{object-fit:cover}
 .cardsBlock img{display:block}
+
+
+/* === IMAGE RENDERING STABILITY === */
+.promoBanner,.storeCard,.restaurantCard,.specialPreview,.allRestaurantPreview{background-position:center;background-repeat:no-repeat;background-size:cover;}
+
+
+/* ===== v3 layout fixes (categories + controls fit) ===== */
+.mg-categories__list{
+  padding-left:14px !important;
+  padding-right:14px !important;
+  scroll-padding-left:14px !important;
+}
+.mg-categories__controls{
+  padding-left:14px !important;
+  padding-right:14px !important;
+  gap:8px !important;
+}
+
+/* make the 4 buttons fit in one row on 393px */
+.mg-control-button--settings{ width:38px !important; }
+.mg-control-button--rating{ width:92px !important; }
+.mg-control-button--promos{ width:78px !important; }
+.mg-control-button--time{ width:105px !important; }
+
+.mg-control-button{
+  justify-content:flex-start !important;
+  padding-left:10px !important;
+  padding-right:10px !important;
+  gap:8px !important;
+}
+.mg-control-button__text{
+  white-space:nowrap !important;
+}
+
+/* Rating arrow: keep inside button, add spacing, point down */
+.mg-control-arrow{
+  margin-left:auto !important;
+  margin-right:2px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  transform: rotate(90deg);
+  transform-origin:center;
+  opacity:0.95;
+}
+
+
+/* ===== FIX (v4): controls row fits like PNG ===== */
+.mg-categories__list{
+  padding-left:16px !important;
+  padding-right:16px !important;
+  scroll-padding-left:16px;
+}
+.mg-categories__controls{
+  padding:0 16px !important;
+  gap:10px !important;
+  overflow-x:visible !important; /* no horizontal scroll */
+}
+.mg-control-button{
+  height:34px !important;
+  border-radius:14px !important;
+  padding:0 10px !important;
+  gap:8px !important;
+  min-width:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.mg-control-button--settings{
+  flex:0 0 38px !important;
+  width:38px !important;
+  padding:0 !important;
+}
+.mg-control-button--rating,
+.mg-control-button--promos,
+.mg-control-button--time{
+  flex:1 1 0 !important;
+  width:auto !important;
+}
+.mg-control-button__text{
+  font-size:13px !important;
+  line-height:15px !important;
+  white-space:nowrap !important;
+  min-width:0 !important;
+}
+.mg-control-icon{
+  width:16px !important;
+  height:16px !important;
+  flex:0 0 16px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.mg-control-icon img{
+  width:16px !important;
+  height:16px !important;
+  object-fit:contain !important;
+  display:block !important;
+}
+.mg-control-arrow{
+  width:12px !important;
+  height:12px !important;
+  margin-left:6px !important; /* keep close to word */
+  opacity:0.9 !important;
+  transform:rotate(90deg) !important; /* point down */
+}
 
 </style>
 </head>
@@ -535,9 +782,9 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </button>
       </div>
       <div class="storesCards">
-        <div class="storeCard" style="background-image: url(icons/Rectangle\ 16.png);"></div>
-        <div class="storeCard" style="background-image: url(icons/Rectangle\ 17.png);"> </div>
-        <div class="storeCard" style="background-image: url(icons/Rectangle\ 20.png);"> </div>
+        <div class="storeCard" style="background-image: url('icons/Rectangle%2016.png');"></div>
+        <div class="storeCard" style="background-image: url('icons/Rectangle%2017.png');"> </div>
+        <div class="storeCard" style="background-image: url('icons/Rectangle%2020.png');"> </div>
       </div>
       <div class="storesTimings">
         <span class="storeTiming">15–25 мин</span>
@@ -547,91 +794,109 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
     </div>
     <section class="mg-categories">
       <div class="mg-categories__title">Категории блюд</div>
-      <div class="mg-categories__list" onclick="goTab('categories')">
-        <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+      <div class="mg-categories__list" data-role="category-list">
+ <div class="mg-category-item">
+          <div class="mg-category-item__icon"> <img src="icons/Ellipse 18.png" ></div>
           <div class="mg-category-item__text">Фастфуд</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"> <img src="icons/Ellipse 35.png"></div>
           <div class="mg-category-item__text">Местная</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 33.png" ></div>
           <div class="mg-category-item__text">Грузинская</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 34.png" ></div>
           <div class="mg-category-item__text">Европа</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 36.png" ></div>
           <div class="mg-category-item__text">Восток</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 37.png" ></div>
           <div class="mg-category-item__text">Италия</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 39.png" ></div>
           <div class="mg-category-item__text">Япония</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 19.png" ></div>
           <div class="mg-category-item__text">Бургеры</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 20.png" ></div>
           <div class="mg-category-item__text">Пицца</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 21.png" ></div>
           <div class="mg-category-item__text">Шаурма</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 23.png" ></div>
           <div class="mg-category-item__text">Сэндвичи</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 24.png" ></div>
           <div class="mg-category-item__text">Выпечка</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 25.png" ></div>
           <div class="mg-category-item__text">Блины</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 26.png" ></div>
           <div class="mg-category-item__text">Десерты</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 28.png" ></div>
           <div class="mg-category-item__text">Шашлык</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 29.png" ></div>
           <div class="mg-category-item__text">Паста</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 30.png" ></div>
           <div class="mg-category-item__text">Супы</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 31.png" ></div>
           <div class="mg-category-item__text">Паста</div>
         </div>
       </div>
       <div class="mg-categories__controls">
-        <button class="mg-control-button mg-control-button--settings">
+        <button class="mg-control-button mg-control-button--settings" type="button" aria-label="Фильтры">
+          <span class="mg-control-icon">
+            <img src="icons/b9fda91f-b6f5-4794-8bf6-c7e1d8d36805-removebg-preview 2.png" alt="">
+          </span>
         </button>
-        <button class="mg-control-button mg-control-button--rating">
+
+        <button class="mg-control-button mg-control-button--rating" type="button">
+          <span class="mg-control-icon">
+            <img src="icons/звезда-removebg-preview 4.png" alt="">
+          </span>
           <span class="mg-control-button__text">Рейтинг</span>
+          <svg class="mg-control-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
-        <button class="mg-control-button mg-control-button--promos">
+
+        <button class="mg-control-button mg-control-button--promos" type="button">
+          <span class="mg-control-icon">
+            <img src="icons/d161eaa8-90e3-4bb8-9906-b7e7acdd8ab1-removebg-preview 2.png" alt="">
+          </span>
           <span class="mg-control-button__text">Акции</span>
         </button>
-        <button class="mg-control-button mg-control-button--time">
-          <span class="mg-control-button__text">До 30 мин</span>
+
+        <button class="mg-control-button mg-control-button--time" type="button">
+          <span class="mg-control-icon">
+            <img src="icons/cae5bdc6-7aea-48e8-83f1-ddb4c1b99856-removebg-preview 2.png" alt="">
+          </span>
+          <span class="mg-control-button__text">До 30 минут</span>
         </button>
       </div>
     </section>
@@ -645,9 +910,9 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </button>
       </div>
       <div class="restaurantsCards">
-        <div class="restaurantCard" style="background-image: url(icons/Rectangle\ 36.png);"></div>
-        <div class="restaurantCard" style="background-image: url(icons/Rectangle\ 18.png);" ></div>
-        <div class="restaurantCard" style="background-image: url(icons/Rectangle\ 25.png);" ></div>
+        <div class="restaurantCard" style="background-image: url('icons/Rectangle%2036.png');"></div>
+        <div class="restaurantCard" style="background-image: url('icons/Rectangle%2018.png');" ></div>
+        <div class="restaurantCard" style="background-image: url('icons/Rectangle%2025.png');" ></div>
       </div>
       <div class="restaurantsTimings">
         <span class="restaurantTiming">15–25 мин</span>
@@ -666,7 +931,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
       </div>
       <div class="specialCards">
         <div class="specialCard restaurant-card" data-screen="restaurant-sunset" data-id="sunset" data-name="SUNSET RESTAURANT" data-rating="4.7" data-delivery="25–30 мин" data-img="icons/sunset.png">
-          <div class="specialPreview" style="background-image:url(icons/sunset.png)">
+          <div class="specialPreview" style="background-image:url('icons/sunset.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -682,7 +947,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
           </div>
         </div>
         <div class="specialCard restaurant-card" data-screen="restaurant-bbq" data-id="bbq" data-name="BBQ GARDEN" data-rating="4.5" data-delivery="25–30 мин" data-img="icons/bbq.png">
-          <div class="specialPreview" style="background-image:url(icons/bbq.png)">
+          <div class="specialPreview" style="background-image:url('icons/bbq.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -698,7 +963,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
           </div>
         </div>
         <div class="specialCard restaurant-card" data-screen="restaurant-kubdari" data-id="kubdari" data-name="ДОМ КУБДАРИ" data-rating="4.9" data-delivery="25–30 мин" data-img="icons/кудбари.png">
-          <div class="specialPreview" style="background-image:url(icons/кудбари.png)">
+          <div class="specialPreview" style="background-image:url('icons/кудбари.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -714,7 +979,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
           </div>
         </div>
         <div class="specialCard restaurant-card" data-screen="restaurant-laila" data-id="laila" data-name="CAFE LAILA" data-rating="4.8" data-delivery="25–30 мин" data-img="icons/laila.png">
-          <div class="specialPreview" style="background-image:url(icons/laila.png)">
+          <div class="specialPreview" style="background-image:url('icons/laila.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -742,7 +1007,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
       </div>
       <div class="specialCards">
         <div class="specialCard restaurant-card" data-screen="restaurant-kubdari" data-id="kubdari" data-name="ДОМ КУБДАРИ" data-rating="4.9" data-delivery="25–30 мин" data-img="icons/кудбари.png">
-          <div class="specialPreview" style="background-image:url(icons/кудбари.png)">
+          <div class="specialPreview" style="background-image:url('icons/кудбари.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -758,7 +1023,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
           </div>
         </div>
         <div class="specialCard restaurant-card" data-screen="restaurant-ushba" data-id="ushba" data-name="CAFE USHBA" data-rating="4.6" data-delivery="25–30 мин" data-img="icons/ushba.png">
-          <div class="specialPreview" style="background-image:url(icons/ushba.png)">
+          <div class="specialPreview" style="background-image:url('icons/ushba.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -774,7 +1039,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
           </div>
         </div>
         <div class="specialCard restaurant-card" data-screen="restaurant-laila" data-id="laila" data-name="CAFE LAILA" data-rating="4.8" data-delivery="25–30 мин" data-img="icons/laila.png">
-          <div class="specialPreview" style="background-image:url(icons/laila.png)">
+          <div class="specialPreview" style="background-image:url('icons/laila.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -790,7 +1055,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
           </div>
         </div>
         <div class="specialCard restaurant-card" data-screen="restaurant-bbq" data-id="bbq" data-name="BBQ GARDEN" data-rating="4.5" data-delivery="25–30 мин" data-img="icons/bbq.png">
-          <div class="specialPreview" style="background-image:url(icons/bbq.png)">
+          <div class="specialPreview" style="background-image:url('icons/bbq.png')">
             <button class="specialFavorite">
               <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -810,98 +1075,116 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
     <!-- Копия блока Категории блюд -->
     <section class="mg-categories">
       <div class="mg-categories__title">Категории блюд</div>
-      <div class="mg-categories__list" onclick="goTab('categories')">
+      <div class="mg-categories__list" data-role="category-list">
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"> <img src="icons/Ellipse 18.png" ></div>
           <div class="mg-category-item__text">Фастфуд</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"> <img src="icons/Ellipse 35.png"></div>
           <div class="mg-category-item__text">Местная</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 33.png" ></div>
           <div class="mg-category-item__text">Грузинская</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 34.png" ></div>
           <div class="mg-category-item__text">Европа</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 36.png" ></div>
           <div class="mg-category-item__text">Восток</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 37.png" ></div>
           <div class="mg-category-item__text">Италия</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 39.png" ></div>
           <div class="mg-category-item__text">Япония</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 19.png" ></div>
           <div class="mg-category-item__text">Бургеры</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 20.png" ></div>
           <div class="mg-category-item__text">Пицца</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 21.png" ></div>
           <div class="mg-category-item__text">Шаурма</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 23.png" ></div>
           <div class="mg-category-item__text">Сэндвичи</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 24.png" ></div>
           <div class="mg-category-item__text">Выпечка</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 25.png" ></div>
           <div class="mg-category-item__text">Блины</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 26.png" ></div>
           <div class="mg-category-item__text">Десерты</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 28.png" ></div>
           <div class="mg-category-item__text">Шашлык</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 29.png" ></div>
           <div class="mg-category-item__text">Паста</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 30.png" ></div>
           <div class="mg-category-item__text">Супы</div>
         </div>
         <div class="mg-category-item">
-          <div class="mg-category-item__icon"></div>
+          <div class="mg-category-item__icon"><img src="icons/Ellipse 31.png" ></div>
           <div class="mg-category-item__text">Паста</div>
         </div>
       </div>
       <div class="mg-categories__controls">
-        <button class="mg-control-button mg-control-button--settings">
+        <button class="mg-control-button mg-control-button--settings" type="button" aria-label="Фильтры">
+          <span class="mg-control-icon">
+            <img src="icons/b9fda91f-b6f5-4794-8bf6-c7e1d8d36805-removebg-preview 2.png" alt="">
+          </span>
         </button>
-        <button class="mg-control-button mg-control-button--rating">
+
+        <button class="mg-control-button mg-control-button--rating" type="button">
+          <span class="mg-control-icon">
+            <img src="icons/звезда-removebg-preview 4.pngalt="">
+          </span>
           <span class="mg-control-button__text">Рейтинг</span>
+          <svg class="mg-control-arrow" viewBox="0 0 16 16" fill="none" " aria-hidden="true">
+            <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
-        <button class="mg-control-button mg-control-button--promos">
+
+        <button class="mg-control-button mg-control-button--promos" type="button">
+          <span class="mg-control-icon">
+            <img src="icons/d161eaa8-90e3-4bb8-9906-b7e7acdd8ab1-removebg-preview 2.png">
+          </span>
           <span class="mg-control-button__text">Акции</span>
         </button>
-        <button class="mg-control-button mg-control-button--time">
-          <span class="mg-control-button__text">До 30 мин</span>
+
+        <button class="mg-control-button mg-control-button--time" type="button">
+          <span class="mg-control-icon">
+            <img src="icons/cae5bdc6-7aea-48e8-83f1-ddb4c1b99856-removebg-preview 2.png" alt="">
+          </span>
+          <span class="mg-control-button__text">До 30 минут</span>
         </button>
       </div>
     </section>
     <!-- Список всех ресторанов (без заголовка) -->
     <div class="allRestaurantsList">
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-bbq" data-id="bbq" data-name="BBQ GARDEN" data-rating="4.5" data-delivery="25–30 мин" data-img="icons/bbq.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/bbq.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/bbq.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -917,7 +1200,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-sunset" data-id="sunset" data-name="SUNSET RESTAURANT" data-rating="4.7" data-delivery="25–30 мин" data-img="icons/sunset.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/sunset.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/sunset.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -933,7 +1216,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-kubdari" data-id="kubdari" data-name="ДОМ КУБДАРИ" data-rating="4.9" data-delivery="25–30 мин" data-img="icons/кудбари.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/кудбари.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/кудбари.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -949,7 +1232,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-ushba" data-id="ushba" data-name="CAFE USHBA" data-rating="4.6" data-delivery="25–30 мин" data-img="icons/ushba.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/ushba.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/ushba.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -965,7 +1248,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-laila" data-id="laila" data-name="CAFE LAILA" data-rating="4.8" data-delivery="25–30 мин" data-img="icons/laila.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/laila.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/laila.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1028,7 +1311,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
     <div class="fav-title">Рестораны</div>
     <div class="allRestaurantsList">
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-bbq" data-id="bbq" data-name="BBQ GARDEN" data-rating="4.5" data-delivery="25–30 мин" data-img="icons/bbq.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/bbq.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/bbq.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1044,7 +1327,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-sunset" data-id="sunset" data-name="SUNSET RESTAURANT" data-rating="4.7" data-delivery="25–30 мин" data-img="icons/sunset.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/sunset.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/sunset.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1060,7 +1343,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-kubdari" data-id="kubdari" data-name="ДОМ КУБДАРИ" data-rating="4.9" data-delivery="25–30 мин" data-img="icons/кудбари.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/кудбари.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/кудбари.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1076,7 +1359,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-ushba" data-id="ushba" data-name="CAFE USHBA" data-rating="4.6" data-delivery="25–30 мин" data-img="icons/ushba.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/ushba.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/ushba.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1092,7 +1375,7 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
         </div>
       </div>
       <div class="allRestaurantCard restaurant-card" data-screen="restaurant-laila" data-id="laila" data-name="CAFE LAILA" data-rating="4.8" data-delivery="25–30 мин" data-img="icons/laila.png">
-        <div class="allRestaurantPreview" style="background-image:url(icons/laila.png)">
+        <div class="allRestaurantPreview" style="background-image:url('icons/laila.png')">
           <button class="allRestaurantFavorite">
             <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1222,6 +1505,24 @@ img{display:block;max-width:100%;height:auto;-webkit-user-drag:none;user-select:
   </div>
 </div>
 <!-- CART OVERLAY -->
+
+<!-- FILTER OVERLAY -->
+<div class="filter-overlay" id="filterOverlay" aria-hidden="true">
+  <div class="filter-sheet">
+    <div class="filter-top">
+      <button class="filter-back" data-action="close-filter" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <div class="filter-title">Фильтры</div>
+    </div>
+    <div class="filter-body">
+      <div class="filter-placeholder">Тут будет страница фильтров. Добавишь категории, чекбоксы, рейтинги, время доставки и т.д.</div>
+    </div>
+  </div>
+</div>
+
 <div class="cart-overlay" id="cart">
   <div class="cart-sheet">
     <div class="cart-close" onclick="toggleCart(false)">✕</div>
@@ -1482,7 +1783,7 @@ function renderFavorites(){
     card.dataset.img = it.img;
 
     card.innerHTML = `
-      <div class="allRestaurantPreview" style="background-image:url(${it.img})">
+      <div class="allRestaurantPreview" style="background-image:url('${it.img}')">
         <button class="allRestaurantFavorite" aria-label="Добавить в избранное">
           <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1623,6 +1924,134 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   }
 });
+
+/* ===== CATEGORIES: multiselect + highlight text + smooth move left (FLIP) ===== */
+(function(){
+  const LIST_SEL = '.mg-categories__list[data-role="category-list"]';
+
+  function ensureInitialOrder(list){
+    const items = Array.from(list.querySelectorAll('.mg-category-item'));
+    items.forEach((it, i) => {
+      if (!it.dataset.order) it.dataset.order = String(i);
+      // make clicks on inner imgs still trigger the item
+      it.querySelectorAll('img').forEach(img => { img.style.pointerEvents = 'none'; });
+    });
+  }
+
+  function flipReorder(list){
+    const items = Array.from(list.querySelectorAll('.mg-category-item'));
+    const first = new Map(items.map(el => [el, el.getBoundingClientRect()]));
+
+    const selected = items
+      .filter(el => el.classList.contains('is-selected'))
+      .sort((a,b)=> Number(a.dataset.order)-Number(b.dataset.order));
+
+    const rest = items
+      .filter(el => !el.classList.contains('is-selected'))
+      .sort((a,b)=> Number(a.dataset.order)-Number(b.dataset.order));
+
+    const ordered = [...selected, ...rest];
+    ordered.forEach(el => list.appendChild(el));
+
+    const last = new Map(ordered.map(el => [el, el.getBoundingClientRect()]));
+    list.classList.add('is-animating');
+
+    ordered.forEach(el => {
+      const f = first.get(el), l = last.get(el);
+      if(!f || !l) return;
+      const dx = f.left - l.left;
+      const dy = f.top - l.top;
+      if (dx || dy) el.style.transform = `translate(${dx}px,${dy}px)`;
+      else el.style.transform = '';
+    });
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ordered.forEach(el => { el.style.transform = ''; });
+      });
+      window.setTimeout(() => {
+        list.classList.remove('is-animating');
+        ordered.forEach(el => { el.style.transform = ''; });
+      }, 720);
+    });
+
+    // move view slightly to the left when there is at least one selected
+    if (selected.length) {
+      try { list.scrollTo({ left: 0, behavior: 'smooth' }); } catch(e) { list.scrollLeft = 0; }
+    }
+  }
+
+  function onCategoryClick(e){
+    const list = e.currentTarget;
+    const item = e.target.closest('.mg-category-item');
+    if(!item || !list.contains(item)) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    item.classList.toggle('is-selected');
+    flipReorder(list);
+  }
+
+  function initCategoryLists(){
+    document.querySelectorAll(LIST_SEL).forEach(list => {
+      ensureInitialOrder(list);
+      list.addEventListener('click', onCategoryClick);
+    });
+  }
+
+  /* ===== Controls (4 buttons under categories): click glow like categories ===== */
+function openFilterOverlay(){
+    const overlay = document.getElementById('filterOverlay');
+    if(!overlay) return;
+    document.body.classList.add('filter-open');
+    overlay.classList.add('active');
+  }
+
+  function closeFilterOverlay(){
+    const overlay = document.getElementById('filterOverlay');
+    if(!overlay) return;
+    overlay.classList.remove('active');
+    document.body.classList.remove('filter-open');
+  }
+
+  function initControls(){
+    document.querySelectorAll('.mg-categories__controls').forEach(controls => {
+      controls.addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if(!btn || !controls.contains(btn)) return;
+
+        // open overlay only from the first small button
+        if(btn.classList.contains('mg-control-button--settings')){
+openFilterOverlay();
+          return;
+        }
+
+        btn.classList.toggle('is-active');
+});
+    });
+  }
+
+  function initFilterOverlay(){
+    const overlay = document.getElementById('filterOverlay');
+    if(!overlay) return;
+    overlay.addEventListener('click', (e) => {
+      const closeBtn = e.target.closest('[data-action="close-filter"]');
+      if(closeBtn){
+        e.preventDefault();
+        closeFilterOverlay();
+      }
+    });
+  }
+
+  function init(){
+    initCategoryLists();
+    initControls();
+    initFilterOverlay();
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
 </script>
 
 </body>
